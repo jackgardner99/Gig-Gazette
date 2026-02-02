@@ -1,0 +1,47 @@
+Table User {
+	id int [pk]
+	name varchar
+	email varchar
+	genre varchar
+	bandId int
+}
+
+Table Band {
+	id int [pk]
+	userId int [ref: > User.id]
+	bandName varchar
+	genre varchar
+}
+
+Table Venues {
+	id int [pk]
+	name varchar
+	location varchar
+}
+
+Table BandVenue {
+	bandId int [ref: > Band.id]
+	venueId int [ref: > Venues.id]
+}
+
+Table UserVenue {
+	userId int [ref: > User.id]
+	venueId int [ref: > Venues.id]
+}
+
+Table MusicPlatforms {
+	id int [pk]
+	name varchar
+}
+
+Table UserMusic {
+	userId int [ref: - User.id]
+	musicLink url
+	platformId int [ref: > MusicPlatforms.id]
+}
+
+Table BandMusic {
+	bandId int [ref: - Band.id]
+	musicLink url
+	platformId int [ref: > MusicPlatforms.id]
+}

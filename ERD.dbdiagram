@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "User",
+      "schemaName": "public",
+      "x": 132.7248774916156,
+      "y": 97.62061607474277
+    },
+    {
+      "name": "Band",
+      "schemaName": "public",
+      "x": 98.16188921036559,
+      "y": -181.10181497707893
+    },
+    {
+      "name": "Venues",
+      "schemaName": "public",
+      "x": 657.4284665496417,
+      "y": -84.55090748853945
+    },
+    {
+      "name": "BandVenue",
+      "schemaName": "public",
+      "x": 387.2733385403612,
+      "y": -213.25728534492305
+    },
+    {
+      "name": "UserVenue",
+      "schemaName": "public",
+      "x": 395.1014726185156,
+      "y": 19.43303931602253
+    },
+    {
+      "name": "MusicPlatforms",
+      "schemaName": "public",
+      "x": 123.17482866349059,
+      "y": 371.1394171724064
+    },
+    {
+      "name": "UserMusic",
+      "schemaName": "public",
+      "x": 427.8923468599063,
+      "y": 295.418251517219
+    },
+    {
+      "name": "BandMusic",
+      "schemaName": "public",
+      "x": -115.40893431070769,
+      "y": 254.19433795980547
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": []
+}
