@@ -1,16 +1,29 @@
-Table User {
+Table Managers {
 	id int [pk]
 	name varchar
 	email varchar
-	genre varchar
-	bandId int
+}
+
+Table ManagerBand {
+    managerId int [ref: - Managers.id]
+    bandId int [ref: > Band.id]
+}
+
+Table ManagerArtist {
+    managerId int [ref: - Managers.id]
+    artistId int [ref: > Artist.id]
 }
 
 Table Band {
 	id int [pk]
-	userId int [ref: > User.id]
 	bandName varchar
 	genre varchar
+}
+
+Table Artist {
+    id int [pk]
+    artistName varchar
+    genre varchar
 }
 
 Table Venues {
@@ -24,8 +37,8 @@ Table BandVenue {
 	venueId int [ref: > Venues.id]
 }
 
-Table UserVenue {
-	userId int [ref: > User.id]
+Table ArtistVenue {
+	userId int [ref: > Artist.id]
 	venueId int [ref: > Venues.id]
 }
 
@@ -34,8 +47,8 @@ Table MusicPlatforms {
 	name varchar
 }
 
-Table UserMusic {
-	userId int [ref: - User.id]
+Table ArtistMusic {
+	userId int [ref: - Artist.id]
 	musicLink url
 	platformId int [ref: > MusicPlatforms.id]
 }
