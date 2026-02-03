@@ -7,71 +7,246 @@
     {
       "name": "Managers",
       "schemaName": "public",
-      "x": -264.0947724035716,
-      "y": 49.563914612730855
-    },
-    {
-      "name": "ManagerBand",
-      "schemaName": "public",
-      "x": -31.20477234893741,
-      "y": -12.416544498275016
-    },
-    {
-      "name": "ManagerArtist",
-      "schemaName": "public",
-      "x": -44.35214246339322,
-      "y": 210.34587191909623
+      "x": -386.25831676165325,
+      "y": 85.03075007152873
     },
     {
       "name": "Band",
       "schemaName": "public",
-      "x": 199.5844586647388,
-      "y": -8.307807758517072
+      "x": 97.4992108732597,
+      "y": -13.930559343067927
     },
     {
       "name": "Artist",
       "schemaName": "public",
-      "x": 182.91581148792528,
-      "y": 219.13532020225927
+      "x": -45.12459804065111,
+      "y": 259.17430345348924
+    },
+    {
+      "name": "Genre",
+      "schemaName": "public",
+      "x": -335.02844332116763,
+      "y": -126.89029959880907
     },
     {
       "name": "Venues",
       "schemaName": "public",
-      "x": 916.6194773774846,
-      "y": 88.24309973002232
+      "x": 644.1900061813778,
+      "y": 193.51507742138523
     },
     {
-      "name": "BandVenue",
+      "name": "BandShow",
       "schemaName": "public",
-      "x": 590.1184774491077,
-      "y": -96.80915004545747
+      "x": 421.5973797998545,
+      "y": 34.54466573523369
     },
     {
-      "name": "ArtistVenue",
+      "name": "ArtistShow",
       "schemaName": "public",
-      "x": 579.2088401079384,
-      "y": 124.34131298369749
+      "x": 395.5067357512467,
+      "y": 216.01150119403127
     },
     {
       "name": "MusicPlatforms",
       "schemaName": "public",
-      "x": 904.5042526082921,
-      "y": 333.57550255967567
+      "x": 658.0493230145044,
+      "y": 532.4198207546634
     },
     {
       "name": "ArtistMusic",
       "schemaName": "public",
-      "x": 526.5909520688108,
-      "y": 474.1488361351554
+      "x": 242.28948834763594,
+      "y": 522.3411217921633
     },
     {
       "name": "BandMusic",
       "schemaName": "public",
-      "x": 526.5909520688108,
-      "y": 304.2556584509231
+      "x": 349.2716689822376,
+      "y": 364.9607585506252
     }
   ],
   "tableGroupCollapseStates": [],
   "stickyNoteLayouts": [],
-  "referencePaths": []
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Genre",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "genreId"
+      ],
+      "secondTableName": "Band",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Managers",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "managerId"
+      ],
+      "secondTableName": "Band",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Genre",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "genreId"
+      ],
+      "secondTableName": "Artist",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Managers",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "managerId"
+      ],
+      "secondTableName": "Artist",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Band",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "bandId"
+      ],
+      "secondTableName": "BandShow",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Venues",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "venueId"
+      ],
+      "secondTableName": "BandShow",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Artist",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "userId"
+      ],
+      "secondTableName": "ArtistShow",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Venues",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "venueId"
+      ],
+      "secondTableName": "ArtistShow",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Artist",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "userId"
+      ],
+      "secondTableName": "ArtistMusic",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "MusicPlatforms",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "platformId"
+      ],
+      "secondTableName": "ArtistMusic",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Band",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "bandId"
+      ],
+      "secondTableName": "BandMusic",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "MusicPlatforms",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "platformId"
+      ],
+      "secondTableName": "BandMusic",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
 }
