@@ -35,6 +35,7 @@ Table BandShow {
 	bandId int [ref: > Band.id]
 	venueId int [ref: > Venues.id]
 	link url
+	showDate date
 }
 
 Table ArtistShow {
@@ -42,6 +43,7 @@ Table ArtistShow {
 	userId int [ref: > Artist.id]
 	venueId int [ref: > Venues.id]
 	link url
+	showDate date
 }
 
 Table MusicPlatforms {
