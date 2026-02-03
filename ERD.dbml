@@ -27,18 +27,21 @@ Table Venues {
 	id int [pk]
 	name varchar
 	location varchar
+	link url
 }
 
 Table BandShow {
 	id int [pk]
 	bandId int [ref: > Band.id]
 	venueId int [ref: > Venues.id]
+	link url
 }
 
 Table ArtistShow {
 	id int [pk]
 	userId int [ref: > Artist.id]
 	venueId int [ref: > Venues.id]
+	link url
 }
 
 Table MusicPlatforms {
@@ -47,12 +50,14 @@ Table MusicPlatforms {
 }
 
 Table ArtistMusic {
+	id int [pk]
 	userId int [ref: - Artist.id]
 	musicLink url
 	platformId int [ref: > MusicPlatforms.id]
 }
 
 Table BandMusic {
+	id int [pk]
 	bandId int [ref: - Band.id]
 	musicLink url
 	platformId int [ref: > MusicPlatforms.id]
