@@ -11,6 +11,12 @@ Table Band {
 	managerId int [ref: > Managers.id]
 }
 
+Table BandMember {
+	id int [pk]
+	name varchar
+	bandId int [ref: > Band.id]
+}
+
 Table Artist {
     id int [pk]
     artistName varchar
@@ -40,7 +46,7 @@ Table BandShow {
 
 Table ArtistShow {
 	id int [pk]
-	userId int [ref: > Artist.id]
+	artistId int [ref: > Artist.id]
 	venueId int [ref: > Venues.id]
 	link url
 	showDate date
@@ -53,7 +59,7 @@ Table MusicPlatforms {
 
 Table ArtistMusic {
 	id int [pk]
-	userId int [ref: - Artist.id]
+	artistId int [ref: - Artist.id]
 	musicLink url
 	platformId int [ref: > MusicPlatforms.id]
 }

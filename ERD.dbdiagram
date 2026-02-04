@@ -17,6 +17,12 @@
       "y": -13.930559343067927
     },
     {
+      "name": "BandMember",
+      "schemaName": "public",
+      "x": 73.14620399566155,
+      "y": -238.59170136629152
+    },
+    {
       "name": "Artist",
       "schemaName": "public",
       "x": -45.12459804065111,
