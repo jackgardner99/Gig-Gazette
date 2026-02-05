@@ -8,42 +8,24 @@ CustomerView {
         <ManagerSignIn />
 }
 
-### MapPage
-MapPage{
-    const [allShows, setAllShows] = useState([])
-    const [filteredShows, setFilteredShows] = useState([])
-    const [artistOnlyShows, setArtistOnlyShows] = useState(false)
-    const [bandOnlyShows, setBandOnlyShows] = useState(false)
-    const [genre, setGenre] = useState([])
-
-    useEffect (
-        getArtistShows
-        getBandShows
-
-        setAllShows(combinedShows)
-    )
-
-    useEffect(
-        -condition check (artistShowOnly)
-            -allShows.filter()
-                -filter shows with artistId
-        - else if (bandShowOnly)
-            - allShows.filter()
-                -filter shows with bandId
-        -else, setFilteredShows(allShows)
-    )
-
-    useEffect(
-        -condition check (genre.id)
-            -allShows.filter()
-                -filter shows with genreId that matches the genre.id
-            -setFilteredShows()
-        -else, setFilteredShows(allShows)
-    )
-
-
+#### Map
+-set venues to correct coordinates on both the customer and manager maps
+ManagerMap {
+    -get all shows, expand artist and band to get the manager id, expand venues
+    -set shows
+    -filter shows by manager id
+    -filter shows by genre
+    -filter shows that are artist
+    -filter shows that are band
 
     return html
+        -map with icons rendered on the map with the correct coordinates
+        -ternary operator
+            -check if user is manager
+                -then filter shows by managerId will display
+            -else
+                -regular map
+        
 }
 
 ### Customer Navbar
@@ -105,7 +87,8 @@ Clients {
             -<EditBand {client.id}>
 }
 
-#### Shows {client}
+#### Shows {artistId, bandId}
+-talk to greg about deleting shows, if it will delete all shows with the artist or band id
 Shows {
     const [shows, setShows] = useState([])
     const [filteredShows, setFilteredShows] = useState([])
@@ -124,10 +107,19 @@ Shows {
         setFilteredShows(clientShows)
     )
 
+    handleShowDeletion(
+        -condition check (artistId)
+            -deleteArtistShow(artistId)
+        -else
+            -deleteBandShow(bandId)
+    )
+
     return html
         -filteredShows.map()
         -each show will be clickable
             -navigate("/shows/edit-show")
+        -delete show button
+            -onclick={handleShowDeletion}
 }
 
 #### CreateArtist {manager}
@@ -183,14 +175,105 @@ EditArtist {
 }
 
 #### CreateBand
+-talk to greg about creating band members without a bandId already in the database
+CreateBand {
+    const [newBand, setNewBand] = useState({bandName: "", img: ""})
+    const [genres, setGenres] = useState([])
+    const [genre, setGenre] = useState({})
+    const [bandMembers, setBandMembers] = useState([])
+
+    useEffect(
+        -getGenres then set
+    )
+
+    -possibly need a useEffect for setting the genre
+
+    -creating band members
+        -set an empty array
+        -populate that array with .push() to add each band member without changing the original state
+            -newMember = {
+                id
+                name
+                bandId
+            }
+
+    return html
+        -have input fields to enter in name and image, along with band member inputs
+        -have a genre selection dropdown
+            -onClick will set the genre
+        
+
+}
 
 #### EditBand
 
-#### CreateShow
+#### CreateShow - props {artistId, bandId}
+CreateShow {
+    const [newShow, setNewShow] = useState({})
+    const [venues, setVenues] = useState([])
+    const [venue, setVenue] = useState({})
+    const navigate = useNavigate()
 
-#### EditShow
+    handleShowCreation {
+        -condition check (artistId)
+            - newArtistShow = {
+                artistId
+                venueId
+                img
+                link
+                showDate
+            }
 
-#### ManagerMap
+            createArtistShow(newArtistShow)
+        -condition check (bandId)
+            - newBandShow = {
+                bandId
+                venueId
+                img
+                link
+                showDate
+            }
+
+            createBandShow(newBandShow)
+    }
+
+    return html
+        -input fields to enter in show details
+        -dropdown selection of venues - use .map()
+            -each venue will have a value
+            -onclick={setVenue}
+        -Create show button
+            -onclick to handleShowCreation, then navigate back to shows page
+}
+
+#### EditShow - props {artistId, bandId}
+EditShow {
+    const [show, setShow] = useState({})
+    const navigate = useNavigate()
+
+    useEffect(
+        -condition check (artistId)
+            -getShowByArtistId(artistId) then setShow
+        -else
+            -getShowByBandId(bandId) then setShow
+    )
+
+    handleShowUpdate (
+        -condition check (artistId)
+            -artist show object with updated changes
+            -updateArtistShow(artistShowObject)
+        -else
+            -band show object with updated changes
+            -updateBandShow(bandShowObject)
+    )
+
+    return html of show information
+        -input fields that are editable
+        -venue selection dropdown?
+        -save changes button
+            -onclick={handleShowUpdate}
+            -navigate="/shows"
+}
 
 ### Services
 
