@@ -108,7 +108,6 @@ Clients {
 }
 
 #### Shows {artistId, bandId}
--talk to greg about deleting shows, if it will delete all shows with the artist or band id
 Shows {
     const [shows, setShows] = useState([])
     const [filteredShows, setFilteredShows] = useState([])
