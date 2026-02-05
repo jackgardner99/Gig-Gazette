@@ -4,8 +4,8 @@
 CustomerView {
     <Navbar />
     <Outlet/>
-        <Map />
-        <ManagerSignIn />
+        <Map "/map" >
+        <ManagerSignIn "/manager-sign-in" >
 }
 
 #### Map
@@ -18,8 +18,16 @@ ManagerMap {
     -filter shows that are artist
     -filter shows that are band
 
+    
+
     return html
         -map with icons rendered on the map with the correct coordinates
+            -.map() to add markers to the map with their positions/coordinates
+            <Map>
+                <(marker) position={venue.lat, venue.lng}>
+                    <pin - css properties/>
+                </marker>
+            </Map>
         -ternary operator
             -check if user is manager
                 -then filter shows by managerId will display
@@ -30,6 +38,7 @@ ManagerMap {
 
 ### Customer Navbar
 CustomerNavbar {
+    const navigate = useNavigate
     return html
         - Links to Map and Manager sign in
 }
@@ -37,7 +46,7 @@ CustomerNavbar {
 ### ManagerSignIn
 ManagerSignIn {
     const [email, setEmail] = useState("")
-    const navigate
+    const navigate = useNavigate
 
     handleLogin(
         getManagerByEmail(email).then(
@@ -56,11 +65,22 @@ ManagerSignIn {
     )
 
     return html
+        -back button
+            -onclick={() => {
+                navigate("/map")
+            }}
         -input field to enter in email
             -onclick{handleLogin}
 }
 
 ## ManagerView {currentUser = manager}
+ManagerView {
+    <Navbar>
+    <Outlet>
+        <Clients index "/clients">
+        <Map "/map">
+        <Shows "/shows">
+}
 
 ### Components
 

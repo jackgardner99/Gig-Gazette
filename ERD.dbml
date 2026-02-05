@@ -32,6 +32,8 @@ Table Genre {
 Table Venues {
 	id int [pk]
 	name varchar
+	latitude varchar
+	longitude varchar
 	location varchar
 	link url
 }
