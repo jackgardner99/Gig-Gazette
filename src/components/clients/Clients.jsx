@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getArtists } from "../../services/artistService"
+import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
 
 export const Clients = () => {
@@ -8,6 +8,12 @@ export const Clients = () => {
     useEffect(() => {
         getArtists().then(setArtists)
     }, [])
+
+    const handleDeleteArtist = (artist) => {
+        deleteArtist(artist).then(() => {
+            getArtists().then(setArtists)
+        })
+    }
 
     return (
         <div>
@@ -33,6 +39,11 @@ export const Clients = () => {
                                 <Link to={`/edit-artist/${artist.id}`}>
                                     <button>Edit Artist</button>
                                 </Link>
+                            </div>
+                            <div>
+                                <button onClick={() => {
+                                    handleDeleteArtist(artist)
+                                }}>Delete Artist</button>
                             </div>
                         </div>
                         
