@@ -8,15 +8,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<>
-        <Outlet />
-      </>
-      }>
-        <Route path='clients'>
-          <Route index element={<Clients />} />
-          <Route path='create-artist' element={<CreateArtist />} />
-        </Route>
-      </Route>
+      <Route path='/' element={<Clients />} />
+      <Route path='create-artist' element={<CreateArtist />} />
     </Routes>
   )
 }

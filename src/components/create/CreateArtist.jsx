@@ -1,26 +1,66 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "../../services/genreService"
+import { createArtist } from "../../services/artistService"
+import { useNavigate } from "react-router-dom"
 
 export const CreateArtist = () => {
-    const [newArtist, setNewArtist] = useState({})
+    const [newArtist, setNewArtist] = useState({ artistName: "" })
     const [genres, setGenres] = useState([])
+    const [genre, setGenre] = useState({})
+    const navigate = useNavigate()
 
     useEffect(() => {
         getGenres().then(setGenres)
     }, [])
 
+    const handleArtistCreation = () => {
+        if (genre.id > 0 && newArtist.artistName) {
+            const artist = {
+                artistName: newArtist.artistName,
+                managerId: 1,
+                genreId: genre.id,
+                img: ""
+            }
+
+            createArtist(artist).then(() => {
+                setNewArtist({ artistName: "" })
+                setGenre({})
+            })
+        } else {
+            window.alert("Please make sure all the information fields are filled out")
+        }
+    }
 
     
     return (
         <div>
             <div>
-                <input type="text" />
+                <input type="text" placeholder="Artist Name" onChange={(event) => {
+                        const copyArtist = {...newArtist}
+                        copyArtist.artistName = event.target.value
+                        setNewArtist(copyArtist)
+                    }
+                }/>
             </div>
             <div>
-                <select></select>
+                <select onChange={(event) => {
+                    setGenre({id: parseInt(event.target.value)})
+                }}>
+                    <option>Please select genre</option>
+                    {genres.map(
+                        (genre) => {
+                            return <option value={genre.id} key={genre.id}>
+                                {genre.name}            
+                            </option>
+                        }
+                    )}
+                </select>
             </div>
             <div>
-                <button>
+                <button onClick={() => {
+                    handleArtistCreation()
+                    navigate("/")
+                }}>
                     Create Artist
                 </button>
             </div>

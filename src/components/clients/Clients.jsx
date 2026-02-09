@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { getArtists } from "../../services/artistService"
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export const Clients = () => {
     const [artists, setArtists] = useState([])
-    const navigate = useNavigate()
 
     useEffect(() => {
         getArtists().then(setArtists)
@@ -14,11 +13,11 @@ export const Clients = () => {
         <div>
             <div>
                 <div>
-                    <button onClick={() => {
-                        navigate("/create-artist")
-                    }}>
-                        Create Artist
-                    </button>
+                    <Link to={"/create-artist"}>
+                        <button>
+                            Create Artist
+                        </button>
+                    </Link>
                 </div>
             </div>
             <div>
