@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react"
 import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
+import { deleteBand, getBands } from "../../services/bandService"
 
 export const Clients = () => {
     const [artists, setArtists] = useState([])
+    const [bands, setBands] = useState([])
 
     useEffect(() => {
         getArtists().then(setArtists)
+        getBands().then(setBands)
     }, [])
 
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {
             getArtists().then(setArtists)
+        })
+    }
+
+    const handleDeleteBand = (band) => {
+        deleteBand(band).then(() => {
+            getBands().then(setBands)
         })
     }
 
@@ -23,6 +32,11 @@ export const Clients = () => {
                         <button>
                             Create Artist
                         </button>
+                    </Link>
+                </div>
+                <div>
+                    <Link to={"/create-band"}>
+                        <button>Create Band</button>
                     </Link>
                 </div>
             </div>
@@ -47,6 +61,29 @@ export const Clients = () => {
                             </div>
                         </div>
                         
+                    </>
+                })}
+            </div>
+            <div>
+                {bands.map((band) => {
+                    return <>
+                        <div key={band.id}>
+                            <div>{band.bandName}</div>
+                            <div>{band.genre?.name}</div>
+                            <div>
+                                <img src={band.img} />
+                            </div>
+                            <div>
+                                <Link to={`/edit-band/${band.id}`}>
+                                    <button>Edit Band</button>
+                                </Link>
+                            </div>
+                            <div>
+                                <button onClick={() => {
+                                    handleDeleteBand(band)
+                                }}>Delete Band</button>
+                            </div>
+                        </div>
                     </>
                 })}
             </div>
