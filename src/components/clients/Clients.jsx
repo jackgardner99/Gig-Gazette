@@ -23,15 +23,19 @@ export const Clients = () => {
             <div>
                 {artists.map((artist) => {
                     return <>
-                        <div key={artist.id}>{artist.artistName}</div>
-                        <div>
-                            <img src={artist.img} />
+                        <div key={artist.id}>
+                            <div>{artist.artistName}</div>
+                            <div>{artist.genre.name}</div>
+                            <div>
+                                <img src={artist.img} />
+                            </div>
+                            <div>
+                                <Link to={`/edit-artist/${artist.id}`}>
+                                    <button>Edit Artist</button>
+                                </Link>
+                            </div>
                         </div>
-                        <div>
-                            <Link to={`/edit-artist/${artist.id}`}>
-                                <button>Edit Artist</button>
-                            </Link>
-                        </div>
+                        
                     </>
                 })}
             </div>

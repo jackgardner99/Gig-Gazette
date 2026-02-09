@@ -46,7 +46,7 @@ export const CreateArtist = () => {
                 <select onChange={(event) => {
                     setGenre({id: parseInt(event.target.value)})
                 }}>
-                    <option>Please select genre</option>
+                    <option value={0} key={0}>Please select genre</option>
                     {genres.map(
                         (genre) => {
                             return <option value={genre.id} key={genre.id}>

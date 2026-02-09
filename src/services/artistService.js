@@ -1,5 +1,5 @@
 export const getArtists = () => {
-    return fetch("http://localhost:3000/artists").then(res => res.json())
+    return fetch("http://localhost:3000/artists?_expand=genre").then(res => res.json())
 }
 
 export const createArtist = (artist) => {
@@ -13,5 +13,15 @@ export const createArtist = (artist) => {
 }
 
 export const getArtistById = (id) => {
-    return fetch(`http://localhost:3000/artists/${id}`).then(res => res.json())
+    return fetch(`http://localhost:3000/artists/${id}?_expand=genre`).then(res => res.json())
+}
+
+export const updateArtist = (artist) => {
+    return fetch(`http://localhost:3000/artists/${artist.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(artist)
+    })
 }
