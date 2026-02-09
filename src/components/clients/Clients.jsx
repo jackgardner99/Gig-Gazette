@@ -27,6 +27,11 @@ export const Clients = () => {
                         <div>
                             <img src={artist.img} />
                         </div>
+                        <div>
+                            <Link to={`/edit-artist/${artist.id}`}>
+                                <button>Edit Artist</button>
+                            </Link>
+                        </div>
                     </>
                 })}
             </div>

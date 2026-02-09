@@ -11,3 +11,7 @@ export const createArtist = (artist) => {
         body: JSON.stringify(artist)
     })
 }
+
+export const getArtistById = (id) => {
+    return fetch(`http://localhost:3000/artists/${id}`).then(res => res.json())
+}
