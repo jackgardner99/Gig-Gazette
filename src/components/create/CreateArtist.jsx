@@ -3,7 +3,7 @@ import { getGenres } from "../../services/genreService"
 import { createArtist } from "../../services/artistService"
 import { useNavigate } from "react-router-dom"
 
-export const CreateArtist = () => {
+export const CreateArtist = ({ manager }) => {
     const [newArtist, setNewArtist] = useState({ artistName: "" })
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState({})
@@ -17,7 +17,7 @@ export const CreateArtist = () => {
         if (genre.id > 0 && newArtist.artistName) {
             const artist = {
                 artistName: newArtist.artistName,
-                managerId: 1,
+                managerId: manager.id,
                 genreId: genre.id,
                 img: ""
             }

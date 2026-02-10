@@ -1,5 +1,5 @@
-export const getArtists = () => {
-    return fetch("http://localhost:3000/artists?_expand=genre").then(res => res.json())
+export const getArtists = (managerId) => {
+    return fetch(`http://localhost:3000/artists?_expand=genre&managerId=${managerId}`).then(res => res.json())
 }
 
 export const createArtist = (artist) => {

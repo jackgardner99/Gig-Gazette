@@ -3,14 +3,14 @@ import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
 import { deleteBand, getBands } from "../../services/bandService"
 
-export const Clients = () => {
+export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
     const [bands, setBands] = useState([])
 
     useEffect(() => {
-        getArtists().then(setArtists)
-        getBands().then(setBands)
-    }, [])
+        getArtists(manager.id).then(setArtists)
+        getBands(manager.id).then(setBands)
+    }, [manager])
 
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {

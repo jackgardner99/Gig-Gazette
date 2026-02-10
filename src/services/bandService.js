@@ -1,5 +1,5 @@
-export const getBands = () => {
-    return fetch("http://localhost:3000/bands?_expand=genre").then(res => res.json())
+export const getBands = (managerId) => {
+    return fetch(`http://localhost:3000/bands?_expand=genre&managerId=${managerId}`).then(res => res.json())
 }
 
 export const createBand = (band) => {

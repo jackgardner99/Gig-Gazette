@@ -3,7 +3,7 @@ import { getGenres } from "../../services/genreService"
 import { createBand } from "../../services/bandService"
 import { useNavigate } from "react-router-dom"
 
-export const CreateBand = () => {
+export const CreateBand = ({ manager }) => {
     const [bandName, setBandName] = useState({ bandName: "" })
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState(0)
@@ -18,7 +18,7 @@ export const CreateBand = () => {
             const band = {
                 bandName: bandName.bandName,
                 genreId: genre,
-                managerId: 1,
+                managerId: manager.id,
             }
 
             createBand(band)
