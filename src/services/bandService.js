@@ -13,7 +13,7 @@ export const createBand = (band) => {
 }
 
 export const getBandById = (id) => {
-    return fetch(`http://localhost:3000/bands/${id}`).then(res => res.json())
+    return fetch(`http://localhost:3000/bands/${id}?_expand=genre`).then(res => res.json())
 }
 
 export const updateBand = (band) => {

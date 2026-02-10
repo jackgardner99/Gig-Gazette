@@ -10,9 +10,12 @@ export const EditArtist = () => {
     const [artist, setArtist] = useState({})
     const [genres, setGenres] = useState([])
 
+    const getAndSetEdits = (artistId) => {
+        getArtistById(artistId).then(setArtist).then(getGenres().then(setGenres))
+    }
+    
     useEffect(() => {
-        getArtistById(artistId).then(setArtist)
-        getGenres().then(setGenres)
+        getAndSetEdits(artistId)
     }, [artistId])
 
         const handleUpdateArtist = () => {
@@ -25,8 +28,8 @@ export const EditArtist = () => {
                     img: artist.img
                 }
 
-                updateArtist(updatedArtist)
-                navigate("/")
+                updateArtist(updatedArtist).then(navigate("/"))
+                
 
             } else {
                 window.alert("Please make sure all the fields are filled out")
@@ -51,7 +54,7 @@ export const EditArtist = () => {
                     artistCopy.genreId = parseInt(e.target.value)
                     setArtist(artistCopy)
                 }}>
-                    <option value={artist.genreId} key={artist.genreId}>{artist.genre?.name}</option>
+                    <option value={artist.genreId} key={artist.genreId} selected>{artist.genre?.name}</option>
                     {genres.map(
                         (genre) => {
                             return <option value={genre.id} key={genre.id}>{genre.name}</option>

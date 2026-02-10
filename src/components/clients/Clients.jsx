@@ -7,20 +7,24 @@ export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
     const [bands, setBands] = useState([])
 
+    const getAndSetClients = (managerId) => {
+        getArtists(managerId).then(setArtists).then(getBands(managerId).then(setBands))
+        
+    }
+
     useEffect(() => {
-        getArtists(manager.id).then(setArtists)
-        getBands(manager.id).then(setBands)
+        getAndSetClients(manager.id)
     }, [manager])
 
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {
-            getArtists().then(setArtists)
+            getAndSetClients(manager.id)
         })
     }
 
     const handleDeleteBand = (band) => {
         deleteBand(band).then(() => {
-            getBands().then(setBands)
+            getAndSetClients(manager.id)
         })
     }
 

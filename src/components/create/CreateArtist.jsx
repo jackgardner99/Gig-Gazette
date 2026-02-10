@@ -25,6 +25,7 @@ export const CreateArtist = ({ manager }) => {
             createArtist(artist).then(() => {
                 setNewArtist({ artistName: "" })
                 setGenre({})
+                navigate("/")
             })
         } else {
             window.alert("Please make sure all the information fields are filled out")
@@ -59,7 +60,6 @@ export const CreateArtist = ({ manager }) => {
             <div>
                 <button onClick={() => {
                     handleArtistCreation()
-                    navigate("/")
                 }}>
                     Create Artist
                 </button>

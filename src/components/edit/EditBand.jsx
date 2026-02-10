@@ -25,8 +25,8 @@ export const EditBand = () => {
                     img: band.img
                 }
 
-                updateBand(updatedBand)
-                navigate("/")
+                updateBand(updatedBand).then(navigate("/"))
+                
 
             } else {
                 window.alert("Please make sure all the fields are filled out")
@@ -51,7 +51,7 @@ export const EditBand = () => {
                     bandCopy.genreId = parseInt(e.target.value)
                     setBand(bandCopy)
                 }}>
-                    <option value={band.genreId} key={band.genreId}>{band.genre?.name}</option>
+                    <option value={band.genreId} key={band.genreId} selected>{band.genre?.name}</option>
                     {genres.map(
                         (genre) => {
                             return <option value={genre.id} key={genre.id}>{genre.name}</option>
