@@ -19,7 +19,6 @@ export const Login = () => {
 
                     })
                 )
-
                 navigate("/")
             } else {
                 window.alert("Invalid login")

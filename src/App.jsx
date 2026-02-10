@@ -10,9 +10,9 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/login' element={<Login />} />
+      <Route path="/login" element={<Login />} />
 
-      <Route path='*' element={
+      <Route path="*" element={
         <Authorized>
           <ApplicationView />
         </Authorized>
