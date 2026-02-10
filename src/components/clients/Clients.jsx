@@ -32,14 +32,14 @@ export const Clients = ({ manager }) => {
         <div>
             <div>
                 <div>
-                    <Link to={"/create-artist"}>
+                    <Link to={"/managers/create-artist"}>
                         <button>
                             Create Artist
                         </button>
                     </Link>
                 </div>
                 <div>
-                    <Link to={"/create-band"}>
+                    <Link to={"/managers/create-band"}>
                         <button>Create Band</button>
                     </Link>
                 </div>
@@ -54,7 +54,7 @@ export const Clients = ({ manager }) => {
                                 <img src={artist.img} />
                             </div>
                             <div>
-                                <Link to={`/edit-artist/${artist.id}`}>
+                                <Link to={`/managers/edit-artist/${artist.id}`}>
                                     <button>Edit Artist</button>
                                 </Link>
                             </div>
@@ -78,7 +78,7 @@ export const Clients = ({ manager }) => {
                                 <img src={band.img} />
                             </div>
                             <div>
-                                <Link to={`/edit-band/${band.id}`}>
+                                <Link to={`/managers/edit-band/${band.id}`}>
                                     <button>Edit Band</button>
                                 </Link>
                             </div>

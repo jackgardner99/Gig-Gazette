@@ -9,13 +9,13 @@ import { ManagerNavbar } from "../nav/ManagerNavbar"
 export const ManagerView = ({ manager }) => {
     return (
         <Routes>
-            <Route path="/"
+            <Route path="/managers"
             element={<>
                 <ManagerNavbar />
                 <Outlet />
             </>                
             }>
-                <Route index element={<Clients manager={ manager } />} />
+                <Route index element={<Clients manager={ manager }/>} />
                 <Route path='create-artist' element={<CreateArtist manager={ manager } />} />
                 <Route path='edit-artist/:artistId' element={<EditArtist manager={ manager } />} />
                 <Route path='create-band' element={<CreateBand manager={ manager }/>} />

@@ -25,7 +25,7 @@ export const EditBand = () => {
                     img: band.img
                 }
 
-                updateBand(updatedBand).then(navigate("/"))
+                updateBand(updatedBand).then(navigate("/managers"))
                 
 
             } else {

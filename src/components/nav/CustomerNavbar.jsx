@@ -4,7 +4,7 @@ export const CustomerNavbar = () => {
     return (
         <ul>
             <li>
-                <Link to={"/map"}>Map</Link>
+                <Link to={"/"}>Map</Link>
             </li>
             <li>
                 <Link to={"/login"}>Login</Link>

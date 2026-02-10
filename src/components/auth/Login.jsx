@@ -19,7 +19,7 @@ export const Login = () => {
 
                     })
                 )
-                navigate("/")
+                navigate("/managers")
             } else {
                 window.alert("Invalid login")
             }

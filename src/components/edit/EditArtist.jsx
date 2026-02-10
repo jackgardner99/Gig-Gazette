@@ -28,7 +28,7 @@ export const EditArtist = () => {
                     img: artist.img
                 }
 
-                updateArtist(updatedArtist).then(navigate("/"))
+                updateArtist(updatedArtist).then(navigate("/managers"))
                 
 
             } else {
