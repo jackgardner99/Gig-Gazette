@@ -51,7 +51,7 @@ export const CreateArtistShow = () => {
                 </select>
             </div>
             <div>
-                <input type="date" value={dateTime} onChange={(e) => {
+                <input type="datetime-local" value={dateTime} onChange={(e) => {
                     setDateTime(e.target.value)
                 }}/>
             </div>

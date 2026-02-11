@@ -30,7 +30,10 @@ export const ArtistShows = () => {
                             {show?.venue?.venueName}
                         </div>
                         <div>
-                            {show.dateTime}
+                            {(show) => {
+                                const date = show.dateTime
+                                date.toLocaleString()
+                            }}
                         </div>
                     </div>
                 })}
