@@ -16,8 +16,8 @@ export const ArtistShows = () => {
                 {artistShows[0]?.artist?.artistName} Shows
             </h1>
             <div>
-                <Link>
-                    <button>Create Show</button>                
+                <Link to={`/managers/artist-shows/create/${artistId}`}>
+                    <button>Create Show</button>            
                 </Link>
             </div>
             <div>
@@ -27,7 +27,7 @@ export const ArtistShows = () => {
                             {show.eventTitle}
                         </div>
                         <div>
-                            {show.location}
+                            {show?.venue?.venueName}
                         </div>
                         <div>
                             {show.dateTime}
