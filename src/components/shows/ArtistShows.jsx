@@ -34,15 +34,17 @@ export const ArtistShows = () => {
             <div>
                 {artistShows.map((show) => {
                     return <div key={show.id}>
-                        <div>
-                            {show.eventTitle}
-                        </div>
-                        <div>
-                            {show?.venue?.venueName}
-                        </div>
-                        <div>
-                            {new Date(show.dateTime).toLocaleString()}
-                        </div>
+                        <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
+                            <div>
+                                {show.eventTitle}
+                            </div>
+                            <div>
+                                {show?.venue?.venueName}
+                            </div>
+                            <div>
+                                {new Date(show.dateTime).toLocaleString()}
+                            </div>
+                        </Link>
                         <div>
                             <button onClick={() => {
                                 handleShowDelete(show)
