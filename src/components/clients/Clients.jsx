@@ -77,11 +77,13 @@ export const Clients = ({ manager }) => {
                 {bands.map((band) => {
                     return <>
                         <div key={band.id}>
-                            <div>{band.bandName}</div>
-                            <div>{band.genre?.name}</div>
-                            <div>
-                                <img src={band.img} />
-                            </div>
+                            <Link to={`/managers/band-shows/${band.id}`}>
+                                <div>{band.bandName}</div>
+                                <div>{band.genre?.name}</div>
+                                <div>
+                                    <img src={band.img} />
+                                </div>
+                            </Link>
                             <div>
                                 <Link to={`/managers/edit-band/${band.id}`}>
                                     <button>Edit Band</button>

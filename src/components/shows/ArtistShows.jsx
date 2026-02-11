@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { getArtistShowsById } from "../../services/artistShowsService"
+import { getArtistById } from "../../services/artistService"
 
 export const ArtistShows = () => {
     const { artistId } = useParams()
     const [artistShows, setArtistShows] = useState([])
+    const [artist, setArtist] = useState({})
 
     useEffect(() => {
         getArtistShowsById(artistId).then(setArtistShows)
+        getArtistById(artistId).then(setArtist)
     }, [artistId])
 
     return (
         <div>
             <h1>
-                {artistShows[0]?.artist?.artistName} Shows
+                {artist.artistName} Shows
             </h1>
             <div>
                 <Link to={`/managers/artist-shows/create/${artistId}`}>
@@ -30,10 +33,7 @@ export const ArtistShows = () => {
                             {show?.venue?.venueName}
                         </div>
                         <div>
-                            {(show) => {
-                                const date = show.dateTime
-                                date.toLocaleString()
-                            }}
+                            {new Date(show.dateTime).toLocaleString()}
                         </div>
                     </div>
                 })}
