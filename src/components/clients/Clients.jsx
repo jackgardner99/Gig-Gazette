@@ -48,10 +48,15 @@ export const Clients = ({ manager }) => {
                 {artists.map((artist) => {
                     return <>
                         <div key={artist.id}>
-                            <div>{artist.artistName}</div>
-                            <div>{artist.genre.name}</div>
                             <div>
-                                <img src={artist.img} />
+                                <Link to={`/managers/artist-shows/${artist.id}`}>
+                                    <div>{artist.artistName}</div>
+                                    <div>{artist.genre.name}</div>
+                                    <div>
+                                        <img src={artist.img} />
+                                    </div>
+
+                                </Link>
                             </div>
                             <div>
                                 <Link to={`/managers/edit-artist/${artist.id}`}>

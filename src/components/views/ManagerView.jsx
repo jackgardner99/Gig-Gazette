@@ -5,6 +5,7 @@ import { EditArtist } from "../edit/EditArtist"
 import { CreateBand } from "../create/CreateBand"
 import { EditBand } from "../edit/EditBand"
 import { ManagerNavbar } from "../nav/ManagerNavbar"
+import { ArtistShows } from "../shows/ArtistShows"
 
 export const ManagerView = ({ manager }) => {
     return (
@@ -20,6 +21,7 @@ export const ManagerView = ({ manager }) => {
                 <Route path='edit-artist/:artistId' element={<EditArtist manager={ manager } />} />
                 <Route path='create-band' element={<CreateBand manager={ manager }/>} />
                 <Route path='edit-band/:bandId' element={<EditBand manager={ manager }/>} />
+                <Route path='artist-shows/:artistId' element={<ArtistShows />} />
             </Route>
         </Routes>
     )
