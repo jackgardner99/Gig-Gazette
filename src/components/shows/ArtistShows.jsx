@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { getArtistShowsById } from "../../services/artistShowsService"
+import { deleteArtistShow, getArtistShowsById } from "../../services/artistShowsService"
 import { getArtistById } from "../../services/artistService"
 
 export const ArtistShows = () => {
@@ -8,10 +8,18 @@ export const ArtistShows = () => {
     const [artistShows, setArtistShows] = useState([])
     const [artist, setArtist] = useState({})
 
-    useEffect(() => {
+    const getAndSetArtistShows = (artistId) => {
         getArtistShowsById(artistId).then(setArtistShows)
         getArtistById(artistId).then(setArtist)
+    }
+
+    useEffect(() => {
+        getAndSetArtistShows(artistId)
     }, [artistId])
+
+    const handleShowDelete = (show) => {
+        deleteArtistShow(show).then(getAndSetArtistShows(artistId))
+    }
 
     return (
         <div>
@@ -34,6 +42,11 @@ export const ArtistShows = () => {
                         </div>
                         <div>
                             {new Date(show.dateTime).toLocaleString()}
+                        </div>
+                        <div>
+                            <button onClick={() => {
+                                handleShowDelete(show)
+                            }}>Delete Show</button>
                         </div>
                     </div>
                 })}

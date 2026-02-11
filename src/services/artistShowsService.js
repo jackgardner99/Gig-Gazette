@@ -11,3 +11,12 @@ export const createArtistShow = (show) => {
         body: JSON.stringify(show)
     })
 }
+
+export const deleteArtistShow = (artistShow) => {
+    return fetch(`http://localhost:3000/artistShows/${artistShow.id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
