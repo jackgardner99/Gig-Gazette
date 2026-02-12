@@ -25,7 +25,7 @@ export const CreateArtist = ({ manager }) => {
             createArtist(artist).then(() => {
                 setNewArtist({ artistName: "" })
                 setGenre({})
-                navigate("/")
+                navigate("/managers")
             })
         } else {
             window.alert("Please make sure all the information fields are filled out")

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { getManagerByEmail } from "../../services/managerService"
 
 export const Login = () => {
@@ -12,6 +12,7 @@ export const Login = () => {
         getManagerByEmail(email).then((foundUsers) => {
             if (foundUsers.length === 1) {
                 const manager = foundUsers[0]
+                console.log(manager)
                 localStorage.setItem(
                     "manager",
                     JSON.stringify({
@@ -51,6 +52,9 @@ export const Login = () => {
                     <button onClick={handleLogin}>Sign In</button>
                 </div>
             </section>
+            <div>
+                Don't have an account? <Link to={'/register'}>Register!</Link>
+            </div>
         </main>
     )
 }

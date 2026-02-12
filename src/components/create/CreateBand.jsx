@@ -22,7 +22,7 @@ export const CreateBand = ({ manager }) => {
             }
 
             createBand(band)
-            navigate("/")
+            navigate("/managers")
         } else {
             window.alert("Please make sure all fields are filled out before creating")
         }

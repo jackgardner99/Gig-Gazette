@@ -17,15 +17,7 @@ export const EditBand = () => {
 
         const handleUpdateBand = () => {
             if (band.bandName && band.genreId) {
-                const updatedBand = {
-                    id: band.id,
-                    bandName: band.bandName,
-                    managerId: band.managerId,
-                    genreId: band.genreId,
-                    img: band.img
-                }
-
-                updateBand(updatedBand).then(navigate("/managers"))
+                updateBand(band).then(navigate("/managers"))
                 
 
             } else {

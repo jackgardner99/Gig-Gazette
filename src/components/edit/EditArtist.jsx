@@ -20,17 +20,7 @@ export const EditArtist = () => {
 
         const handleUpdateArtist = () => {
             if (artist.artistName && artist.genreId) {
-                const updatedArtist = {
-                    id: artist.id,
-                    artistName: artist.artistName,
-                    managerId: artist.managerId,
-                    genreId: artist.genreId,
-                    img: artist.img
-                }
-
-                updateArtist(updatedArtist).then(navigate("/managers"))
-                
-
+                updateArtist(artist).then(navigate("/managers"))               
             } else {
                 window.alert("Please make sure all the fields are filled out")
             }
