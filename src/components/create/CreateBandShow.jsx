@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { getVenues } from "../../services/venuesService"
 import { createBandShow } from "../../services/bandShowsService"
 
@@ -32,6 +32,11 @@ export const CreateBandShow = () => {
 
     return (
         <div>
+            <div>
+                <Link to={`/managers/band-shows/${bandId}`}>
+                    <button>Back to Shows</button>
+                </Link>
+            </div>
             <h2>Create Show</h2>
             <div>
                 <h4>Show Name</h4>

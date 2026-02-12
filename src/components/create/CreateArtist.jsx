@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "../../services/genreService"
 import { createArtist } from "../../services/artistService"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const CreateArtist = ({ manager }) => {
     const [newArtist, setNewArtist] = useState({ artistName: "" })
@@ -35,6 +35,11 @@ export const CreateArtist = ({ manager }) => {
     
     return (
         <div>
+            <div>
+                <Link to={'/managers'}>
+                    <button>Back to Clients</button>
+                </Link>
+            </div>
             <div>
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}

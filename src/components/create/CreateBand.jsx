@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "../../services/genreService"
 import { createBand } from "../../services/bandService"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const CreateBand = ({ manager }) => {
     const [bandName, setBandName] = useState({ bandName: "" })
@@ -30,6 +30,11 @@ export const CreateBand = ({ manager }) => {
 
     return (
         <div>
+            <div>
+                <Link to={'/managers'}>
+                    <button>Back to Clients</button>
+                </Link>
+            </div>
             <div>
                 <input type="text" placeholder="Band Name" onChange={(e) => {
                     const bandNameCopy = {...bandName}
