@@ -23,15 +23,7 @@ export const EditArtistShow = () => {
 
     const handleShowUpdate = () => {
         if (artistShow.eventTitle && artistShow.venueId && artistShow.dateTime) {
-            const updatedArtistShow = {
-                    id: artistShow.id,
-                    eventTitle: artistShow.eventTitle,
-                    artistId: artistShow.artistId,
-                    venueId: artistShow.venueId,
-                    dateTime: artistShow.dateTime
-                }
-
-            updateArtistShow(updatedArtistShow).then(navigate(`/managers/artist-shows/${artistShow.artistId}`))
+            updateArtistShow(artistShow).then(navigate(`/managers/artist-shows/${artistShow.artistId}`))
         } else {
             window.alert("Please fill out all fields before updating show")
         }
