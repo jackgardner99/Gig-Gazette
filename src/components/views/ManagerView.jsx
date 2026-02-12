@@ -31,10 +31,11 @@ export const ManagerView = ({ manager }) => {
                     <Route path='create/:artistId' element={<CreateArtistShow />} />
                     <Route path='edit-show/:id' element={<EditArtistShow />} />
                 </Route>
-
-                <Route path='band-shows/:bandId' element={<BandShows />} />
-                <Route path='band-shows/create/:bandId' element={<CreateBandShow />} />
-                <Route path='band-shows/edit/:id' element={<EditBandShow />} />
+                <Route path='band-shows'>
+                    <Route path=':bandId' element={<BandShows />} />
+                    <Route path='create/:bandId' element={<CreateBandShow />} />
+                    <Route path='edit-show/:id' element={<EditBandShow />} />
+                </Route>
             </Route>
         </Routes>
     )

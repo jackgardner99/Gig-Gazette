@@ -34,15 +34,17 @@ export const BandShows = () => {
             <div>
                 {bandShows.map((show) => {
                     return <div key={show.id}>
-                        <div>
+                        <Link to={`/managers/band-shows/edit-show/${show.id}`}>
+                            <div>
                             {show.eventTitle}
-                        </div>
-                        <div>
-                            {show?.venue?.venueName}
-                        </div>
-                        <div>
-                            {new Date(show.dateTime).toLocaleString()}
-                        </div>
+                            </div>
+                            <div>
+                                {show?.venue?.venueName}
+                            </div>
+                            <div>
+                                {new Date(show.dateTime).toLocaleString()}
+                            </div>
+                        </Link>
                         <div>
                             <button onClick={() => {
                                 handleShowDelete(show)

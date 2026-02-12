@@ -11,7 +11,9 @@ export const EditArtistShow = () => {
     const [venues, setVenues] = useState([])
 
     const getAndSetShowDetails = (id) => {
-        getArtistShowByShowId(id).then(setArtistShow)
+        getArtistShowByShowId(id).then((artistShowArray) => {
+            setArtistShow(artistShowArray[0])
+        })
         getVenues().then(setVenues)
     }
 
@@ -35,6 +37,20 @@ export const EditArtistShow = () => {
         }
     }
 
+    const formatDateTimeForInput = (dateTimeString) => {
+        if (!dateTimeString) return ""
+        
+        const date = new Date(dateTimeString)
+        
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        
+        return `${year}-${month}-${day}T${hours}:${minutes}`
+    }
+
     return (
         <div>
             <h2>Edit Show</h2>
@@ -53,14 +69,14 @@ export const EditArtistShow = () => {
                     artistShowCopy.venueId = e.target.value
                     setArtistShow(artistShowCopy)
                 }}>
-                    <option selected value={artistShow?.venue?.id}>{artistShow.venue?.name}</option>
+                    <option selected value={artistShow?.venue?.id}>{artistShow?.venue?.venueName}</option>
                     {venues.map((venue) => {
                         return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
                     })}
                 </select>
             </div>
             <div>
-                <input type="datetime-local" value={artistShow.dateTime} onChange={(e) => {
+                <input type="datetime-local" value={formatDateTimeForInput(artistShow.dateTime)} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
                     artistShowCopy.dateTime = e.target.value
                     setArtistShow(artistShowCopy)
