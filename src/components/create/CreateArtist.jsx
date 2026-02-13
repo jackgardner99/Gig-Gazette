@@ -7,6 +7,7 @@ export const CreateArtist = ({ manager }) => {
     const [newArtist, setNewArtist] = useState({ artistName: "" })
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState({})
+    const [isBand, setIsBand] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -19,6 +20,7 @@ export const CreateArtist = ({ manager }) => {
                 artistName: newArtist.artistName,
                 managerId: manager.id,
                 genreId: genre.id,
+                isBand: isBand,
                 img: ""
             }
 
@@ -63,11 +65,28 @@ export const CreateArtist = ({ manager }) => {
                 </select>
             </div>
             <div>
-                <button onClick={() => {
+                Is this client a band?
+                <input type="radio" value={isBand} name="is-band" onClick={() => {
+                    setIsBand(false)
+                }} defaultChecked/> No
+                <input type="radio" value={isBand} name="is-band" onClick={() => {
+                    setIsBand(true)
+                }}/> Yes
+            </div>
+            <div>
+                {isBand === false ? (
+                    <button onClick={() => {
                     handleArtistCreation()
                 }}>
                     Create Artist
                 </button>
+                ) : (
+                    <button onClick={() => {
+                    handleArtistCreation()
+                }}>
+                    Create Band
+                </button>
+                )}               
             </div>
         </div>
     )

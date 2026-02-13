@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react"
 import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
-import { deleteBand, getBands } from "../../services/bandService"
 
 export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
-    const [bands, setBands] = useState([])
 
     const getAndSetClients = (managerId) => {
-        getArtists(managerId).then(setArtists).then(getBands(managerId).then(setBands))
+        getArtists(managerId).then(setArtists)
         
     }
 
@@ -22,25 +20,14 @@ export const Clients = ({ manager }) => {
         })
     }
 
-    const handleDeleteBand = (band) => {
-        deleteBand(band).then(() => {
-            getAndSetClients(manager.id)
-        })
-    }
-
     return (
         <div>
             <div>
                 <div>
                     <Link to={"/managers/create-artist"}>
                         <button>
-                            Create Artist
+                            Create Client
                         </button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to={"/managers/create-band"}>
-                        <button>Create Band</button>
                     </Link>
                 </div>
             </div>
@@ -60,41 +47,26 @@ export const Clients = ({ manager }) => {
                             </div>
                             <div>
                                 <Link to={`/managers/edit-artist/${artist.id}`}>
-                                    <button>Edit Artist</button>
+                                    {artist.isBand === false ? (
+                                        <button>Edit Artist</button>
+                                    ) : (
+                                        <button>Edit Band</button>
+                                    )}
                                 </Link>
                             </div>
                             <div>
-                                <button onClick={() => {
-                                    handleDeleteArtist(artist)
-                                }}>Delete Artist</button>
+                                {artist.isBand === false ? (
+                                    <button onClick={() => {
+                                        handleDeleteArtist(artist)
+                                    }}>Delete Artist</button>
+                                ) : (
+                                    <button onClick={() => {
+                                        handleDeleteArtist(artist)
+                                    }}>Delete Band</button>
+                                )}
                             </div>
                         </div>
                         
-                    </>
-                })}
-            </div>
-            <div>
-                {bands.map((band) => {
-                    return <>
-                        <div key={band.id}>
-                            <Link to={`/managers/band-shows/${band.id}`}>
-                                <div>{band.bandName}</div>
-                                <div>{band.genre?.name}</div>
-                                <div>
-                                    <img src={band.img} />
-                                </div>
-                            </Link>
-                            <div>
-                                <Link to={`/managers/edit-band/${band.id}`}>
-                                    <button>Edit Band</button>
-                                </Link>
-                            </div>
-                            <div>
-                                <button onClick={() => {
-                                    handleDeleteBand(band)
-                                }}>Delete Band</button>
-                            </div>
-                        </div>
                     </>
                 })}
             </div>
