@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { getVenues } from "../../services/venuesService"
 import { createArtistShow } from "../../services/artistShowsService"
+import { VenueShows } from "../shows/VenueShows"
 
 export const CreateArtistShow = () => {
     const { artistId } = useParams()
@@ -62,6 +63,9 @@ export const CreateArtistShow = () => {
             </div>
             <div>
                 <button onClick={handleShowCreation}>Create Show</button>              
+            </div>
+            <div>
+                <VenueShows venueId={venue}/>
             </div>
         </div>
     )

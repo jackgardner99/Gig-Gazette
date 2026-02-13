@@ -6,6 +6,10 @@ export const getArtistShowByShowId = (showId) => {
     return fetch(`http://localhost:3000/artistShows?id=${showId}&_expand=venue`).then(res => res.json())
 }
 
+export const getArtistShowsByVenueId = (venueId) => {
+    return fetch(`http://localhost:3000/artistShows?venueId=${venueId}&_expand=artist`).then(res => res.json())
+}
+
 export const createArtistShow = (show) => {
     return fetch("http://localhost:3000/artistShows", {
         method: "POST",
