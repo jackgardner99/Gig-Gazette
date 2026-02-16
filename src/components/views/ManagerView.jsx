@@ -6,6 +6,7 @@ import { ManagerNavbar } from "../nav/ManagerNavbar"
 import { ArtistShows } from "../shows/ArtistShows"
 import { CreateArtistShow } from "../create/CreateArtistShow"
 import { EditArtistShow } from "../edit/EditArtistShow"
+import { MapPage } from "../map/MapPage"
 
 export const ManagerView = ({ manager }) => {
     return (
@@ -24,6 +25,7 @@ export const ManagerView = ({ manager }) => {
                     <Route path='create/:artistId' element={<CreateArtistShow />} />
                     <Route path='edit-show/:id' element={<EditArtistShow />} />
                 </Route>
+                <Route path="map" element={<MapPage />}/>
             </Route>
         </Routes>
     )

@@ -6,6 +6,7 @@ export const ManagerNavbar = () => {
     return (
         <ul>
             <li><Link to={"/managers"}>Clients</Link></li>
+            <li><Link to={"/managers/map"}>Map</Link></li>
             {localStorage.getItem("manager") ? 
             (<li>
                 <Link to={"/login"} onClick={() => {
