@@ -22,7 +22,7 @@ export const MapPage = () => {
                 />
                 {artistShows.map((show) => {
                     return (
-                    <Marker position={[show.venue?.lat, show.venue?.lng]}>
+                    <Marker position={[show.venue?.lat, show.venue?.lng]} {...console.log(show.eventTitle)}>
                         <Popup>
                             <div>{show.eventTitle}</div>
                             <div>{show.date}</div>

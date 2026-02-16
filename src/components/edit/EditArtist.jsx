@@ -10,17 +10,32 @@ export const EditArtist = () => {
     const [artist, setArtist] = useState({})
     const [genres, setGenres] = useState([])
 
-    const getAndSetEdits = (artistId) => {
-        getArtistById(artistId).then(setArtist).then(getGenres().then(setGenres))
-    }
+    // const getAndSetEdits = (artistId) => {
+        
+    // }
     
     useEffect(() => {
-        getAndSetEdits(artistId)
+        getArtistById(artistId).then(setArtist)
+        getGenres().then(setGenres)
     }, [artistId])
+
+    // useEffect(() => {
+    //     const genre = genres.filter((genre) => genre.id === artist.genreId)
+    //     setGenre(genre)
+    // }, [genres, artist])
 
         const handleUpdateArtist = () => {
             if (artist.artistName && artist.genreId) {
-                updateArtist(artist).then(navigate("/managers"))               
+                const updatedArtist = {
+                    id: artist.id,
+                    artistName: artist.artistName,
+                    managerId: artist.managerId,
+                    genreId: artist.genreId,
+                    isBand: artist.isBand
+
+                }
+
+                updateArtist(updatedArtist).then(navigate("/managers"))               
             } else {
                 window.alert("Please make sure all the fields are filled out")
             }
@@ -44,7 +59,7 @@ export const EditArtist = () => {
                     artistCopy.genreId = parseInt(e.target.value)
                     setArtist(artistCopy)
                 }}>
-                    <option value={artist.genreId} key={artist.genreId} selected>{artist.genre?.name}</option>
+                    <option key={artist.genreId} defaultValue={artist.genreId} selected>{artist.genre?.name}</option>
                     {genres.map(
                         (genre) => {
                             return <option value={genre.id} key={genre.id}>{genre.name}</option>
