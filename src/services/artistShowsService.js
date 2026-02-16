@@ -1,3 +1,7 @@
+export const getArtistShows = () => {
+    return fetch("http://localhost:3000/artistShows?_expand=venue").then(res => res.json())
+}
+
 export const getArtistShowsById = (artistId) => {
     return fetch(`http://localhost:3000/artistShows?artistId=${artistId}&_expand=venue`).then(res => res.json())
 }

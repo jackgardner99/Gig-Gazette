@@ -4,13 +4,13 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import 'leaflet/dist/leaflet.css'
 import { useMap } from 'react-leaflet/hooks'
 import { useEffect, useState } from 'react'
-import { getVenues } from '../../services/venuesService'
+import { getArtistShows } from '../../services/artistShowsService'
 
 export const MapPage = () => {
-    const [venues, setVenues] = useState([])
+    const [artistShows, setArtistShows] = useState([])
 
     useEffect(() => {
-        getVenues().then(setVenues)
+        getArtistShows().then(setArtistShows)
     }, [])
 
     return (
@@ -20,11 +20,13 @@ export const MapPage = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {venues.map((venue) => {
+                {artistShows.map((show) => {
                     return (
-                    <Marker position={venue.geoCode}>
+                    <Marker position={[show.venue?.lat, show.venue?.lng]}>
                         <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
+                            <div>{show.eventTitle}</div>
+                            <div>{show.date}</div>
+                            <div>{show.time}</div>
                         </Popup>
                     </Marker>
                     )
