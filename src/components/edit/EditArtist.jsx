@@ -28,7 +28,8 @@ export const EditArtist = () => {
                     artistName: artist.artistName,
                     managerId: artist.managerId,
                     genreId: artist.genreId,
-                    isBand: artist.isBand
+                    isBand: artist.isBand,
+                    img: artist.img
 
                 }
 
@@ -63,6 +64,13 @@ export const EditArtist = () => {
                         }
                     )}
                 </select>
+            </div>
+            <div>
+                <input type="file" onChange={(e) => {
+                    const artistCopy = {...artist}
+                    artistCopy.img = URL.createObjectURL(e.target.files[0])
+                    setArtist(artistCopy)
+                }}/>
             </div>
             <div>
                 <button onClick={() => {
