@@ -9,6 +9,7 @@ export const EditArtistShow = () => {
 
     const [artistShow, setArtistShow] = useState({})
     const [venues, setVenues] = useState([])
+    const [venue, setVenue] = useState({})
 
     const getAndSetShowDetails = (id) => {
         getArtistShowByShowId(id).then((artistShowArray) => {
@@ -21,6 +22,11 @@ export const EditArtistShow = () => {
         getAndSetShowDetails(id)
     }, [id])
 
+    useEffect(() => {
+        const showVenue = venues.filter((venue) => venue.id === artistShow.venueId)
+        setVenue(showVenue[0])
+    }, [artistShow, venues])
+
     const handleShowUpdate = () => {
         if (artistShow.eventTitle && artistShow.venueId && artistShow.dateTime) {
             updateArtistShow(artistShow).then(navigate(`/managers/artist-shows/${artistShow.artistId}`))
@@ -29,9 +35,8 @@ export const EditArtistShow = () => {
         }
     }
 
-    const formatDateTimeForInput = (dateTimeString) => {
+    const formatForInput = (dateTimeString) => {
         if (!dateTimeString) return ""
-        
         const date = new Date(dateTimeString)
         
         const year = date.getFullYear()
@@ -48,7 +53,7 @@ export const EditArtistShow = () => {
             <h2>Edit Show</h2>
             <div>
                 <h4>Show Name</h4>
-                <input type="text" value={artistShow.eventTitle} onChange={(e) => {
+                <input type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
                     artistShowCopy.eventTitle = e.target.value
                     setArtistShow(artistShowCopy)
@@ -61,14 +66,14 @@ export const EditArtistShow = () => {
                     artistShowCopy.venueId = e.target.value
                     setArtistShow(artistShowCopy)
                 }}>
-                    <option selected value={artistShow?.venue?.id}>{artistShow?.venue?.venueName}</option>
+                    <option selected value={venue?.id}>{venue?.venueName}</option>
                     {venues.map((venue) => {
                         return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
                     })}
                 </select>
             </div>
             <div>
-                <input type="datetime-local" value={formatDateTimeForInput(artistShow.dateTime)} onChange={(e) => {
+                <input type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
                     artistShowCopy.dateTime = e.target.value
                     setArtistShow(artistShowCopy)

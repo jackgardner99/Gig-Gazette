@@ -9,8 +9,7 @@ export const CreateArtistShow = () => {
     const [venues, setVenues] = useState([])
     const [venue, setVenue] = useState(0)
     const [showName, setShowName] = useState("")
-    const [date, setDate] = useState("")
-    const [time, setTime] = useState("")
+    const [dateTime, setDateTime] = useState("")
     const [artistShows, setArtistShows] = useState([])
     const [filteredArtistShowsByDate, setFilteredArtistShowsByDate] = useState([])
 
@@ -25,18 +24,17 @@ export const CreateArtistShow = () => {
     }, [venue])
 
     useEffect(() => {
-        const filteredShows = artistShows.filter((show) => date == show.date)
+        const filteredShows = artistShows.filter((show) => dateTime == show.dateTime)
         setFilteredArtistShowsByDate(filteredShows)
-    }, [artistShows, date])
+    }, [artistShows, dateTime])
 
     const handleShowCreation = () => {
-        if (venue && showName && date && time && filteredArtistShowsByDate.length === 0) {
+        if (venue && showName && dateTime && filteredArtistShowsByDate.length === 0) {
             const show = {
                 artistId: artistId,
                 venueId: venue,
                 eventTitle: showName,
-                date: date,
-                time: time
+                dateTime: dateTime
             }
 
             createArtistShow(show).then(navigate(`/managers/artist-shows/${artistId}`))
@@ -74,14 +72,9 @@ export const CreateArtistShow = () => {
                 </select>
             </div>
             <div>
-                <input type="date" value={date} onChange={(e) => {
-                    setDate(e.target.value)
+                <input type="datetime-local" value={dateTime} onChange={(e) => {
+                    setDateTime(e.target.value)
                 }}/>
-            </div>
-            <div>
-                <input type="time" value={time} onChange={(e) => {
-                    setTime(e.target.value)
-                }} />
             </div>
             <div>
                 <button onClick={handleShowCreation}>Create Show</button>              

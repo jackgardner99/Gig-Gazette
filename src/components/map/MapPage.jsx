@@ -13,6 +13,21 @@ export const MapPage = () => {
         getArtistShows().then(setArtistShows)
     }, [])
 
+    const formatDateTime = (dateTimeString) => {
+        if (!dateTimeString) return ""
+        
+        const date = new Date(dateTimeString)
+        
+        return date.toLocaleString('en-US', {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        })
+    }
+
     return (
         <div>
             <MapContainer className="leaflet-container" center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
@@ -25,8 +40,7 @@ export const MapPage = () => {
                     <Marker position={[show.venue?.lat, show.venue?.lng]} {...console.log(show.eventTitle)}>
                         <Popup>
                             <div>{show.eventTitle}</div>
-                            <div>{show.date}</div>
-                            <div>{show.time}</div>
+                            <div>{formatDateTime(show.dateTime)}</div>
                         </Popup>
                     </Marker>
                     )
