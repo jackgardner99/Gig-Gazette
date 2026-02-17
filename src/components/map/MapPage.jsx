@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import { useMap } from 'react-leaflet/hooks'
 import { useEffect, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
+import { Link } from 'react-router-dom'
 
 export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
@@ -39,8 +40,10 @@ export const MapPage = () => {
                     return (
                     <Marker position={[show.venue?.lat, show.venue?.lng]} {...console.log(show.eventTitle)}>
                         <Popup>
-                            <div>{show.eventTitle}</div>
-                            <div>{formatDateTime(show.dateTime)}</div>
+                            <Link to={show.url}>
+                                <div>{show.eventTitle}</div>
+                                <div>{formatDateTime(show.dateTime)}</div>
+                            </Link>                            
                         </Popup>
                     </Marker>
                     )

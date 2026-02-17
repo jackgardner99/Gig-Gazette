@@ -28,7 +28,7 @@ export const EditArtistShow = () => {
     }, [artistShow, venues])
 
     const handleShowUpdate = () => {
-        if (artistShow.eventTitle && artistShow.venueId && artistShow.dateTime) {
+        if (artistShow.eventTitle && artistShow.venueId && artistShow.dateTime && artistShow.url) {
             updateArtistShow(artistShow).then(navigate(`/managers/artist-shows/${artistShow.artistId}`))
         } else {
             window.alert("Please fill out all fields before updating show")
@@ -78,6 +78,13 @@ export const EditArtistShow = () => {
                     artistShowCopy.dateTime = e.target.value
                     setArtistShow(artistShowCopy)
                 }}/>
+            </div>
+            <div>
+                <input type="url" value={artistShow.url} onChange={(e) => {
+                    const artistShowCopy = {...artistShow}
+                    artistShowCopy.url = e.target.value
+                    setArtistShow(artistShowCopy)
+                }} />
             </div>
             <div>
                 <button onClick={handleShowUpdate}>Save Edits</button>              

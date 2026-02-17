@@ -10,6 +10,7 @@ export const CreateArtistShow = () => {
     const [venue, setVenue] = useState(0)
     const [showName, setShowName] = useState("")
     const [dateTime, setDateTime] = useState("")
+    const [url, setUrl] = useState("")
     const [artistShows, setArtistShows] = useState([])
     const [filteredArtistShowsByDate, setFilteredArtistShowsByDate] = useState([])
 
@@ -34,7 +35,8 @@ export const CreateArtistShow = () => {
                 artistId: artistId,
                 venueId: venue,
                 eventTitle: showName,
-                dateTime: dateTime
+                dateTime: dateTime,
+                url: url
             }
 
             createArtistShow(show).then(navigate(`/managers/artist-shows/${artistId}`))
@@ -74,6 +76,12 @@ export const CreateArtistShow = () => {
             <div>
                 <input type="datetime-local" value={dateTime} onChange={(e) => {
                     setDateTime(e.target.value)
+                }}/>
+            </div>
+            <div>
+                <h4>Show Link</h4>
+                <input type="url" value={url} onChange={(e) => {
+                    setUrl(e.target.value)
                 }}/>
             </div>
             <div>
