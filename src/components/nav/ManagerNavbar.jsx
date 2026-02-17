@@ -5,17 +5,16 @@ export const ManagerNavbar = () => {
 
     return (
         <ul>
-            <li><Link to={"/managers"}>Clients</Link></li>
-            <li><Link to={"/managers/map"}>Map</Link></li>
+            <Link to={"/managers"}><li className="nav-button">Clients</li></Link>
+            <Link to={"/managers/map"}><li className="nav-button">Map</li></Link>
             {localStorage.getItem("manager") ? 
-            (<li>
-                <Link to={"/login"} onClick={() => {
+            (<Link to={"/login"} onClick={() => {
                 localStorage.removeItem("manager")
                 navigate("/login", { replace: true })
-            }}
-                    >Logout
-                </Link>
-            </li>) : 
+            }}>
+            <li className="nav-button">
+                Logout                
+            </li></Link>) : 
             ("")
         }
             

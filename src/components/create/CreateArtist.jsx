@@ -47,10 +47,10 @@ export const CreateArtist = ({ manager }) => {
         <div>
             <div>
                 <Link to={'/managers'}>
-                    <button>Back to Clients</button>
+                    <button  className="cta-button">Back to Clients</button>
                 </Link>
             </div>
-            <div>
+            <div className="form-group">
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}
                         copyArtist.artistName = event.target.value
@@ -81,18 +81,18 @@ export const CreateArtist = ({ manager }) => {
                     setIsBand(true)
                 }}/> Yes
             </div>
-            <div>
+            <div className="form-group">
                 <input type="file" name="artist-image" accept=".jpg, .png, .jpeg" onChange={handleImageState}/>
             </div>
             <div>
                 {isBand === false ? (
-                    <button onClick={() => {
+                    <button className="submit-btn" onClick={() => {
                     handleArtistCreation()
                 }}>
                     Create Artist
                 </button>
                 ) : (
-                    <button onClick={() => {
+                    <button className="submit-btn" onClick={() => {
                     handleArtistCreation()
                 }}>
                     Create Band
