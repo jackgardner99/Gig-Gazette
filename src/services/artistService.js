@@ -13,7 +13,7 @@ export const createArtist = (artist) => {
 }
 
 export const getArtistById = (id) => {
-    return fetch(`http://localhost:3000/artists/${id}?_expand=genre`).then(res => res.json())
+    return fetch(`http://localhost:3000/artists/${id}`).then(res => res.json())
 }
 
 export const updateArtist = (artist) => {

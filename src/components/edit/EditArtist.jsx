@@ -9,20 +9,17 @@ export const EditArtist = () => {
 
     const [artist, setArtist] = useState({})
     const [genres, setGenres] = useState([])
-
-    // const getAndSetEdits = (artistId) => {
-        
-    // }
+    const [genre, setGenre] = useState({})
     
     useEffect(() => {
         getArtistById(artistId).then(setArtist)
         getGenres().then(setGenres)
     }, [artistId])
 
-    // useEffect(() => {
-    //     const genre = genres.filter((genre) => genre.id === artist.genreId)
-    //     setGenre(genre)
-    // }, [genres, artist])
+    useEffect(() => {
+        const genre = genres.filter((genre) => genre.id === artist.genreId)
+        setGenre(genre[0])
+    }, [genres, artist])
 
         const handleUpdateArtist = () => {
             if (artist.artistName && artist.genreId) {
@@ -59,7 +56,7 @@ export const EditArtist = () => {
                     artistCopy.genreId = parseInt(e.target.value)
                     setArtist(artistCopy)
                 }}>
-                    <option key={artist.genreId} defaultValue={artist.genreId} selected>{artist.genre?.name}</option>
+                    <option key={genre?.id} value={genre?.id} selected>{genre?.name}</option>
                     {genres.map(
                         (genre) => {
                             return <option value={genre.id} key={genre.id}>{genre.name}</option>
