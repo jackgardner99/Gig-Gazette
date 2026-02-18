@@ -49,47 +49,50 @@ export const CreateArtistShow = () => {
     }
 
     return (
-        <div className="showcase-main">
-            <div>
-                <Link to={`/managers/artist-shows/${artistId}`}>
-                    <button className="cta-button">Back to Shows</button>
-                </Link>
-            </div>
-            <h2>Create Show</h2>
-            <div className="form-group">
-                <h4>Show Name</h4>
-                <input type="text" value={showName} onChange={(e) => {
-                    setShowName(e.target.value)
-                }}/>
-            </div>
-            <div>
-                <h4>Show Location</h4>
-                <select onChange={(e) => {
-                    setVenue(parseInt(e.target.value))
-                }}>
-                    <option selected value={0}>Please select venue</option>
-                    {venues.map((venue) => {
-                        return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
-                    })}
-                </select>
-            </div>
-            <div className="form-group">
-                <input type="datetime-local" value={dateTime} onChange={(e) => {
-                    setDateTime(e.target.value)
-                }}/>
-            </div>
-            <div className="form-group">
-                <h4>Show Link</h4>
-                <input type="url" value={url} onChange={(e) => {
-                    setUrl(e.target.value)
-                }}/>
-            </div>
-            <div>
-                <button className="submit-btn" onClick={handleShowCreation}>Create Show</button>              
+        <div>
+            <div className="showcase-main">
+                <div>
+                    <Link to={`/managers/artist-shows/${artistId}`}>
+                        <button className="cta-button">Back to Shows</button>
+                    </Link>
+                </div>
+                <h2>Create Show</h2>
+                <div className="form-group">
+                    <h4>Show Name</h4>
+                    <input type="text" value={showName} onChange={(e) => {
+                        setShowName(e.target.value)
+                    }}/>
+                </div>
+                <div>
+                    <h4>Show Location</h4>
+                    <select onChange={(e) => {
+                        setVenue(parseInt(e.target.value))
+                    }}>
+                        <option selected value={0}>Please select venue</option>
+                        {venues.map((venue) => {
+                            return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
+                        })}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <input type="datetime-local" value={dateTime} onChange={(e) => {
+                        setDateTime(e.target.value)
+                    }}/>
+                </div>
+                <div className="form-group">
+                    <h4>Show Link</h4>
+                    <input type="url" value={url} onChange={(e) => {
+                        setUrl(e.target.value)
+                    }}/>
+                </div>
+                <div>
+                    <button className="submit-btn" onClick={handleShowCreation}>Create Show</button>              
+                </div>
             </div>
             <div>
                 <VenueShows artistShows={artistShows}/>
             </div>
         </div>
+        
     )
 }

@@ -39,28 +39,27 @@ export const Register = () => {
     }
 
     return (
-        <main>
+        <main className="showcase-main">
+            <h2>Welcome New Manager!</h2>
             <form>
-                <fieldset>
-                    <div>
+                    <div className="form-group">
                         <input type="text" onChange={(e) => {
                             const copy = {...manager}
                             copy.name = e.target.value
                             setManager(copy)
                         }} placeholder="Enter your name" required/>
                     </div>
-                </fieldset>
-                <fieldset>
-                    <div>
+
+                    <div className="form-group">
                         <input type="email" onChange={(e) => {
                             const copy = {...manager}
                             copy.email = e.target.value
                             setManager(copy)
                         }} placeholder="Enter your email" required/>
                     </div>
-                </fieldset>
+
                 <div>
-                    <button type="submit" onClick={handleRegister}>Register</button>
+                    <button className="submit-btn" type="submit" onClick={handleRegister}>Register</button>
                 </div>
             </form>
             <div>

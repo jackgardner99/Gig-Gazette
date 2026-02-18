@@ -38,37 +38,42 @@ export const ArtistShows = () => {
 
 
     return (
-        <div className="section">
-            <h1>
-                {artist.artistName} Shows
-            </h1>
+        <main className="about-content">
             <div>
-                <Link to={`/managers/artist-shows/create/${artistId}`}>
-                    <button className="cta-button">Create Show</button>            
-                </Link>
-            </div>
-            <div>
-                {artistShows.map((show) => {
-                    return <div key={show.id}>
-                        <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
-                            <div>
-                                {show.eventTitle}
-                            </div>
-                            <div>
-                                {show?.venue?.venueName}
-                            </div>
-                            <div>
-                                {formatDateTime(show.dateTime)}
-                            </div>
-                        </Link>
-                        <div>
-                            <button onClick={() => {
-                                handleShowDelete(show)
-                            }}>Delete Show</button>
+                <h2 className="about-header">
+                    {artist.artistName} Shows
+                </h2>
+                <div>
+                    <Link to={`/managers/artist-shows/create/${artistId}`}>
+                        <button className="cta-button">Create Show</button>            
+                    </Link>
+                </div>
+                <div className="coverflow-container">
+                    {artistShows.map((show) => {
+                        return <div key={show.id} className="showcase-badges">
+                                <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
+                                <div className="badge">
+                                    <div>
+                                        {show.eventTitle}
+                                    </div>
+                                    <div>
+                                        {show?.venue?.venueName}
+                                    </div>
+                                    <div>
+                                        {formatDateTime(show.dateTime)}
+                                    </div>
+                                </div>                              
+                                </Link>
+                                <div>
+                                    <button className="cta-button" onClick={() => {
+                                        handleShowDelete(show)
+                                    }}>Delete Show</button>
+                                </div>
                         </div>
-                    </div>
-                })}
+                    })}
+                </div>
             </div>
-        </div>
+        </main>
+        
     )
 }

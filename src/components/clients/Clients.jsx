@@ -21,56 +21,57 @@ export const Clients = ({ manager }) => {
     }
 
     return (
-        <div className="section">
+        <main>
             <h2 className="about-header">Clients</h2>
-            <div>
                 <div>
-                    <Link to={"/managers/create-artist"}>
-                        <button className="cta-button">
-                            Create Client
-                        </button>
-                    </Link>
+                    <div>
+                        <Link to={"/managers/create-artist"}>
+                            <button className="cta-button">
+                                Create Client
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+            <div className="coverflow-container">
+                <div>
+                    {artists.map((artist) => {
+                        return <>
+                            <div key={artist.id} className="showcase-display">
+                                <Link to={`/managers/artist-shows/${artist.id}`}>
+                                    <div className="badge">
+                                        <div>{artist.artistName}</div>
+                                        <div>
+                                            <img id="artist-image" src={artist.img} />
+                                        </div>
+
+                                    </div>
+                                </Link>
+                                <div>
+                                    <Link to={`/managers/edit-artist/${artist.id}`}>
+                                        {artist.isBand === false ? (
+                                            <button className="cta-button">Edit Artist</button>
+                                        ) : (
+                                            <button className="cta-button">Edit Band</button>
+                                        )}
+                                    </Link>
+                                </div>
+                                <div>
+                                    {artist.isBand === false ? (
+                                        <button  className="cta-button" onClick={() => {
+                                            handleDeleteArtist(artist)
+                                        }}>Delete Artist</button>
+                                    ) : (
+                                        <button  className="cta-button" onClick={() => {
+                                            handleDeleteArtist(artist)
+                                        }}>Delete Band</button>
+                                    )}
+                                </div>
+                            </div>
+                            
+                        </>
+                    })}
                 </div>
             </div>
-            <div>
-                {artists.map((artist) => {
-                    return <>
-                        <div key={artist.id} className="showcase-display">
-                            <Link to={`/managers/artist-shows/${artist.id}`}>
-                                <div className="badge">
-                                    <div>{artist.artistName}</div>
-                                    <div>{artist.genre.name}</div>
-                                    <div>
-                                        <img className="image-loading" src={artist.img} />
-                                    </div>
-
-                                </div>
-                            </Link>
-                            <div>
-                                <Link to={`/managers/edit-artist/${artist.id}`}>
-                                    {artist.isBand === false ? (
-                                        <button className="cta-button">Edit Artist</button>
-                                    ) : (
-                                        <button className="cta-button">Edit Band</button>
-                                    )}
-                                </Link>
-                            </div>
-                            <div>
-                                {artist.isBand === false ? (
-                                    <button  className="cta-button" onClick={() => {
-                                        handleDeleteArtist(artist)
-                                    }}>Delete Artist</button>
-                                ) : (
-                                    <button  className="cta-button" onClick={() => {
-                                        handleDeleteArtist(artist)
-                                    }}>Delete Band</button>
-                                )}
-                            </div>
-                        </div>
-                        
-                    </>
-                })}
-            </div>
-        </div>
+        </main>        
     )
 }
