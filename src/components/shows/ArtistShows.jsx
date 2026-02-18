@@ -44,7 +44,7 @@ export const ArtistShows = () => {
             </h1>
             <div>
                 <Link to={`/managers/artist-shows/create/${artistId}`}>
-                    <button>Create Show</button>            
+                    <button className="cta-button">Create Show</button>            
                 </Link>
             </div>
             <div>

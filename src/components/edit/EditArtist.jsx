@@ -43,8 +43,9 @@ export const EditArtist = () => {
 
 
     return (
-        <div className="section">
-            <div>
+        <div className="showcase-main">
+            <h2>{artist.artistName} Edits</h2>
+            <div className="form-group">
                 <input type="text" value={artist.artistName} onChange={(e) => {
                     const artistCopy = {...artist}
                     artistCopy.artistName = e.target.value
@@ -65,7 +66,7 @@ export const EditArtist = () => {
                     )}
                 </select>
             </div>
-            <div>
+            <div className="form-group">
                 <input type="file" onChange={(e) => {
                     const artistCopy = {...artist}
                     artistCopy.img = URL.createObjectURL(e.target.files[0])
@@ -73,7 +74,7 @@ export const EditArtist = () => {
                 }}/>
             </div>
             <div>
-                <button onClick={() => {
+                <button className="submit-btn" onClick={() => {
                     handleUpdateArtist()
                 }}>
                     Save Changes
