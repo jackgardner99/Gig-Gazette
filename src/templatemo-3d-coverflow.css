@@ -513,13 +513,16 @@ https://templatemo.com/tm-595-3d-coverflow
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             cursor: pointer;
-            text-decoration: none;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
             font-size: 30px;
             width: 800px;
+        }
+
+        .badge-text {
+            text-decoration: none;
         }
 
         .badge:hover {

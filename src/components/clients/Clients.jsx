@@ -39,7 +39,7 @@ export const Clients = ({ manager }) => {
                             <div key={artist.id} className="showcase-display">
                                 <Link to={`/managers/artist-shows/${artist.id}`}>
                                     <div className="badge">
-                                        <div>{artist.artistName}</div>
+                                        <div className="badge-text">{artist.artistName}</div>
                                         <div>
                                             <img id="artist-image" src={artist.img} />
                                         </div>
