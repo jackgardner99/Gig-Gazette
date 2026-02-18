@@ -49,7 +49,7 @@ export const CreateArtistShow = () => {
     }
 
     return (
-        <div>
+        <div className="section">
             <div>
                 <Link to={`/managers/artist-shows/${artistId}`}>
                     <button>Back to Shows</button>

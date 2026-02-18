@@ -28,11 +28,11 @@ https://templatemo.com/tm-595-3d-coverflow
 
         /* Sections */
         .section {
+            top: 100px;
             min-height: 100vh;
-            position: relative;
+            position: absolute;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: left;
         }
 
         #clients {
@@ -258,9 +258,15 @@ https://templatemo.com/tm-595-3d-coverflow
         }
 
         /* Navigation */
+        .navbar {
+            display: flex;
+            flex-direction: row;
+            gap: 200px;
+        }
+
         .nav-button {
             position: absolute;
-            top: 50%;
+            top: 45%;
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);

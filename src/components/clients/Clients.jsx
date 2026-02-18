@@ -21,7 +21,7 @@ export const Clients = ({ manager }) => {
     }
 
     return (
-        <div>
+        <div className="section">
             <div>
                 <div>
                     <Link to={"/managers/create-artist"}>

@@ -4,7 +4,8 @@ export const ManagerNavbar = () => {
     const navigate = useNavigate()
 
     return (
-        <ul>
+    <header className="header">
+        <ul className="navbar">
             <Link to={"/managers"}><li className="nav-button">Clients</li></Link>
             <Link to={"/managers/map"}><li className="nav-button">Map</li></Link>
             {localStorage.getItem("manager") ? 
@@ -19,5 +20,7 @@ export const ManagerNavbar = () => {
         }
             
         </ul>
+    </header>
+        
     )
 }

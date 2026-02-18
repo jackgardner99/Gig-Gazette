@@ -44,7 +44,7 @@ export const CreateArtist = ({ manager }) => {
 
     
     return (
-        <div>
+        <div className="section">
             <div>
                 <Link to={'/managers'}>
                     <button  className="cta-button">Back to Clients</button>

@@ -38,7 +38,7 @@ export const ArtistShows = () => {
 
 
     return (
-        <div>
+        <div className="section">
             <h1>
                 {artist.artistName} Shows
             </h1>

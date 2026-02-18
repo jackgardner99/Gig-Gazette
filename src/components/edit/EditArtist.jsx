@@ -43,7 +43,7 @@ export const EditArtist = () => {
 
 
     return (
-        <div>
+        <div className="section">
             <div>
                 <input type="text" value={artist.artistName} onChange={(e) => {
                     const artistCopy = {...artist}

@@ -49,7 +49,7 @@ export const EditArtistShow = () => {
     }
 
     return (
-        <div>
+        <div className="section">
             <h2>Edit Show</h2>
             <div>
                 <h4>Show Name</h4>
