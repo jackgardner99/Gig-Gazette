@@ -22,6 +22,7 @@ export const Clients = ({ manager }) => {
 
     return (
         <div className="section">
+            <h2 className="about-header">Clients</h2>
             <div>
                 <div>
                     <Link to={"/managers/create-artist"}>
@@ -40,7 +41,7 @@ export const Clients = ({ manager }) => {
                                     <div>{artist.artistName}</div>
                                     <div>{artist.genre.name}</div>
                                     <div>
-                                        <img id="artist-image" src={artist.img} />
+                                        <img className="image-loading" src={artist.img} />
                                     </div>
 
                                 </div>

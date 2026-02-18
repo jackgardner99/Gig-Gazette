@@ -44,12 +44,13 @@ export const CreateArtist = ({ manager }) => {
 
     
     return (
-        <div className="section">
+        <div className="showcase-main">
             <div>
                 <Link to={'/managers'}>
                     <button  className="cta-button">Back to Clients</button>
                 </Link>
             </div>
+            <h2>Create Artist</h2>
             <div className="form-group">
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}
