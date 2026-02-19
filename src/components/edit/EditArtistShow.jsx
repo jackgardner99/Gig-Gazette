@@ -59,7 +59,7 @@ export const EditArtistShow = () => {
                     setArtistShow(artistShowCopy)
                 }}/>
             </div>
-            <div>
+            <div className="form-group">
                 <h4>Show Location</h4>
                 <select onChange={(e) => {
                     const artistShowCopy = {...artistShow}

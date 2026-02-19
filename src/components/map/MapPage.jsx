@@ -21,22 +21,18 @@ export const MapPage = () => {
     }, [])
 
     useEffect(() => {
+        let shows = [...artistShows]
         if (genre > 0) {
-            const shows = artistShows.filter((show) => show.artist?.genreId === genre)
-            setFilteredShows(shows)
-        } else {
-            setFilteredShows(artistShows)
+            shows = shows.filter((show) => show.artist?.genreId === genre)
         }
-    }, [genre, artistShows])
 
-    useEffect(() => {
         if (search) {
-            const shows = artistShows.filter((show) => show.artist.artistName.toLowerCase().includes(search.toLowerCase()))
-            setFilteredShows(shows)
-        } else {
-            setFilteredShows(artistShows)
+            shows = shows.filter((show) => show.artist.artistName.toLowerCase().includes(search.toLowerCase()))
         }
-    }, [search, artistShows])
+
+        setFilteredShows(shows)
+    }, [artistShows, genre, search])
+
 
     const formatDateTime = (dateTimeString) => {
         if (!dateTimeString) return ""
@@ -56,8 +52,8 @@ export const MapPage = () => {
     return (
         <div className='section'>
             <div className='showcase-main'>
-                <h2 className=''>GIG Map</h2>
-                <div>
+                <h2 className='about-header-gig-map'>GIG Gazette</h2>
+                <div className='form-group'>
                     <select onChange={(e) => {
                         setGenre(parseInt(e.target.value))
                     }}>
@@ -67,7 +63,7 @@ export const MapPage = () => {
                         })}
                     </select>
                 </div>
-                <div>
+                <div className='form-group'>
                     <input type="text" placeholder="Search Artist" onChange={(e) => {
                         setSearch(e.target.value)
                     }} />

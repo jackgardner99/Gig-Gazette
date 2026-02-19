@@ -63,7 +63,7 @@ export const CreateArtistShow = () => {
                         setShowName(e.target.value)
                     }}/>
                 </div>
-                <div>
+                <div className="form-group">
                     <h4>Show Location</h4>
                     <select onChange={(e) => {
                         setVenue(parseInt(e.target.value))

@@ -52,7 +52,7 @@ export const EditArtist = () => {
                     setArtist(artistCopy)
                 }}/>
             </div>
-            <div>
+            <div className="form-group">
                 <select onChange={(e) => {
                     const artistCopy = {...artist}
                     artistCopy.genreId = parseInt(e.target.value)

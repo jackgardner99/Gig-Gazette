@@ -59,7 +59,7 @@ export const CreateArtist = ({ manager }) => {
                     }
                 }/>
             </div>
-            <div>
+            <div className="form-group">
                 <select onChange={(event) => {
                     setGenre({id: parseInt(event.target.value)})
                 }}>
