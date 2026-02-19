@@ -2,6 +2,20 @@
 
 export const VenueShows = ({ artistShows }) => {
     
+    const formatDateTime = (dateTimeString) => {
+        if (!dateTimeString) return ""
+        
+        const date = new Date(dateTimeString)
+        
+        return date.toLocaleString('en-US', {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        })
+    }
 
     return (
         <div className="venue-shows-container">
@@ -12,7 +26,7 @@ export const VenueShows = ({ artistShows }) => {
                         <div>
                             <div>{artistShow.eventTitle}</div>
                             <div>{artistShow.artist?.artistName}</div>
-                            <div>{artistShow.dateTime}</div>
+                            <div><strong>{formatDateTime(artistShow.dateTime)}</strong></div>
                         </div>
                     )
                 })}
