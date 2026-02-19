@@ -12,8 +12,8 @@ export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState(0)
-    const [bandShowOnly, setBandShowOnly] = useState(false)
-    const [artistShowOnly, setArtistShowOnly] = useState(false)
+    // const [bandShowOnly, setBandShowOnly] = useState(false)
+    // const [artistShowOnly, setArtistShowOnly] = useState(false)
     const [filteredShows, setFilteredShows] = useState([])
     const [search, setSearch] = useState("")
 
