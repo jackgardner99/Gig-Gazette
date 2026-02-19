@@ -4,8 +4,9 @@ export const VenueShows = ({ artistShows }) => {
     
 
     return (
-        <div className="">
-            <div>
+        <div className="venue-shows-container">
+            <div className="venue-shows">
+            <h2>Show Conflicts</h2>
                 {artistShows.map((artistShow) => {
                     return (
                         <div>
