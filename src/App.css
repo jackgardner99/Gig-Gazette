@@ -10,7 +10,7 @@
   border-radius: 50%;
 }
 
-.map-container {
-  width: 30%;
-  height: 500px;
+.leaflet-container {
+  left: 0;
+  top: 0;
 }

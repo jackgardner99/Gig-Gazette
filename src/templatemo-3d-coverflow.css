@@ -31,7 +31,6 @@ https://templatemo.com/tm-595-3d-coverflow
         /* Sections */
         .section {
             margin-top: 100px;
-            margin-left: -100px;
         }
 
         #clients {
@@ -457,6 +456,22 @@ https://templatemo.com/tm-595-3d-coverflow
             backdrop-filter: blur(10px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             top: 100px;
+        }
+
+        .showcase-main-map {
+            position: absolute;
+            width: 700px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            top: 80px;
+            left: 650px;
         }
 
         .showcase-logo {

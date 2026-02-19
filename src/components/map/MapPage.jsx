@@ -6,13 +6,37 @@ import { useMap } from 'react-leaflet/hooks'
 import { useEffect, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
 import { Link } from 'react-router-dom'
+import { getGenres } from '../../services/genreService'
 
 export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
+    const [genres, setGenres] = useState([])
+    const [genre, setGenre] = useState(0)
+    const [filteredShows, setFilteredShows] = useState([])
+    const [search, setSearch] = useState("")
 
     useEffect(() => {
         getArtistShows().then(setArtistShows)
+        getGenres().then(setGenres)
     }, [])
+
+    useEffect(() => {
+        if (genre > 0) {
+            const shows = artistShows.filter((show) => show.artist?.genreId === genre)
+            setFilteredShows(shows)
+        } else {
+            setFilteredShows(artistShows)
+        }
+    }, [genre, artistShows])
+
+    useEffect(() => {
+        if (search) {
+            const shows = artistShows.filter((show) => show.artist.artistName.toLowerCase().includes(search.toLowerCase()))
+            setFilteredShows(shows)
+        } else {
+            setFilteredShows(artistShows)
+        }
+    }, [search, artistShows])
 
     const formatDateTime = (dateTimeString) => {
         if (!dateTimeString) return ""
@@ -30,13 +54,32 @@ export const MapPage = () => {
     }
 
     return (
-        <div className='showcase-main'>
-            <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
+        <div className='section'>
+            <div className='showcase-main'>
+                <h2 className=''>GIG Map</h2>
+                <div>
+                    <select onChange={(e) => {
+                        setGenre(parseInt(e.target.value))
+                    }}>
+                        <option value="0" >Please select genre</option>
+                        {genres.map((genre) => {
+                            return <option value={genre.id} key={genre.id}>{genre.name}</option>
+                        })}
+                    </select>
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Artist" onChange={(e) => {
+                        setSearch(e.target.value)
+                    }} />
+                </div>
+            </div>
+            <div className='showcase-main-map'>
+                <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {artistShows.map((show) => {
+                {filteredShows.map((show) => {
                     return (
                     <Marker position={[show.venue?.lat, show.venue?.lng]} {...console.log(show.eventTitle)}>
                         <Popup>
@@ -50,6 +93,7 @@ export const MapPage = () => {
                 })}
                 
             </MapContainer>
+            </div>        
         </div>
         
     )
