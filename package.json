@@ -21,6 +21,7 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
+    "firebase": "^12.9.0",
     "leaflet": "^1.9.4",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",

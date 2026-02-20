@@ -30,7 +30,7 @@ export const CreateArtistShow = () => {
     }, [artistShows, dateTime])
 
     const handleShowCreation = () => {
-        if (venue && showName && dateTime && filteredArtistShowsByDate.length === 0) {
+        if (venue && showName && dateTime && filteredArtistShowsByDate.length === 0 && url) {
             const show = {
                 artistId: artistId,
                 venueId: venue,

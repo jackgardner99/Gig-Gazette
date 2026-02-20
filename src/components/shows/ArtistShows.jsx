@@ -7,6 +7,7 @@ export const ArtistShows = () => {
     const { artistId } = useParams()
     const [artistShows, setArtistShows] = useState([])
     const [artist, setArtist] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
 
     const getAndSetArtistShows = (artistId) => {
         getArtistShowsById(artistId).then(setArtistShows)
@@ -14,8 +15,19 @@ export const ArtistShows = () => {
     }
 
     useEffect(() => {
-        getAndSetArtistShows(artistId)
-    }, [artistId])
+            if(artistId) {
+                setIsLoading(true)
+    
+                Promise.all([
+                    getArtistShowsById(artistId),
+                    getArtistById(artistId)
+                ]).then(([artistShowsArray, artist]) => {
+                    setArtistShows(artistShowsArray)
+                    setArtist(artist)
+                    setIsLoading(false)
+                })
+            }
+        }, [artistId])
 
     const handleShowDelete = (show) => {
         deleteArtistShow(show).then(getAndSetArtistShows(artistId))
@@ -34,6 +46,16 @@ export const ArtistShows = () => {
             minute: '2-digit',
             hour12: true
         })
+    }
+
+    if (isLoading) {
+        return (
+            <div class="spinner-box">
+                <div class="circle-border">
+                    <div class="circle-core"></div>
+                </div>  
+            </div>
+        )
     }
 
 

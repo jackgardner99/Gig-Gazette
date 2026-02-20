@@ -55,12 +55,14 @@ export const Clients = ({ manager }) => {
                                 <Link to={`/managers/artist-shows/${artist.id}`}>
                                     <div className="badge">
                                         <div className="badge-text">{artist.artistName}</div>
-                                        <div>
-                                            <img className="artist-image" src={artist.img} {...console.log(artist.img)} loading="lazy" />
-                                        </div>
-
+                                        <div className="badge-text">{artist.genre?.name}</div>
                                     </div>
                                 </Link>
+                                {/* <Link to={`/managers/profile-picture/${artist.id}`}>
+                                    <div>
+                                        <img className="artist-image" src={artist.img} loading="lazy" />
+                                    </div>                               
+                                </Link> */}
                                 <div>
                                     <Link to={`/managers/edit-artist/${artist.id}`}>
                                         {artist.isBand === false ? (

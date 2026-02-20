@@ -8,19 +8,14 @@ export const CreateArtist = ({ manager }) => {
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState({})
     const [isBand, setIsBand] = useState(false)
-    const [img, setImg] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
         getGenres().then(setGenres)
     }, [])
 
-    const handleImageState = (event) => {
-        setImg(event.target.files[0])
-    }
-
     const handleArtistCreation = () => {
-        if (genre.id > 0 && newArtist.artistName && img) {
+        if (genre.id > 0 && newArtist.artistName) {
             // const formData = new FormData()
             // formData.append('profile_picture', img)
 
@@ -28,8 +23,7 @@ export const CreateArtist = ({ manager }) => {
                 artistName: newArtist.artistName,
                 managerId: manager.id,
                 genreId: genre.id,
-                isBand: isBand,
-                img: img
+                isBand: isBand
             }
 
             createArtist(artist).then(() => {
@@ -81,9 +75,6 @@ export const CreateArtist = ({ manager }) => {
                 <input type="radio" value={isBand} name="is-band" onClick={() => {
                     setIsBand(true)
                 }}/> Yes
-            </div>
-            <div className="form-group">
-                <input type="file" name="artist-image" accept=".jpg, .png, .jpeg" onChange={handleImageState}/>
             </div>
             <div>
                 {isBand === false ? (
