@@ -7,8 +7,10 @@ import { ArtistShows } from "../shows/ArtistShows"
 import { CreateArtistShow } from "../create/CreateArtistShow"
 import { EditArtistShow } from "../edit/EditArtistShow"
 import { MapPage } from "../map/MapPage"
+import { useEffect, useState } from "react"
 
 export const ManagerView = ({ manager }) => {
+
     return (
         <Routes>
             <Route path="/managers"

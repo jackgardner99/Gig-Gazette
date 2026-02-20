@@ -4,20 +4,35 @@ import { Link } from "react-router-dom"
 
 export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
-
-    const getAndSetClients = (managerId) => {
-        getArtists(managerId).then(setArtists)
-        
-    }
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        getAndSetClients(manager.id)
+        if(manager) {
+            setIsLoading(true)
+
+            Promise.all([
+                getArtists(manager.id)
+            ]).then(([artistsArray]) => {
+                setArtists(artistsArray)
+                setIsLoading(false)
+            })
+        }
     }, [manager])
 
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {
-            getAndSetClients(manager.id)
+            getArtists(manager.id).then(setArtists)
         })
+    }
+
+    if (isLoading) {
+        return (
+            <div class="spinner-box">
+                <div class="circle-border">
+                    <div class="circle-core"></div>
+                </div>  
+            </div>
+        )
     }
 
     return (
@@ -41,7 +56,7 @@ export const Clients = ({ manager }) => {
                                     <div className="badge">
                                         <div className="badge-text">{artist.artistName}</div>
                                         <div>
-                                            <img id="artist-image" src={artist.img} />
+                                            <img className="artist-image" src={artist.img} {...console.log(artist.img)} loading="lazy" />
                                         </div>
 
                                     </div>

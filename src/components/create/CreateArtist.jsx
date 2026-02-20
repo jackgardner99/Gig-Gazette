@@ -16,7 +16,7 @@ export const CreateArtist = ({ manager }) => {
     }, [])
 
     const handleImageState = (event) => {
-        setImg(URL.createObjectURL(event.target.files[0]))
+        setImg(event.target.files[0])
     }
 
     const handleArtistCreation = () => {
