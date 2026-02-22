@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
 import { Link } from 'react-router-dom'
 import { getGenres } from '../../services/genreService'
+import { HoverMarker } from './HoverMarker'
 
 export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
@@ -34,6 +35,8 @@ export const MapPage = () => {
 
         setFilteredShows(shows)
     }, [artistShows, genre, search])
+
+
 
 
     const formatDateTime = (dateTimeString) => {
@@ -79,14 +82,10 @@ export const MapPage = () => {
                 />
                 {filteredShows.map((show) => {
                     return (
-                    <Marker position={[show.venue?.lat, show.venue?.lng]} {...console.log(show.eventTitle)}>
-                        <Popup>
-                            <Link to={show.url}>
-                                <div>{show.eventTitle}</div>
-                                <div>{formatDateTime(show.dateTime)}</div>
-                            </Link>                            
-                        </Popup>
-                    </Marker>
+                    <HoverMarker position={[show.venue?.lat, show.venue?.lng]}>
+                        <div className='logo-text'>{show.eventTitle}</div>
+                        <div>{formatDateTime(show.dateTime)}</div>
+                    </HoverMarker>
                     )
                 })}
                 
