@@ -38,7 +38,6 @@ export const MapPage = () => {
 
 
 
-
     const formatDateTime = (dateTimeString) => {
         if (!dateTimeString) return ""
         
@@ -82,10 +81,12 @@ export const MapPage = () => {
                 />
                 {filteredShows.map((show) => {
                     return (
+                        <>
                     <HoverMarker position={[show.venue?.lat, show.venue?.lng]}>
                         <div className='logo-text'>{show.eventTitle}</div>
                         <div>{formatDateTime(show.dateTime)}</div>
                     </HoverMarker>
+                    </>
                     )
                 })}
                 
