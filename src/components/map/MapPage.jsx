@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
 import { Link } from 'react-router-dom'
 import { getGenres } from '../../services/genreService'
-import { HoverMarker } from './HoverMarker'
 
 export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
@@ -17,6 +16,7 @@ export const MapPage = () => {
     // const [artistShowOnly, setArtistShowOnly] = useState(false)
     const [filteredShows, setFilteredShows] = useState([])
     const [search, setSearch] = useState("")
+    const [eventIsVisible, setEventIsVisible] = useState(false)
 
     useEffect(() => {
         getArtistShows().then(setArtistShows)
@@ -53,6 +53,14 @@ export const MapPage = () => {
         })
     }
 
+    const handleEventVisible = () => {
+        setEventIsVisible(true)
+    }
+
+    const handleEventInvisible = () => {
+        setEventIsVisible(false)
+    }
+
     return (
         <div className='section'>
             <div className='showcase-main'>
@@ -82,10 +90,23 @@ export const MapPage = () => {
                 {filteredShows.map((show) => {
                     return (
                         <>
-                    <HoverMarker position={[show.venue?.lat, show.venue?.lng]}>
-                        <div className='logo-text'>{show.eventTitle}</div>
-                        <div>{formatDateTime(show.dateTime)}</div>
-                    </HoverMarker>
+                    <Marker position={[show.venue?.lat, show.venue?.lng]}>                    
+                                <div className={`popup-overlay ${eventIsVisible ? 'active' : ''}`}>
+                                    <div>
+                                        <h2>{show.eventTitle}</h2>
+                                        <div>{show.artist?.artistName}</div>
+                                        <div>{formatDateTime(show.dateTime)}</div>
+                                        <div>@{show.venue?.venueName}</div>
+                                        <button className='close-btn' onClick={handleEventInvisible}>X</button>
+                                    </div>
+                                    
+                                </div>
+                                <Popup>
+                                    <div className='logo-text'>{show.eventTitle}</div>
+                                    <div>{formatDateTime(show.dateTime)}</div>
+                                    <button onClick={handleEventVisible}>Event Details</button>
+                                </Popup>                                
+                </Marker>
                     </>
                     )
                 })}
