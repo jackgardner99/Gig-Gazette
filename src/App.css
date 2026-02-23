@@ -100,3 +100,9 @@
   border: none;
   background: none;
 }
+
+.map-blocker {
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+}
