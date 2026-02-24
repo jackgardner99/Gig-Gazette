@@ -46,6 +46,11 @@ export const Clients = ({ manager }) => {
                             </button>
                         </Link>
                     </div>
+                    <div>
+                        <Link to={"/managers/create-event"}>
+                            <button className="cta-button">Create Event</button>
+                        </Link>
+                    </div>
                 </div>
             <div className="coverflow-container">
                 <div>
@@ -54,7 +59,7 @@ export const Clients = ({ manager }) => {
                             <div key={artist.id} className="showcase-display">
                                 <Link to={`/managers/artist-shows/${artist.id}`}>
                                     <div className="badge">
-                                        <div className="badge-text">{artist.artistName}</div>
+                                        <div className="badge-text">{artist.name}</div>
                                         <div className="badge-text">{artist.genre?.name}</div>
                                     </div>
                                 </Link>

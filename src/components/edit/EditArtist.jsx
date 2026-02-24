@@ -22,10 +22,10 @@ export const EditArtist = () => {
     }, [genres, artist])
 
         const handleUpdateArtist = () => {
-            if (artist.artistName && artist.genreId) {
+            if (artist.name && artist.genreId) {
                 const updatedArtist = {
                     id: artist.id,
-                    artistName: artist.artistName,
+                    name: artist.name,
                     managerId: artist.managerId,
                     genreId: artist.genreId,
                     isBand: artist.isBand

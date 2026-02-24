@@ -8,6 +8,7 @@ import { CreateArtistShow } from "../create/CreateArtistShow"
 import { EditArtistShow } from "../edit/EditArtistShow"
 import { MapPage } from "../map/MapPage"
 import { ProfilePicture } from "../create/ProfilePicture"
+import { CreateEvent } from "../create/CreateEvent"
 
 export const ManagerView = ({ manager }) => {
 
@@ -21,6 +22,7 @@ export const ManagerView = ({ manager }) => {
             }>
                 <Route index element={<Clients manager={ manager }/>} />
                 <Route path='create-artist' element={<CreateArtist manager={ manager } />} />
+                <Route path='create-event' element={<CreateEvent manager={ manager } />} />
                 <Route path='profile-picture/:artistId' element={<ProfilePicture />} />
                 <Route path='edit-artist/:artistId' element={<EditArtist manager={ manager } />} />
                 <Route path='artist-shows'>

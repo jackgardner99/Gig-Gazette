@@ -33,7 +33,7 @@ export const MapPage = () => {
         }
 
         if (search) {
-            shows = shows.filter((show) => show.artist.artistName.toLowerCase().includes(search.toLowerCase()))
+            shows = shows.filter((show) => show.artist.name.toLowerCase().includes(search.toLowerCase()))
         }
 
         if(!eventIsVisible) {
@@ -100,7 +100,7 @@ export const MapPage = () => {
                                     {selectedShow && (
                                         <div>
                                         <h2>{selectedShow.eventTitle}</h2>
-                                        <div>{selectedShow.artist?.artistName}</div>
+                                        <div>{selectedShow.artist?.name}</div>
                                         <div>{formatDateTime(selectedShow.dateTime)}</div>
                                         <div>@{selectedShow.venue?.venueName}</div>
                                         <div>
