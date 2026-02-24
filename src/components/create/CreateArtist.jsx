@@ -8,6 +8,7 @@ export const CreateArtist = ({ manager }) => {
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState({})
     const [isBand, setIsBand] = useState(false)
+    const [isOpenMic, setIsOpenMic] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -15,18 +16,30 @@ export const CreateArtist = ({ manager }) => {
     }, [])
 
     const handleArtistCreation = () => {
-        if (genre.id > 0 && newArtist.artistName) {
+        if (genre.id > 0 && newArtist.artistName && !isOpenMic) {
             // const formData = new FormData()
             // formData.append('profile_picture', img)
 
             const artist = {
-                artistName: newArtist.artistName,
+                name: newArtist.name,
                 managerId: manager.id,
                 genreId: genre.id,
                 isBand: isBand
             }
 
             createArtist(artist).then(() => {
+                setNewArtist({ artistName: "" })
+                setGenre({})
+                navigate("/managers")
+            })
+        } else if (isOpenMic) {
+            const openMic = {
+                name: newArtist.name,
+                managerId: manager.id,
+                isOpenMic: isOpenMic
+            }
+
+            createArtist(openMic).then(() => {
                 setNewArtist({ artistName: "" })
                 setGenre({})
                 navigate("/managers")
@@ -44,7 +57,15 @@ export const CreateArtist = ({ manager }) => {
                     <button  className="cta-button">Back to Clients</button>
                 </Link>
             </div>
-            <h2>Create Artist</h2>
+            <h2>Create Client</h2>
+            <div>
+                <input type="radio" name="is-event" value={isOpenMic} onClick={() => {
+                    setIsOpenMic(true)
+                }} /> Open Mic
+                <input type="radio" name="is-event" value={isOpenMic} onClick={() => {
+                    setIsOpenMic(false)
+                }} defaultChecked/> Act
+            </div>
             <div className="form-group">
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}
