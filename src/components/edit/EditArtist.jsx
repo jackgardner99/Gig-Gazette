@@ -45,9 +45,9 @@ export const EditArtist = () => {
         <div className="showcase-main">
             <h2>{artist.artistName} Edits</h2>
             <div className="form-group">
-                <input type="text" value={artist.artistName} onChange={(e) => {
+                <input type="text" value={artist.name} onChange={(e) => {
                     const artistCopy = {...artist}
-                    artistCopy.artistName = e.target.value
+                    artistCopy.name = e.target.value
                     setArtist(artistCopy)
                 }}/>
             </div>

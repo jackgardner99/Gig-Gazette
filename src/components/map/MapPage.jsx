@@ -29,7 +29,7 @@ export const MapPage = () => {
     }, [])
 
     useEffect(() => {
-        let shows = [...artistShows, ...openMics]
+        let shows = [...artistShows]
         if (genre > 0) {
             shows = shows.filter((show) => show.artist?.genreId === genre)
         }
@@ -39,7 +39,7 @@ export const MapPage = () => {
         }
 
         if (displayOpenMics) {
-            shows = shows.filter((show) => !show.artistId)
+            shows = [...openMics]
         }
 
         if(!eventIsVisible) {
@@ -116,8 +116,7 @@ export const MapPage = () => {
                     )}
                 </div>
                 <div className='form-group'>
-                    Open Mics
-                    <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} />
+                    <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>
             <div className='showcase-main-map' ref={mapContainerRef}>

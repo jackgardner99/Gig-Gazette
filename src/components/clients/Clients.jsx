@@ -69,7 +69,7 @@ export const Clients = ({ manager }) => {
                     {artists.map((artist) => {
                         return <>
                             <div key={artist.id} className="showcase-display">
-                                <Link to={`/managers/artist-shows/${artist.id}`}>
+                                <Link to={`/managers/edit-artist/${artist.id}`}>
                                     <div className="badge">
                                         <div className="badge-text">{artist.name}</div>
                                         <div className="badge-text">{artist.genre?.name}</div>
@@ -81,11 +81,11 @@ export const Clients = ({ manager }) => {
                                     </div>                               
                                 </Link> */}
                                 <div>
-                                    <Link to={`/managers/edit-artist/${artist.id}`}>
+                                    <Link to={`/managers/artist-shows/${artist.id}`}>
                                         {artist.isBand === false ? (
-                                            <button className="cta-button">Edit Artist</button>
+                                            <button className="cta-button">Artist Shows</button>
                                         ) : (
-                                            <button className="cta-button">Edit Band</button>
+                                            <button className="cta-button">Band Shows</button>
                                         )}
                                     </Link>
                                 </div>
