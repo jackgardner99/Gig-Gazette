@@ -21,13 +21,13 @@ export const CreateEvent = ({ manager }) => {
 
     const handleSubmit = () => {
         const openMic = {
-            name: newOpenMic.eventTitle,
+            eventTitle: newOpenMic.eventTitle,
             venueId: venue,
             managerId: manager.id,
             isRecurring: isRecurring,
             dateTime: !isRecurring ? dateTime : null,
             recurrence: isRecurring ? recurrence : null,
-            time: isRecurring ? toLocaleString(time) : null,
+            time: isRecurring ? time : null,
             dayOfWeek: isRecurring ? dayOfWeek : null,
             dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
         }

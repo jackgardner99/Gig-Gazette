@@ -120,7 +120,7 @@ export const Clients = ({ manager }) => {
                                         </div>
         
                                     <div>
-                                        <button onClick={() => {
+                                        <button className="cta-button" onClick={() => {
                                             handleDeleteOpenMic(openMic)
                                         }}>Delete Open Mic</button>
                                     </div>

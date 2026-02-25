@@ -69,6 +69,15 @@ export const MapPage = () => {
         })
     }
 
+    const formatTime = (timeString) => {
+        if (!timeString) return '';
+
+        const [hours, minutes] = timeString.split(':').map(Number)
+        const period = hours >= 12 ? 'PM' : 'AM'
+        const h12 = hours % 12 || 12
+        return `${h12}:${String(minutes).padStart(2, '0')} ${period}`
+    }
+
     const handleEventVisible = (show) => {
         setEventIsVisible(true)
         setSelectedShow(show)
@@ -119,7 +128,7 @@ export const MapPage = () => {
                                             <div>{formatDateTime(selectedShow.dateTime)}</div>
                                         ) : (<>
                                             <div>{selectedShow.dayOfWeek}s</div>
-                                            <div>{selectedShow.time}</div>                                        
+                                            <div>{formatTime(selectedShow.time)}</div>                                        
                                         </>
                                         )}
                                         <div>@{selectedShow.venue?.venueName}</div>
