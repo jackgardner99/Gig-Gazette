@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
-import { getOpenMics } from "../../services/eventService"
+import { deleteOpenMic, getOpenMics } from "../../services/eventService"
 
 export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
@@ -26,6 +26,12 @@ export const Clients = ({ manager }) => {
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {
             getArtists(manager.id).then(setArtists)
+        })
+    }
+
+    const handleDeleteOpenMic = (openMic) => {
+        deleteOpenMic(openMic).then(() => {
+            getOpenMics(manager.id).then(setOpenMics)
         })
     }
 
@@ -58,6 +64,7 @@ export const Clients = ({ manager }) => {
                 </div>
                 {artists.length > 0 && 
                     <div className="coverflow-container">
+                        <h2>Artists</h2>
                 <div>
                     {artists.map((artist) => {
                         return <>
@@ -102,15 +109,21 @@ export const Clients = ({ manager }) => {
                 }
                 {openMics.length > 0 && 
                     <div className="coverflow-container">
+                        <h2>Open Mics</h2>
                         <div>
                             {openMics.map((openMic) => {
                                 return <>
                                     <Link>
                                         <div className="badge">
                                             <div>{openMic.name}</div>
-                                            
+                                            <div>{openMic.venue?.venueName}</div>
                                         </div>
                                     </Link>
+                                    <div>
+                                        <button onClick={() => {
+                                            handleDeleteOpenMic(openMic)
+                                        }}>Delete Open Mic</button>
+                                    </div>
                                 </>
                             })}
                         </div>

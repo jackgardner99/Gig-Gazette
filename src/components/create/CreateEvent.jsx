@@ -60,7 +60,7 @@ export const CreateEvent = ({ manager }) => {
                     <select onChange={(event) => {
                         setVenue(parseInt(event.target.value))
                     }}>
-                        <option value={0} key={0}>Please select genre</option>
+                        <option value={0} key={0}>Please select venue</option>
                         {venues.map(
                             (venue) => {
                                 return <option value={venue.id} key={venue.id}>
@@ -81,12 +81,12 @@ export const CreateEvent = ({ manager }) => {
                 
                 <div className='form-group'>
                     <label>
+                        Recurring Event
                         <input 
                         type="checkbox" 
                         checked={isRecurring}
                         onChange={(e) => setIsRecurring(e.target.checked)} 
                         />
-                        Recurring Event
                     </label>
                 </div>
 
@@ -115,6 +115,7 @@ export const CreateEvent = ({ manager }) => {
                                 <option value='3rd'>3rd</option>
                                 <option value='4th'>4th</option>
                             </select>
+                            of every Month
                         </label>
                     }
 

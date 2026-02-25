@@ -11,3 +11,12 @@ export const createOpenMic = (openMic) => {
 export const getOpenMics = (managerId) => {
     return fetch(`http://localhost:3000/openMics?managerId=${managerId}&_expand=venue`).then((res) => res.json())
 }
+
+export const deleteOpenMic = (openMic) => {
+    return fetch(`http://localhost:3000/openMics/${openMic.id}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
