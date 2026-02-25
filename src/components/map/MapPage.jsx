@@ -8,13 +8,14 @@ import { getArtistShows } from '../../services/artistShowsService'
 import { Link } from 'react-router-dom'
 import { getGenres } from '../../services/genreService'
 import { createPortal } from 'react-dom'
+import { getOpenMics } from '../../services/eventService'
 
 export const MapPage = () => {
     const [artistShows, setArtistShows] = useState([])
+    const [openMics, setOpenMics] = useState([])
+    const [displayOpenMics, setDisplayOpenMics] = useState(false)
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState(0)
-    // const [bandShowOnly, setBandShowOnly] = useState(false)
-    // const [artistShowOnly, setArtistShowOnly] = useState(false)
     const [filteredShows, setFilteredShows] = useState([])
     const [search, setSearch] = useState("")
     const [eventIsVisible, setEventIsVisible] = useState(false)
@@ -24,16 +25,21 @@ export const MapPage = () => {
     useEffect(() => {
         getArtistShows().then(setArtistShows)
         getGenres().then(setGenres)
+        getOpenMics().then(setOpenMics)
     }, [])
 
     useEffect(() => {
-        let shows = [...artistShows]
+        let shows = [...artistShows, ...openMics]
         if (genre > 0) {
             shows = shows.filter((show) => show.artist?.genreId === genre)
         }
 
         if (search) {
             shows = shows.filter((show) => show.artist.name.toLowerCase().includes(search.toLowerCase()))
+        }
+
+        if (displayOpenMics) {
+            shows = shows.filter((show) => !show.artistId)
         }
 
         if(!eventIsVisible) {
@@ -44,7 +50,7 @@ export const MapPage = () => {
             return () => clearTimeout(timer)
         }
 
-    }, [artistShows, genre, search, eventIsVisible])
+    }, [artistShows, genre, search, eventIsVisible, openMics, displayOpenMics])
 
 
 
@@ -91,6 +97,10 @@ export const MapPage = () => {
                         setSearch(e.target.value)
                     }} />
                 </div>
+                <div className='form-group'>
+                    Open Mics
+                    <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} />
+                </div>
             </div>
             <div className='showcase-main-map' ref={mapContainerRef}>
                 {eventIsVisible && <div className='map-blocker' onClick={handleEventInvisible} />}
@@ -100,12 +110,26 @@ export const MapPage = () => {
                                     {selectedShow && (
                                         <div>
                                         <h2>{selectedShow.eventTitle}</h2>
-                                        <div>{selectedShow.artist?.name}</div>
-                                        <div>{formatDateTime(selectedShow.dateTime)}</div>
+                                        {selectedShow.artistId ? (
+                                            <div>{selectedShow.artist?.name}</div>
+                                        ) : (
+                                            ""
+                                        )}
+                                        {selectedShow.dateTime ? (
+                                            <div>{formatDateTime(selectedShow.dateTime)}</div>
+                                        ) : (<>
+                                            <div>{selectedShow.dayOfWeek}s</div>
+                                            <div>{selectedShow.time}</div>                                        
+                                        </>
+                                        )}
                                         <div>@{selectedShow.venue?.venueName}</div>
-                                        <div>
-                                            <button>Get Tickets</button>
-                                        </div>
+                                        {selectedShow.artistId ? (
+                                            <div>
+                                                <button>Get Tickets</button>
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
                                         <button className='close-btn' onClick={handleEventInvisible}>X</button>
                                     </div>  
                                     )}

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { createOpenMic } from "../../services/eventService"
 
 export const CreateEvent = ({ manager }) => {
-    const [newOpenMic, setNewOpenMic] = useState({ name: "" })
+    const [newOpenMic, setNewOpenMic] = useState({ eventTitle: "" })
     const [venues, setVenues] = useState([])
     const [venue, setVenue] = useState(0)
     const [dateTime, setDateTime] = useState('')
@@ -21,13 +21,13 @@ export const CreateEvent = ({ manager }) => {
 
     const handleSubmit = () => {
         const openMic = {
-            name: newOpenMic.name,
-            venue: venue,
+            name: newOpenMic.eventTitle,
+            venueId: venue,
             managerId: manager.id,
             isRecurring: isRecurring,
             dateTime: !isRecurring ? dateTime : null,
             recurrence: isRecurring ? recurrence : null,
-            time: isRecurring ? time : null,
+            time: isRecurring ? toLocaleString(time) : null,
             dayOfWeek: isRecurring ? dayOfWeek : null,
             dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
         }
@@ -51,7 +51,7 @@ export const CreateEvent = ({ manager }) => {
                 <div className="form-group">
                     <input type="text" placeholder="Open Mic Name" onChange={(event) => {
                             const copy = {...newOpenMic}
-                            copy.name = event.target.value
+                            copy.eventTitle = event.target.value
                             setNewOpenMic(copy)
                         }
                     }/>

@@ -8,8 +8,12 @@ export const createOpenMic = (openMic) => {
     })
 }
 
-export const getOpenMics = (managerId) => {
-    return fetch(`http://localhost:3000/openMics?managerId=${managerId}&_expand=venue`).then((res) => res.json())
+export const getOpenMicsByManagerId = (managerId) => {
+    return fetch(`http://localhost:3000/openMics?_expand=venue&managerId=${managerId}`).then((res) => res.json())
+}
+
+export const getOpenMics = () => {
+    return fetch(`http://localhost:3000/openMics?_expand=venue`).then((res) => res.json())
 }
 
 export const deleteOpenMic = (openMic) => {

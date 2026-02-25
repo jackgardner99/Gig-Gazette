@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
-import { deleteOpenMic, getOpenMics } from "../../services/eventService"
+import { deleteOpenMic, getOpenMicsByManagerId } from "../../services/eventService"
 
 export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
@@ -14,7 +14,7 @@ export const Clients = ({ manager }) => {
 
             Promise.all([
                 getArtists(manager.id),
-                getOpenMics(manager.id)
+                getOpenMicsByManagerId(manager.id)
             ]).then(([artistsArray, openMicsArray]) => {
                 setArtists(artistsArray)
                 setOpenMics(openMicsArray)
@@ -31,7 +31,7 @@ export const Clients = ({ manager }) => {
 
     const handleDeleteOpenMic = (openMic) => {
         deleteOpenMic(openMic).then(() => {
-            getOpenMics(manager.id).then(setOpenMics)
+            getOpenMicsByManagerId(manager.id).then(setOpenMics)
         })
     }
 
@@ -113,12 +113,12 @@ export const Clients = ({ manager }) => {
                         <div>
                             {openMics.map((openMic) => {
                                 return <>
-                                    <Link>
+                                    
                                         <div className="badge">
-                                            <div>{openMic.name}</div>
-                                            <div>{openMic.venue?.venueName}</div>
+                                            <div className="badge-text">{openMic.eventTitle}</div>
+                                            <div className="badge-text">{openMic.venue?.venueName}</div>
                                         </div>
-                                    </Link>
+        
                                     <div>
                                         <button onClick={() => {
                                             handleDeleteOpenMic(openMic)
