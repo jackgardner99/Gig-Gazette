@@ -48,7 +48,7 @@ export const Clients = ({ manager }) => {
                     </div>
                     <div>
                         <Link to={"/managers/create-event"}>
-                            <button className="cta-button">Create Event</button>
+                            <button className="cta-button">Create Open Mic</button>
                         </Link>
                     </div>
                 </div>

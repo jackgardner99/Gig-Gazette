@@ -7,14 +7,30 @@ export const CreateEvent = ({ manager }) => {
     const [venues, setVenues] = useState([])
     const [venue, setVenue] = useState(0)
     const [dateTime, setDateTime] = useState('')
+    const [time, setTime] = useState('')
+    const [dayOfWeek, setDayOfWeek] = useState('Monday')
     const [isRecurring, setIsRecurring] = useState(false)
     const [recurrence, setRecurrence] = useState('weekly')
-    const [recurrenceEndDate, setRecurrenceEndDate] = useState('')
+    const [dayOfMonth, setDayOfMonth] = useState('1st')
 
     useEffect(() => {
         getVenues().then(setVenues)
     }, [manager])
 
+    const handleSubmit = () => {
+        const openMic = {
+            name: newOpenMic.name,
+            venue: venue,
+            isRecurring: isRecurring,
+            dateTime: !isRecurring ? dateTime : null,
+            recurrence: isRecurring ? recurrence : null,
+            time: isRecurring ? time : null,
+            dayOfWeek: isRecurring ? dayOfWeek : null,
+            dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
+        }
+
+
+    }
 
 
     return (
@@ -47,13 +63,15 @@ export const CreateEvent = ({ manager }) => {
                         )}
                     </select>
                 </div>
+                {!isRecurring && 
                 <div className="form-group">
                     <label>
                         <input type="datetime-local" onChange={(e) => {
                             setDateTime(e.target.value)
                         }} />
                     </label>
-                </div>
+                </div>}
+                
                 <div className='form-group'>
                     <label>
                         <input 
@@ -72,16 +90,32 @@ export const CreateEvent = ({ manager }) => {
                         <option value="monthly">Monthly</option>
                     </select>
 
-                    <input 
-                    type="date" 
-                    value={recurrenceEndDate}
-                    onChange={(e) => setRecurrenceEndDate(e.target.value)}
-                    placeholder="End date"
-                    />
+                    <select onChange={(e) => setDayOfWeek(e.target.value)}>
+                        <option value='Monday'>Monday</option>
+                        <option value='Tuesday'>Tuesday</option>
+                        <option value='Wednesday'>Wednesday</option>
+                        <option value='Thursday'>Thursday</option>
+                        <option value='Friday'>Friday</option>
+                        <option value='Saturday'>Saturday</option>
+                        <option value='Sunday'>Sunday</option>
+                    </select>
+
+                    {recurrence === 'monthly' && 
+                        <label>
+                            <select onChange={(e) => setDayOfMonth(e.target.value)}>
+                                <option value='1st'>1st</option>
+                                <option value='2nd'>2nd</option>
+                                <option value='3rd'>3rd</option>
+                                <option value='4th'>4th</option>
+                            </select>
+                        </label>
+                    }
+
+                    <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                 </div>
                 )}
                 <div>
-                    <button className="submit-btn">Create Event</button>
+                    <button className="submit-btn" onClick={handleSubmit}>Create Event</button>
                 </div>
             </div>
         )
