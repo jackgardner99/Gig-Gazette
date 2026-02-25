@@ -50,9 +50,7 @@ export const MapPage = () => {
             return () => clearTimeout(timer)
         }
 
-    }, [artistShows, genre, search, eventIsVisible, openMics, displayOpenMics])
-
-
+    }, [artistShows, genre, search, eventIsVisible, displayOpenMics, openMics])
 
     const formatDateTime = (dateTimeString) => {
         if (!dateTimeString) return ""
@@ -92,7 +90,12 @@ export const MapPage = () => {
             <div className='showcase-main'>
                 <h2 className='about-header-gig-map'>GIG Gazette</h2>
                 <div className='form-group'>
-                    <select onChange={(e) => {
+                    {displayOpenMics ? (
+                        <select disabled>
+                            <option>Please Select Genre</option>
+                        </select>
+                    ) : (
+                        <select onChange={(e) => {
                         setGenre(parseInt(e.target.value))
                     }}>
                         <option value="0" >Please select genre</option>
@@ -100,11 +103,17 @@ export const MapPage = () => {
                             return <option value={genre.id} key={genre.id}>{genre.name}</option>
                         })}
                     </select>
+                    )}
+                    
                 </div>
                 <div className='form-group'>
-                    <input type="text" placeholder="Search Artist" onChange={(e) => {
+                    {displayOpenMics ? (
+                        <input disabled placeholder='Search Artist' />
+                    ) : (
+                        <input type="text" placeholder="Search Artist" onChange={(e) => {
                         setSearch(e.target.value)
                     }} />
+                    )}
                 </div>
                 <div className='form-group'>
                     Open Mics
