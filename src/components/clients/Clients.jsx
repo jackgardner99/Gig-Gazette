@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { deleteArtist, getArtists } from "../../services/artistService"
 import { Link } from "react-router-dom"
+import { getOpenMics } from "../../services/eventService"
 
 export const Clients = ({ manager }) => {
     const [artists, setArtists] = useState([])
+    const [openMics, setOpenMics] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -11,9 +13,11 @@ export const Clients = ({ manager }) => {
             setIsLoading(true)
 
             Promise.all([
-                getArtists(manager.id)
-            ]).then(([artistsArray]) => {
+                getArtists(manager.id),
+                getOpenMics(manager.id)
+            ]).then(([artistsArray, openMicsArray]) => {
                 setArtists(artistsArray)
+                setOpenMics(openMicsArray)
                 setIsLoading(false)
             })
         }

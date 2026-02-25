@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getVenues } from "../../services/venuesService"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { createOpenMic } from "../../services/eventService"
 
 export const CreateEvent = ({ manager }) => {
     const [newOpenMic, setNewOpenMic] = useState({ name: "" })
@@ -12,6 +13,7 @@ export const CreateEvent = ({ manager }) => {
     const [isRecurring, setIsRecurring] = useState(false)
     const [recurrence, setRecurrence] = useState('weekly')
     const [dayOfMonth, setDayOfMonth] = useState('1st')
+    const navigate = useNavigate()
 
     useEffect(() => {
         getVenues().then(setVenues)
@@ -21,6 +23,7 @@ export const CreateEvent = ({ manager }) => {
         const openMic = {
             name: newOpenMic.name,
             venue: venue,
+            managerId: manager.id,
             isRecurring: isRecurring,
             dateTime: !isRecurring ? dateTime : null,
             recurrence: isRecurring ? recurrence : null,
@@ -29,7 +32,11 @@ export const CreateEvent = ({ manager }) => {
             dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
         }
 
-
+        createOpenMic(openMic).then(() => {
+            setNewOpenMic({ name: "" })
+            setVenue(0)
+            navigate('/managers')
+        })
     }
 
 

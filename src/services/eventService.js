@@ -1,7 +1,3 @@
-export const createRecurringOpenMic = (dates) => {
-    
-}
-
 export const createOpenMic = (openMic) => {
     return fetch("http://localhost:3000/openMics", {
         method: "POST",
@@ -10,4 +6,8 @@ export const createOpenMic = (openMic) => {
         },
         body: JSON.stringify(openMic)
     })
+}
+
+export const getOpenMics = (managerId) => {
+    return fetch(`http://localhost:3000/openMics?managerId=${managerId}`).then((res) => res.json())
 }
