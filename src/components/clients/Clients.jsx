@@ -56,7 +56,8 @@ export const Clients = ({ manager }) => {
                         </Link>
                     </div>
                 </div>
-            <div className="coverflow-container">
+                {artists.length > 0 && 
+                    <div className="coverflow-container">
                 <div>
                     {artists.map((artist) => {
                         return <>
@@ -98,6 +99,23 @@ export const Clients = ({ manager }) => {
                     })}
                 </div>
             </div>
+                }
+                {openMics.length > 0 && 
+                    <div className="coverflow-container">
+                        <div>
+                            {openMics.map((openMic) => {
+                                return <>
+                                    <Link>
+                                        <div className="badge">
+                                            <div>{openMic.name}</div>
+                                            
+                                        </div>
+                                    </Link>
+                                </>
+                            })}
+                        </div>
+                    </div>
+                }
         </main>        
     )
 }
