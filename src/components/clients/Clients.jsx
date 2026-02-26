@@ -113,12 +113,12 @@ export const Clients = ({ manager }) => {
                         <div>
                             {openMics.map((openMic) => {
                                 return <>
-                                    
+                                    <Link to={`/managers/edit-openMic/${openMic.id}`}>
                                         <div className="badge">
                                             <div className="badge-text">{openMic.eventTitle}</div>
                                             <div className="badge-text">{openMic.venue?.venueName}</div>
                                         </div>
-        
+                                    </Link>
                                     <div>
                                         <button className="cta-button" onClick={() => {
                                             handleDeleteOpenMic(openMic)
