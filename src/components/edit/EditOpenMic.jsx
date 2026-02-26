@@ -105,10 +105,8 @@ export const EditOpenMic = () => {
                     </label>
                 </div>}
                 
-                <div className='form-group'>
-                    <label>
-                        Recurring Event
-                        <input 
+                <div>
+                    <input 
                         type="checkbox" 
                         checked={openMic.isRecurring}
                         onChange={(e) => {
@@ -116,8 +114,7 @@ export const EditOpenMic = () => {
                             copy.isRecurring = e.target.checked
                             setOpenMic(copy)
                         }} 
-                        />
-                    </label>
+                    /> Recurring Event
                 </div>
 
                 {openMic.isRecurring && (
@@ -127,8 +124,13 @@ export const EditOpenMic = () => {
                         copy.recurrence = e.target.value
                         setOpenMic(copy)
                     }}>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
+                        {openMic.recurrence ? (
+                            <option value={openMic.recurrence}>{openMic.recurrence}</option>
+                        ) : (
+                            <option>Please select recurrence</option>
+                        )}
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
                     </select>
 
                     <select onChange={(e) => {
@@ -136,6 +138,11 @@ export const EditOpenMic = () => {
                         copy.dayOfWeek = e.target.value
                         setOpenMic(copy)
                     }}>
+                        {openMic.dayOfWeek ? (
+                            <option value={openMic.dayOfWeek}>{openMic.dayOfWeek}</option>
+                        ) : (
+                            <option>Please select a day</option>
+                        )}
                         <option value='Monday'>Monday</option>
                         <option value='Tuesday'>Tuesday</option>
                         <option value='Wednesday'>Wednesday</option>
@@ -145,13 +152,18 @@ export const EditOpenMic = () => {
                         <option value='Sunday'>Sunday</option>
                     </select>
 
-                    {openMic.recurrence === 'monthly' && 
+                    {openMic.recurrence === 'Monthly' && 
                         <label>
                             <select onChange={(e) => {
                                 const copy = {...openMic}
                                 copy.dayOfMonth = e.target.value
                                 setOpenMic(copy)
                             }}>
+                                {openMic.dayOfMonth ? (
+                                    <option value={openMic.dayOfMonth}>{openMic.dayOfMonth}</option>
+                                ) : (
+                                    <option>Please select day of month</option>
+                                )}
                                 <option value='1st'>1st</option>
                                 <option value='2nd'>2nd</option>
                                 <option value='3rd'>3rd</option>

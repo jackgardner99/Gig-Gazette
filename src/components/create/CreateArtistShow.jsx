@@ -13,6 +13,7 @@ export const CreateArtistShow = () => {
     const [url, setUrl] = useState("")
     const [artistShows, setArtistShows] = useState([])
     const [filteredArtistShowsByDate, setFilteredArtistShowsByDate] = useState([])
+    const [intimate, setIntimate] = useState(false)
 
     const navigate = useNavigate()
 
@@ -36,6 +37,7 @@ export const CreateArtistShow = () => {
                 venueId: venue,
                 eventTitle: showName,
                 dateTime: dateTime,
+                intimate: intimate,
                 url: url
             }
 
@@ -73,6 +75,11 @@ export const CreateArtistShow = () => {
                             return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
                         })}
                     </select>
+                </div>
+                <div>
+                    <input type="checkbox" checked={intimate} onChange={(e) => {
+                        setIntimate(e.target.checked)
+                    }} /> Intimate Set
                 </div>
                 <div className="form-group">
                     <input type="datetime-local" value={dateTime} onChange={(e) => {

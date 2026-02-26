@@ -20,6 +20,7 @@ export const MapPage = () => {
     const [search, setSearch] = useState("")
     const [eventIsVisible, setEventIsVisible] = useState(false)
     const [selectedShow, setSelectedShow] = useState(null)
+    const [intimate, setIntimate] = useState(false)
     const mapContainerRef = useRef(null)
 
     useEffect(() => {
@@ -32,6 +33,10 @@ export const MapPage = () => {
         let shows = [...artistShows]
         if (genre > 0) {
             shows = shows.filter((show) => show.artist?.genreId === genre)
+        }
+
+        if (intimate) {
+            shows = shows.filter((show) => show.intimate === true)
         }
 
         if (search) {
@@ -50,7 +55,7 @@ export const MapPage = () => {
             return () => clearTimeout(timer)
         }
 
-    }, [artistShows, genre, search, eventIsVisible, displayOpenMics, openMics])
+    }, [artistShows, genre, search, eventIsVisible, displayOpenMics, openMics, intimate])
 
     const formatDateTime = (dateTimeString) => {
         if (!dateTimeString) return ""
@@ -106,6 +111,15 @@ export const MapPage = () => {
                     )}
                     
                 </div>
+                <div>
+                    {displayOpenMics ? (
+                        <input type='checkbox' disabled />
+                    ) : (
+                        <input type='checkbox' checked={intimate} onChange={(e) => {
+                            setIntimate(e.target.checked)
+                        }}/>
+                    )} Intimate Set
+                </div>
                 <div className='form-group'>
                     {displayOpenMics ? (
                         <input disabled placeholder='Search Artist' />
@@ -115,7 +129,7 @@ export const MapPage = () => {
                     }} />
                     )}
                 </div>
-                <div className='form-group'>
+                <div>
                     <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>

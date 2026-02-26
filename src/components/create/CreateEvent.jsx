@@ -79,7 +79,7 @@ export const CreateEvent = ({ manager }) => {
                     </label>
                 </div>}
                 
-                <div className='form-group'>
+                <div>
                     <label>
                         Recurring Event
                         <input 
@@ -93,11 +93,13 @@ export const CreateEvent = ({ manager }) => {
                 {isRecurring && (
                 <div className='form-group'>
                     <select value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
+                        <option>Please select recurrence</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
                     </select>
 
                     <select onChange={(e) => setDayOfWeek(e.target.value)}>
+                        <option>Please select a day</option>
                         <option value='Monday'>Monday</option>
                         <option value='Tuesday'>Tuesday</option>
                         <option value='Wednesday'>Wednesday</option>
@@ -110,6 +112,7 @@ export const CreateEvent = ({ manager }) => {
                     {recurrence === 'monthly' && 
                         <label>
                             <select onChange={(e) => setDayOfMonth(e.target.value)}>
+                                <option>Please select day of month</option>
                                 <option value='1st'>1st</option>
                                 <option value='2nd'>2nd</option>
                                 <option value='3rd'>3rd</option>
