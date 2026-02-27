@@ -94,7 +94,18 @@ export const MapPage = () => {
         <div className='map-page-container'>
             <div className='gig-filter-container'>
                 <h2>The Gig Map</h2>
-                <div>
+                <div className='filter-group'>
+                    <p>Search</p>
+                    {displayOpenMics ? (
+                        <input disabled placeholder='Search Artist' />
+                    ) : (
+                        <input type="text" placeholder="Search Artist" onChange={(e) => {
+                        setSearch(e.target.value)
+                    }} />
+                    )}
+                </div>
+                <div className='filter-group'>
+                    <p>Genre</p>
                     {displayOpenMics ? (
                         <select disabled>
                             <option>Please Select Genre</option>
@@ -113,20 +124,14 @@ export const MapPage = () => {
                 </div>
                 <div>
                     {displayOpenMics ? (
-                        <input type='checkbox' disabled />
-                    ) : (
+                        <>
+                            <input type='checkbox' disabled /><p>Intimate Set</p>
+                        </>
+                    ) : (<>
                         <input type='checkbox' checked={intimate} onChange={(e) => {
                             setIntimate(e.target.checked)
-                        }}/>
-                    )} Intimate Set
-                </div>
-                <div>
-                    {displayOpenMics ? (
-                        <input disabled placeholder='Search Artist' />
-                    ) : (
-                        <input type="text" placeholder="Search Artist" onChange={(e) => {
-                        setSearch(e.target.value)
-                    }} />
+                        }}/> Intimate Set
+                    </>   
                     )}
                 </div>
                 <div>

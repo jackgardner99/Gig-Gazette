@@ -4,7 +4,8 @@ a{text-decoration:none;color:#fff}
 #header{background:linear-gradient(black 0%, #5a82a4 100%);width:100%;position:relative}
 #header:after{content:"";clear:both;display:block}
 .search{float:right;padding:30px}
-input{border:none;padding:10px;border-radius:20px}
+.filter-group input,
+.filter-group select{border:none;padding:10px;border-radius:20px;width:100%;}
 .logo{background-color: #847776;
     background-image: linear-gradient(to top, #ff0084 0%, #ffff00 100%);
     background-size: 100%;
