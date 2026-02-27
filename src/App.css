@@ -133,6 +133,7 @@
 .clients-section {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 h1 {
@@ -157,7 +158,20 @@ h1 {
   background-color: rgb(46, 46, 97);
 }
 
-.create-btn:hover {
+.button {
+  width: 150px;
+  height: 30px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  background-color: rgb(46, 46, 97);
+}
+
+.back-button-container {
+  padding-top: 20px;
+}
+
+.create-btn:hover, 
+.button:hover {
   background-color: rgb(255, 98, 0);
   transition: all 0.3s ease;
 }
@@ -257,4 +271,95 @@ h2 {
   padding-left: 10px;
   text-transform: none;
   font-style: italic;
+}
+
+.create-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 20px;
+  width: 300px;
+}
+
+.create-container h2 {
+  text-align: left;
+  padding-top: 20px;
+}
+
+.radio-options {
+  display: flex;
+  gap: 10px;
+}
+
+.submit-btn {
+  font-size: 1rem;
+  position: relative;
+  width: 80%;
+  height: 50px;
+  border-radius: 4px;
+  background-color: rgb(59, 45, 125);
+  text-decoration: none;
+}
+
+.submit-btn-open-mic {
+  font-size: 1rem;
+  position: relative;
+  width: 20%;
+  height: 50px;
+  border-radius: 4px;
+  background-color: rgb(59, 45, 125);
+  text-decoration: none;
+}
+
+.submit-btn a,
+.submit-btn-open-mic a {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-decoration: none;
+}
+
+.submit-btn:after,
+.submit-btn-open-mic:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #ff5e00;
+  transition: all 0.35s;
+  border-radius: 4px;
+}
+
+.submit-btn:hover,
+.submit-btn-open-mic:hover {
+  color: #fff;
+}
+
+.submit-btn:hover:after,
+.submit-btn-open-mic:hover:after {
+  width: 100%;
+}
+
+.create-container-open-mic {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 20px;
+  width: 600px;
+}
+
+.create-open-mic-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.open-mic-not-recurring,
+.open-mic-is-recurring {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 20px;
 }

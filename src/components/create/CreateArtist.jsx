@@ -38,58 +38,63 @@ export const CreateArtist = ({ manager }) => {
 
     
     return (
-        <div>
-            <div>
+        <div className="clients-section">
+            <div className="back-button-container">
                 <Link to={'/managers'}>
-                    <button>Back to Clients</button>
+                    <button className="button">Back to Clients</button>
                 </Link>
             </div>
-            <h2>Create Client</h2>
-            <div>
-                <input type="text" placeholder="Artist Name" onChange={(event) => {
-                        const copyArtist = {...newArtist}
-                        copyArtist.name = event.target.value
-                        setNewArtist(copyArtist)
-                    }
-                }/>
-            </div>
-            <div>
-                <select onChange={(event) => {
-                    setGenre({id: parseInt(event.target.value)})
-                }}>
-                    <option value={0} key={0}>Please select genre</option>
-                    {genres.map(
-                        (genre) => {
-                            return <option value={genre.id} key={genre.id}>
-                                {genre.name}            
-                            </option>
+            <div className="create-container">
+                <h2>Create Client</h2>
+                <div className="filter-group">
+                    <p>Name</p>
+                    <input type="text" placeholder="Artist Name" onChange={(event) => {
+                            const copyArtist = {...newArtist}
+                            copyArtist.name = event.target.value
+                            setNewArtist(copyArtist)
                         }
-                    )}
-                </select>
-            </div>
-            <div>
-                Is this client a band?
-                <input type="radio" value={isBand} name="is-band" onClick={() => {
-                    setIsBand(false)
-                }} defaultChecked/> No
-                <input type="radio" value={isBand} name="is-band" onClick={() => {
-                    setIsBand(true)
-                }}/> Yes
-            </div>
-            <div>
-                {isBand === false ? (
-                    <button onClick={() => {
-                    handleArtistCreation()
-                }}>
-                    Create Artist
-                </button>
-                ) : (
-                    <button onClick={() => {
-                    handleArtistCreation()
-                }}>
-                    Create Band
-                </button>
-                )}               
+                    }/>
+                </div>
+                <div className="filter-group">
+                    <p>Genre</p>
+                    <select onChange={(event) => {
+                        setGenre({id: parseInt(event.target.value)})
+                    }}>
+                        <option value={0} key={0}>Please select genre</option>
+                        {genres.map(
+                            (genre) => {
+                                return <option value={genre.id} key={genre.id}>
+                                    {genre.name}            
+                                </option>
+                            }
+                        )}
+                    </select>
+                </div>
+                <div>
+                    <p>Is this client a band?</p>
+                    <div className="radio-options">
+                        <input type="radio" value={isBand} name="is-band" onClick={() => {
+                            setIsBand(false)
+                        }} defaultChecked/> No
+                        <input type="radio" value={isBand} name="is-band" onClick={() => {
+                            setIsBand(true)
+                        }}/> Yes
+                    </div>
+                </div>
+                <div>
+                    {isBand === false ? (
+                        <button className="submit-btn" onClick={() => {
+                        handleArtistCreation()
+                    }}><a>Create Artist</a>
+                    </button>
+                    ) : (
+                        <button onClick={() => {
+                        handleArtistCreation()
+                    }}>
+                        Create Band
+                    </button>
+                    )}               
+                </div>
             </div>
         </div>
     )

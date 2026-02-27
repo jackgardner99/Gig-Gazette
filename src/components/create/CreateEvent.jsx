@@ -41,93 +41,109 @@ export const CreateEvent = ({ manager }) => {
 
 
     return (
-        <div>
-                <div>
-                    <Link to={'/managers'}>
-                        <button>Back to Clients</button>
-                    </Link>
-                </div>
+        <div className="clients-section">
+            <div className="back-button-container">
+                <Link to={'/managers'}>
+                    <button className="button">Back to Clients</button>
+                </Link>
+            </div>
+            <div className="create-container-open-mic">
                 <h2>Create Open Mic</h2>
-                <div>
-                    <input type="text" placeholder="Open Mic Name" onChange={(event) => {
-                            const copy = {...newOpenMic}
-                            copy.eventTitle = event.target.value
-                            setNewOpenMic(copy)
-                        }
-                    }/>
-                </div>
-                <div>
-                    <select onChange={(event) => {
-                        setVenue(parseInt(event.target.value))
-                    }}>
-                        <option value={0} key={0}>Please select venue</option>
-                        {venues.map(
-                            (venue) => {
-                                return <option value={venue.id} key={venue.id}>
-                                    {venue.venueName}            
-                                </option>
-                            }
-                        )}
-                    </select>
-                </div>
-                {!isRecurring && 
-                <div>
-                    <label>
-                        <input type="datetime-local" onChange={(e) => {
-                            setDateTime(e.target.value)
-                        }} />
-                    </label>
-                </div>}
-                
-                <div>
-                    <label>
-                        Recurring Event
-                        <input 
-                        type="checkbox" 
-                        checked={isRecurring}
-                        onChange={(e) => setIsRecurring(e.target.checked)} 
-                        />
-                    </label>
-                </div>
-
-                {isRecurring && (
-                <div>
-                    <select value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
-                        <option>Please select recurrence</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Monthly">Monthly</option>
-                    </select>
-
-                    <select onChange={(e) => setDayOfWeek(e.target.value)}>
-                        <option>Please select a day</option>
-                        <option value='Monday'>Monday</option>
-                        <option value='Tuesday'>Tuesday</option>
-                        <option value='Wednesday'>Wednesday</option>
-                        <option value='Thursday'>Thursday</option>
-                        <option value='Friday'>Friday</option>
-                        <option value='Saturday'>Saturday</option>
-                        <option value='Sunday'>Sunday</option>
-                    </select>
-
-                    {recurrence === 'monthly' && 
-                        <label>
-                            <select onChange={(e) => setDayOfMonth(e.target.value)}>
-                                <option>Please select day of month</option>
-                                <option value='1st'>1st</option>
-                                <option value='2nd'>2nd</option>
-                                <option value='3rd'>3rd</option>
-                                <option value='4th'>4th</option>
+                <div className="create-open-mic-container">
+                    <div className="open-mic-not-recurring">
+                        <div className="filter-group">
+                            <p>Name</p>
+                            <input type="text" placeholder="Open Mic Name" onChange={(event) => {
+                                    const copy = {...newOpenMic}
+                                    copy.eventTitle = event.target.value
+                                    setNewOpenMic(copy)
+                                }
+                            }/>
+                        </div>
+                        <div className="filter-group">
+                            <p>Genre</p>
+                            <select onChange={(event) => {
+                                setVenue(parseInt(event.target.value))
+                            }}>
+                                <option value={0} key={0}>Please select venue</option>
+                                {venues.map(
+                                    (venue) => {
+                                        return <option value={venue.id} key={venue.id}>
+                                            {venue.venueName}            
+                                        </option>
+                                    }
+                                )}
                             </select>
-                            of every Month
-                        </label>
-                    }
+                        </div>
+                        {!isRecurring && 
+                        <div className="filter-group">
+                            <label>
+                                <p>Date and Time</p>
+                                <input type="datetime-local" onChange={(e) => {
+                                    setDateTime(e.target.value)
+                                }} />
+                            </label>
+                        </div>}
+                        
+                        <div>
+                            <label>
+                                Recurring Event
+                                <input 
+                                type="checkbox" 
+                                checked={isRecurring}
+                                onChange={(e) => setIsRecurring(e.target.checked)} 
+                                />
+                            </label>
+                        </div>
+                    </div>
 
-                    <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-                </div>
-                )}
-                <div>
-                    <button onClick={handleSubmit}>Create Event</button>
+                    {isRecurring && (
+                    <div className="open-mic-is-recurring">
+                        <div className="filter-group">
+                            <p>Recurrence</p>
+                            <select value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
+                                <option>Please select recurrence</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div className="filter-group">
+                            <p>Day of Week</p>
+                            <select onChange={(e) => setDayOfWeek(e.target.value)}>
+                                <option>Please select a day</option>
+                                <option value='Monday'>Monday</option>
+                                <option value='Tuesday'>Tuesday</option>
+                                <option value='Wednesday'>Wednesday</option>
+                                <option value='Thursday'>Thursday</option>
+                                <option value='Friday'>Friday</option>
+                                <option value='Saturday'>Saturday</option>
+                                <option value='Sunday'>Sunday</option>
+                            </select>
+                        </div>
+                        {recurrence === 'Monthly' && 
+                            <div className="filter-group">
+                                <p>Day of Month</p>
+                                <select onChange={(e) => setDayOfMonth(e.target.value)}>
+                                    <option>Please select day of month</option>
+                                    <option value='1st'>1st</option>
+                                    <option value='2nd'>2nd</option>
+                                    <option value='3rd'>3rd</option>
+                                    <option value='4th'>4th</option>
+                                </select>
+                                of every Month
+                            </div>
+                        }
+                        <div className="filter-group">
+                            <p>Time</p>
+                            <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+                        </div>
+                    </div>
+                    )}
                 </div>
             </div>
+            <div>
+                <button className="submit-btn-open-mic" onClick={handleSubmit}><a>Create Event</a></button>
+            </div>
+        </div>
         )
 }
