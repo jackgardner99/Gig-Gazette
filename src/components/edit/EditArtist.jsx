@@ -42,35 +42,39 @@ export const EditArtist = () => {
 
 
     return (
-        <div>
-            <h2>{artist.artistName} Edits</h2>
-            <div>
-                <input type="text" value={artist.name} onChange={(e) => {
-                    const artistCopy = {...artist}
-                    artistCopy.name = e.target.value
-                    setArtist(artistCopy)
-                }}/>
-            </div>
-            <div>
-                <select onChange={(e) => {
-                    const artistCopy = {...artist}
-                    artistCopy.genreId = parseInt(e.target.value)
-                    setArtist(artistCopy)
-                }}>
-                    <option key={genre?.id} value={genre?.id} selected>{genre?.name}</option>
-                    {genres.map(
-                        (genre) => {
-                            return <option value={genre.id} key={genre.id}>{genre.name}</option>
-                        }
-                    )}
-                </select>
-            </div>
-            <div>
-                <button onClick={() => {
-                    handleUpdateArtist()
-                }}>
-                    Save Changes
-                </button>          
+        <div className="clients-section">
+            <div className="create-container">
+                <h2>{artist.name} Edits</h2>
+                <div className="filter-group">
+                    <p>Name</p>
+                    <input type="text" value={artist.name} onChange={(e) => {
+                        const artistCopy = {...artist}
+                        artistCopy.name = e.target.value
+                        setArtist(artistCopy)
+                    }}/>
+                </div>
+                <div className="filter-group">
+                    <p>Genre</p>
+                    <select onChange={(e) => {
+                        const artistCopy = {...artist}
+                        artistCopy.genreId = parseInt(e.target.value)
+                        setArtist(artistCopy)
+                    }}>
+                        <option key={genre?.id} value={genre?.id} selected>{genre?.name}</option>
+                        {genres.map(
+                            (genre) => {
+                                return <option value={genre.id} key={genre.id}>{genre.name}</option>
+                            }
+                        )}
+                    </select>
+                </div>
+                <div>
+                    <button className="submit-btn" onClick={() => {
+                        handleUpdateArtist()
+                    }}>
+                        <a>Save Changes</a>
+                    </button>          
+                </div>
             </div>
         </div>
     )

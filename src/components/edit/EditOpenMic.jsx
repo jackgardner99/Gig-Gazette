@@ -72,121 +72,140 @@ export const EditOpenMic = () => {
 
 
     return (
-        <div>
-            <h2>{openMic.eventTitle} Edits</h2>
-            <div>
-                <input type="text" value={openMic.eventTitle} onChange={(e) => {
-                    const copy = {...openMic}
-                    copy.eventTitle = e.target.value
-                    setOpenMic(copy)
-                }}/>
-            </div>
-            <div>
-                <select onChange={(e) => {
-                    const copy = {...openMic}
-                    copy.venueId = parseInt(e.target.value)
-                    setOpenMic(copy)
-                }}>
-                    <option key={venue?.id} value={venue?.id} selected>{venue?.venueName}</option>
-                    {venues.map(
-                        (venue) => {
-                            return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
-                        }
-                    )}
-                </select>
-                {!openMic.isRecurring && 
-                <div>
-                    <label>
-                        <input type="datetime-local" value={openMic.dateTime} onChange={(e) => {
-                            const copy = {...openMic}
-                            copy.dateTime = e.target.value
-                            setOpenMic(copy)
-                        }} />
-                    </label>
-                </div>}
-                
-                <div>
-                    <input 
-                        type="checkbox" 
-                        checked={openMic.isRecurring}
-                        onChange={(e) => {
-                            const copy = {...openMic}
-                            copy.isRecurring = e.target.checked
-                            setOpenMic(copy)
-                        }} 
-                    /> Recurring Event
-                </div>
-
-                {openMic.isRecurring && (
-                <div>
-                    <select value={openMic.recurrence} onChange={(e) => {
-                        const copy = {...openMic}
-                        copy.recurrence = e.target.value
-                        setOpenMic(copy)
-                    }}>
-                        {openMic.recurrence ? (
-                            <option value={openMic.recurrence}>{openMic.recurrence}</option>
-                        ) : (
-                            <option>Please select recurrence</option>
-                        )}
-                        <option value="Weekly">Weekly</option>
-                        <option value="Monthly">Monthly</option>
-                    </select>
-
-                    <select onChange={(e) => {
-                        const copy = {...openMic}
-                        copy.dayOfWeek = e.target.value
-                        setOpenMic(copy)
-                    }}>
-                        {openMic.dayOfWeek ? (
-                            <option value={openMic.dayOfWeek}>{openMic.dayOfWeek}</option>
-                        ) : (
-                            <option>Please select a day</option>
-                        )}
-                        <option value='Monday'>Monday</option>
-                        <option value='Tuesday'>Tuesday</option>
-                        <option value='Wednesday'>Wednesday</option>
-                        <option value='Thursday'>Thursday</option>
-                        <option value='Friday'>Friday</option>
-                        <option value='Saturday'>Saturday</option>
-                        <option value='Sunday'>Sunday</option>
-                    </select>
-
-                    {openMic.recurrence === 'Monthly' && 
-                        <label>
+        <div className="clients-section">
+            <div className="create-container-open-mic">
+                <h2>{openMic.eventTitle} Edits</h2>
+                <div className="create-open-mic-container">
+                    <div className="open-mic-not-recurring">
+                        <div className="filter-group">
+                            <p>Name</p>
+                            <input type="text" value={openMic.eventTitle} onChange={(e) => {
+                                const copy = {...openMic}
+                                copy.eventTitle = e.target.value
+                                setOpenMic(copy)
+                            }}/>
+                        </div>
+                        <div className="filter-group">
+                            <p>Venue</p>
                             <select onChange={(e) => {
                                 const copy = {...openMic}
-                                copy.dayOfMonth = e.target.value
+                                copy.venueId = parseInt(e.target.value)
                                 setOpenMic(copy)
                             }}>
-                                {openMic.dayOfMonth ? (
-                                    <option value={openMic.dayOfMonth}>{openMic.dayOfMonth}</option>
-                                ) : (
-                                    <option>Please select day of month</option>
+                                <option key={venue?.id} value={venue?.id} selected>{venue?.venueName}</option>
+                                {venues.map(
+                                    (venue) => {
+                                        return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
+                                    }
                                 )}
-                                <option value='1st'>1st</option>
-                                <option value='2nd'>2nd</option>
-                                <option value='3rd'>3rd</option>
-                                <option value='4th'>4th</option>
                             </select>
-                            of every Month
-                        </label>
-                    }
+                            </div>
+                            {!openMic.isRecurring && 
+                            <div className="filter-group">
+                                <p>Date and Time</p>
+                                    <input type="datetime-local" value={openMic.dateTime} onChange={(e) => {
+                                        const copy = {...openMic}
+                                        copy.dateTime = e.target.value
+                                        setOpenMic(copy)
+                                    }} />
+                            </div>}
+                            
+                            <div>
+                                <label>
+                                    Recurring Event
+                                    <input 
+                                    type="checkbox" 
+                                    checked={openMic.isRecurring}
+                                    onChange={(e) => {
+                                        const copy = {...openMic}
+                                        copy.isRecurring = e.target.checked
+                                        setOpenMic(copy)
+                                    }} 
+                                />
+                                </label>
+                            </div>
+                    </div>
 
-                    <input type="time" value={openMic.time} onChange={(e) => {
-                        const copy = {...openMic}
-                        copy.time = e.target.value
-                        setOpenMic(copy)
-                    }} />
+                    {openMic.isRecurring && (
+                    <div className="open-mic-is-recurring">
+                        <div>
+                            <div className="filter-group">
+                                <p>Recurrence</p>
+                                <select value={openMic.recurrence} onChange={(e) => {
+                                    const copy = {...openMic}
+                                    copy.recurrence = e.target.value
+                                    setOpenMic(copy)
+                                }}>
+                                    {openMic.recurrence ? (
+                                        <option value={openMic.recurrence}>{openMic.recurrence}</option>
+                                    ) : (
+                                        <option>Please select recurrence</option>
+                                    )}
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                                    </div>
+                                    <div className="filter-group">
+                                        <p>Day of Week</p>
+                                        <select onChange={(e) => {
+                                            const copy = {...openMic}
+                                            copy.dayOfWeek = e.target.value
+                                            setOpenMic(copy)
+                                        }}>
+                                            {openMic.dayOfWeek ? (
+                                                <option value={openMic.dayOfWeek}>{openMic.dayOfWeek}</option>
+                                            ) : (
+                                                <option>Please select a day</option>
+                                            )}
+                                            <option value='Monday'>Monday</option>
+                                            <option value='Tuesday'>Tuesday</option>
+                                            <option value='Wednesday'>Wednesday</option>
+                                            <option value='Thursday'>Thursday</option>
+                                            <option value='Friday'>Friday</option>
+                                            <option value='Saturday'>Saturday</option>
+                                            <option value='Sunday'>Sunday</option>
+                                        </select>
+                                    </div>
+                                {openMic.recurrence === 'Monthly' && 
+                                    <div className="filter-group">
+                                        <p>Day of Month</p>
+                                        <select onChange={(e) => {
+                                            const copy = {...openMic}
+                                            copy.dayOfMonth = e.target.value
+                                            setOpenMic(copy)
+                                        }}>
+                                            {openMic.dayOfMonth ? (
+                                                <option value={openMic.dayOfMonth}>{openMic.dayOfMonth}</option>
+                                            ) : (
+                                                <option>Please select day of month</option>
+                                            )}
+                                            <option value='1st'>1st</option>
+                                            <option value='2nd'>2nd</option>
+                                            <option value='3rd'>3rd</option>
+                                            <option value='4th'>4th</option>
+                                        </select>
+                                        of every Month
+                                    </div>
+                                }
+                                <div className="filter-group">
+                                    <p>Time</p>
+                                <input type="time" value={openMic.time} onChange={(e) => {
+                                    const copy = {...openMic}
+                                    copy.time = e.target.value
+                                    setOpenMic(copy)
+                                }} />
+                                </div>
+                            </div>
+                        </div>
+                        )}
                 </div>
-                )}
-            </div>
-            <div>
-                <button onClick={() => {
-                    handleUpdateOpenMic()
-                }}>
-                    Save Changes
-                </button>          
+                <div>
+                    <button className="submit-btn-open-mic-edits" onClick={() => {
+                        handleUpdateOpenMic()
+                    }}>
+                        <a>Save Changes</a>
+                    </button>          
+                </div>
             </div>
         </div>
     )

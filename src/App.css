@@ -188,6 +188,7 @@ h1 {
   flex-direction: column;
   width: 100%;
   align-items: center;
+  gap: 20px;
 }
 
 .open-mic-container {
@@ -195,6 +196,7 @@ h1 {
   flex-direction: column;
   width: 100%;
   align-items: center;
+  gap: 20px;
 }
 
 h2 {
@@ -208,7 +210,7 @@ h2 {
   justify-content: space-evenly;
   align-items: center;
   width: 500px;
-  height: 50px;
+  height: 80px;
   border: 2px solid rgb(187, 180, 180);
   border-radius: 30px;
 }
@@ -223,6 +225,8 @@ h2 {
   flex-direction: row;
   justify-content: center;
   gap: 40px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .client-button {
@@ -311,8 +315,19 @@ h2 {
   text-decoration: none;
 }
 
+.submit-btn-open-mic-edits {
+  font-size: 1rem;
+  position: relative;
+  width: 40%;
+  height: 50px;
+  border-radius: 4px;
+  background-color: rgb(59, 45, 125);
+  text-decoration: none;
+}
+
 .submit-btn a,
-.submit-btn-open-mic a {
+.submit-btn-open-mic a,
+.submit-btn-open-mic-edits a {
   position: relative;
   z-index: 2;
   color: #fff;
@@ -320,7 +335,8 @@ h2 {
 }
 
 .submit-btn:after,
-.submit-btn-open-mic:after {
+.submit-btn-open-mic:after,
+.submit-btn-open-mic-edits:after {
   position: absolute;
   content: '';
   top: 0;
@@ -333,12 +349,14 @@ h2 {
 }
 
 .submit-btn:hover,
-.submit-btn-open-mic:hover {
+.submit-btn-open-mic:hover,
+.submit-btn-open-mic-edits:hover {
   color: #fff;
 }
 
 .submit-btn:hover:after,
-.submit-btn-open-mic:hover:after {
+.submit-btn-open-mic:hover:after,
+.submit-btn-open-mic-edits:hover:after {
   width: 100%;
 }
 
@@ -348,6 +366,10 @@ h2 {
   gap: 30px;
   padding-top: 20px;
   width: 600px;
+}
+
+.create-container-open-mic h2 {
+  text-align: left;
 }
 
 .create-open-mic-container {

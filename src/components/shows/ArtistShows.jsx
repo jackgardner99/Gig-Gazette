@@ -60,7 +60,7 @@ export const ArtistShows = () => {
 
 
     return (
-        <main>
+        <main className="clients-section">
             <div>
                 <h1>
                     {artist.name} Shows

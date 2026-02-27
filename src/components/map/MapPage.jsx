@@ -125,7 +125,7 @@ export const MapPage = () => {
                 <div>
                     {displayOpenMics ? (
                         <>
-                            <input type='checkbox' disabled /><p>Intimate Set</p>
+                            <input type='checkbox' disabled /> Intimate Set
                         </>
                     ) : (<>
                         <input type='checkbox' checked={intimate} onChange={(e) => {

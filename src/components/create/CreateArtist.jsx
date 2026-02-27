@@ -88,10 +88,10 @@ export const CreateArtist = ({ manager }) => {
                     }}><a>Create Artist</a>
                     </button>
                     ) : (
-                        <button onClick={() => {
+                        <button className="submit-btn" onClick={() => {
                         handleArtistCreation()
                     }}>
-                        Create Band
+                        <a>Create Band</a>
                     </button>
                     )}               
                 </div>
