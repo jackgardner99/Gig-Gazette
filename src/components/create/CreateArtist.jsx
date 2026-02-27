@@ -4,7 +4,7 @@ import { createArtist } from "../../services/artistService"
 import { Link, useNavigate } from "react-router-dom"
 
 export const CreateArtist = ({ manager }) => {
-    const [newArtist, setNewArtist] = useState({ artistName: "" })
+    const [newArtist, setNewArtist] = useState({ name: "" })
     const [genres, setGenres] = useState([])
     const [genre, setGenre] = useState({})
     const [isBand, setIsBand] = useState(false)
@@ -15,7 +15,7 @@ export const CreateArtist = ({ manager }) => {
     }, [])
 
     const handleArtistCreation = () => {
-        if (genre.id > 0 && newArtist.artistName) {
+        if (genre.id > 0 && newArtist.name) {
             // const formData = new FormData()
             // formData.append('profile_picture', img)
 
@@ -27,7 +27,7 @@ export const CreateArtist = ({ manager }) => {
             }
 
             createArtist(artist).then(() => {
-                setNewArtist({ artistName: "" })
+                setNewArtist({ name: "" })
                 setGenre({})
                 navigate("/managers")
             })
@@ -48,7 +48,7 @@ export const CreateArtist = ({ manager }) => {
             <div>
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}
-                        copyArtist.artistName = event.target.value
+                        copyArtist.name = event.target.value
                         setNewArtist(copyArtist)
                     }
                 }/>

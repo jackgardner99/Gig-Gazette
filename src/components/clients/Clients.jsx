@@ -62,73 +62,77 @@ export const Clients = ({ manager }) => {
                         </Link>
                     </div>
                 </div>
-                {artists.length > 0 && 
+                <div className="clients-container">
+                    {artists.length > 0 && 
+                        <div className="artists-container">
+                            <h2>Artists</h2>
                     <div>
-                        <h2>Artists</h2>
-                <div>
-                    {artists.map((artist) => {
-                        return <>
-                            <div key={artist.id}>
-                                <Link to={`/managers/edit-artist/${artist.id}`}>
-                                    <div>
-                                        <div>{artist.name}</div>
-                                        <div>{artist.genre?.name}</div>
-                                    </div>
-                                </Link>
-                                {/* <Link to={`/managers/profile-picture/${artist.id}`}>
-                                    <div>
-                                        <img className="artist-image" src={artist.img} loading="lazy" />
-                                    </div>                               
-                                </Link> */}
-                                <div>
-                                    <Link to={`/managers/artist-shows/${artist.id}`}>
-                                        {artist.isBand === false ? (
-                                            <button>Artist Shows</button>
-                                        ) : (
-                                            <button>Band Shows</button>
-                                        )}
-                                    </Link>
-                                </div>
-                                <div>
-                                    {artist.isBand === false ? (
-                                        <button onClick={() => {
-                                            handleDeleteArtist(artist)
-                                        }}>Delete Artist</button>
-                                    ) : (
-                                        <button onClick={() => {
-                                            handleDeleteArtist(artist)
-                                        }}>Delete Band</button>
-                                    )}
-                                </div>
-                            </div>
-                            
-                        </>
-                    })}
-                </div>
-            </div>
-                }
-                {openMics.length > 0 && 
-                    <div>
-                        <h2>Open Mics</h2>
-                        <div>
-                            {openMics.map((openMic) => {
-                                return <>
-                                    <Link to={`/managers/edit-openMic/${openMic.id}`}>
-                                        <div>
-                                            <div>{openMic.eventTitle}</div>
-                                            <div>{openMic.venue?.venueName}</div>
+                        {artists.map((artist) => {
+                            return <>
+                                <div key={artist.id}>
+                                    <Link to={`/managers/edit-artist/${artist.id}`}>
+                                        <div className="profile-container">
+                                            <div>{artist.name}</div>
+                                            <div>{artist.genre?.name}</div>
                                         </div>
                                     </Link>
-                                    <div>
-                                        <button onClick={() => {
-                                            handleDeleteOpenMic(openMic)
-                                        }}>Delete Open Mic</button>
+                                    {/* <Link to={`/managers/profile-picture/${artist.id}`}>
+                                        <div>
+                                            <img className="artist-image" src={artist.img} loading="lazy" />
+                                        </div>                               
+                                    </Link> */}
+                                    <div className="client-button-container">
+                                        <div>
+                                            <Link to={`/managers/artist-shows/${artist.id}`}>
+                                                {artist.isBand === false ? (
+                                                    <button className="client-button">Artist Shows</button>
+                                                ) : (
+                                                    <button className="client-button">Band Shows</button>
+                                                )}
+                                            </Link>
+                                        </div>
+                                        <div>
+                                            {artist.isBand === false ? (
+                                                <button className="client-button-delete" onClick={() => {
+                                                    handleDeleteArtist(artist)
+                                                }}>Delete Artist</button>
+                                            ) : (
+                                                <button className="client-button-delete" onClick={() => {
+                                                    handleDeleteArtist(artist)
+                                                }}>Delete Band</button>
+                                            )}
+                                        </div>
                                     </div>
-                                </>
-                            })}
-                        </div>
+                                </div>
+                                
+                            </>
+                        })}
                     </div>
-                }
+                </div>
+                    }
+                    {openMics.length > 0 && 
+                        <div className="open-mic-container">
+                            <h2>Open Mics</h2>
+                            <div>
+                                {openMics.map((openMic) => {
+                                    return <>
+                                        <Link to={`/managers/edit-openMic/${openMic.id}`}>
+                                            <div className="profile-container">
+                                                <div>{openMic.eventTitle}</div>
+                                                <div>{openMic.venue?.venueName}</div>
+                                            </div>
+                                        </Link>
+                                        <div className="client-button-container">
+                                            <button className="client-button-delete" onClick={() => {
+                                                handleDeleteOpenMic(openMic)
+                                            }}>Delete Open Mic</button>
+                                        </div>
+                                    </>
+                                })}
+                            </div>
+                        </div>
+                        }
+                </div>
         </main>        
     )
 }
