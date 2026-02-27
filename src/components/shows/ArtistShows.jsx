@@ -62,9 +62,9 @@ export const ArtistShows = () => {
     return (
         <main>
             <div>
-                <h2>
-                    {artist.artistName} Shows
-                </h2>
+                <h1>
+                    {artist.name} Shows
+                </h1>
                 <div>
                     <Link to={`/managers/artist-shows/create/${artistId}`}>
                         <button>Create Show</button>            

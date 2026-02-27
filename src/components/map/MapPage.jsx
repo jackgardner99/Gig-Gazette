@@ -92,8 +92,8 @@ export const MapPage = () => {
 
     return (
         <div className='map-page-container'>
-            <div>
-                <h2>GIG Gazette</h2>
+            <div className='gig-filter-container'>
+                <h2>The Gig Map</h2>
                 <div>
                     {displayOpenMics ? (
                         <select disabled>
