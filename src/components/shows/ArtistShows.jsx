@@ -65,32 +65,32 @@ export const ArtistShows = () => {
                 <h1>
                     {artist.name} Shows
                 </h1>
-                <div>
+                <div className="create-btn-container">
                     <Link to={`/managers/artist-shows/create/${artistId}`}>
-                        <button>Create Show</button>            
+                        <button className="create-btn">Create Show</button>            
                     </Link>
                 </div>
-                <div>
+                <div className="shows-container">
                     {artistShows.map((show) => {
                         return <div key={show.id}>
-                                <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
-                                <div>
-                                    <div>
-                                        {show.eventTitle}
+                                    <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
+                                    <div className="artist-show-container">
+                                        <div>
+                                            {show.eventTitle}
+                                        </div>
+                                        <div>
+                                            {show?.venue?.venueName}
+                                        </div>
+                                        <div>
+                                            {formatDateTime(show.dateTime)}
+                                        </div>
+                                    </div>                              
+                                    </Link>
+                                    <div className="client-button-container">
+                                        <button className="client-button-delete" onClick={() => {
+                                            handleShowDelete(show)
+                                        }}>Delete Show</button>
                                     </div>
-                                    <div>
-                                        {show?.venue?.venueName}
-                                    </div>
-                                    <div>
-                                        {formatDateTime(show.dateTime)}
-                                    </div>
-                                </div>                              
-                                </Link>
-                                <div>
-                                    <button onClick={() => {
-                                        handleShowDelete(show)
-                                    }}>Delete Show</button>
-                                </div>
                         </div>
                     })}
                 </div>

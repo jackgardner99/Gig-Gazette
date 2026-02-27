@@ -51,49 +51,52 @@ export const CreateArtistShow = () => {
     }
 
     return (
-        <div>
-            <div>
-                <div>
+        <div className="clients-section-create-show">
+            <div className="clients-section">
+                <div className="back-button-container">
                     <Link to={`/managers/artist-shows/${artistId}`}>
-                        <button>Back to Shows</button>
+                        <button className="button">Back to Shows</button>
                     </Link>
                 </div>
-                <h2>Create Show</h2>
-                <div>
-                    <h4>Show Name</h4>
-                    <input type="text" value={showName} onChange={(e) => {
-                        setShowName(e.target.value)
-                    }}/>
-                </div>
-                <div>
-                    <h4>Show Location</h4>
-                    <select onChange={(e) => {
-                        setVenue(parseInt(e.target.value))
-                    }}>
-                        <option selected value={0}>Please select venue</option>
-                        {venues.map((venue) => {
-                            return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
-                        })}
-                    </select>
-                </div>
-                <div>
-                    <input type="checkbox" checked={intimate} onChange={(e) => {
-                        setIntimate(e.target.checked)
-                    }} /> Intimate Set
-                </div>
-                <div>
-                    <input type="datetime-local" value={dateTime} onChange={(e) => {
-                        setDateTime(e.target.value)
-                    }}/>
-                </div>
-                <div>
-                    <h4>Show Link</h4>
-                    <input type="url" value={url} onChange={(e) => {
-                        setUrl(e.target.value)
-                    }}/>
-                </div>
-                <div>
-                    <button onClick={handleShowCreation}>Create Show</button>              
+                <div className="create-container">
+                    <h2>Create Show</h2>
+                    <div className="filter-group">
+                        <p>Show Name</p>
+                        <input type="text" value={showName} onChange={(e) => {
+                            setShowName(e.target.value)
+                        }}/>
+                    </div>
+                    <div className="filter-group">
+                        <p>Show Location</p>
+                        <select onChange={(e) => {
+                            setVenue(parseInt(e.target.value))
+                        }}>
+                            <option selected value={0}>Please select venue</option>
+                            {venues.map((venue) => {
+                                return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
+                            })}
+                        </select>
+                    </div>
+                    <div>
+                        <input type="checkbox" checked={intimate} onChange={(e) => {
+                            setIntimate(e.target.checked)
+                        }} /> Intimate Set
+                    </div>
+                    <div className="filter-group">
+                        <p>Date and Time</p>
+                        <input type="datetime-local" value={dateTime} onChange={(e) => {
+                            setDateTime(e.target.value)
+                        }}/>
+                    </div>
+                    <div className="filter-group">
+                        <p>Show Link</p>
+                        <input type="url" value={url} onChange={(e) => {
+                            setUrl(e.target.value)
+                        }}/>
+                    </div>
+                    <div>
+                        <button className="submit-btn" onClick={handleShowCreation}><a>Create Show</a></button>              
+                    </div>
                 </div>
             </div>
             <div>

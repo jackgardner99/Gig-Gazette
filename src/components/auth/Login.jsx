@@ -29,32 +29,32 @@ export const Login = () => {
 
 
     return (
-        <main>
+        <main className="clients-section">
             <section>
-                <form>
-                    <h1>Welcome Manager!</h1>
-                    <h2>Manager Sign In</h2>
-                    <fieldset>
+                <form className="container-form">
+                    <div className="signin-form">
+                        <h2>Manager Sign In</h2>
+                                <div className="filter-group">
+                                    <p>Email</p>
+                                    <input 
+                                    type="email" 
+                                    value={email} 
+                                    onChange={(event) => {setEmail(event.target.value)}}
+                                    placeholder="Email Address"
+                                    required
+                                    autoFocus/>
+                                </div>
+                            <section>
                         <div>
-                            <input 
-                            type="email" 
-                            value={email} 
-                            onChange={(event) => {setEmail(event.target.value)}}
-                            placeholder="Email Address"
-                            required
-                            autoFocus/>
+                            <button className="button" onClick={handleLogin}>Sign In</button>
                         </div>
-                    </fieldset>
+                    </section>
+                    <div>
+                        Don't have an account? <Link to={'/register'}><a>Register!</a></Link>
+                    </div>
+                    </div>
                 </form>
             </section>
-            <section>
-                <div>
-                    <button onClick={handleLogin}>Sign In</button>
-                </div>
-            </section>
-            <div>
-                Don't have an account? <Link to={'/register'}>Register!</Link>
-            </div>
         </main>
     )
 }

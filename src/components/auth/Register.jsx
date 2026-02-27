@@ -39,10 +39,12 @@ export const Register = () => {
     }
 
     return (
-        <main>
-            <h2>Welcome New Manager!</h2>
-            <form>
-                    <div>
+        <main className="clients-section">
+            <form className="container-form">
+                <div className="signin-form">
+                    <h2>Welcome New Manager!</h2>
+                    <div className="filter-group">
+                        <p>Name</p>
                         <input type="text" onChange={(e) => {
                             const copy = {...manager}
                             copy.name = e.target.value
@@ -50,7 +52,8 @@ export const Register = () => {
                         }} placeholder="Enter your name" required/>
                     </div>
 
-                    <div>
+                    <div className="filter-group">
+                        <p>Email</p>
                         <input type="email" onChange={(e) => {
                             const copy = {...manager}
                             copy.email = e.target.value
@@ -59,12 +62,13 @@ export const Register = () => {
                     </div>
 
                 <div>
-                    <button type="submit" onClick={handleRegister}>Register</button>
+                    <button className="button" type="submit" onClick={handleRegister}>Register</button>
                 </div>
-            </form>
             <div>
                 Already have an account? <Link to={'/login'}>Login!</Link>
             </div>
+                </div>
+            </form>
         </main>
     )
 }

@@ -49,45 +49,49 @@ export const EditArtistShow = () => {
     }
 
     return (
-        <div>
-            <h2>Edit Show</h2>
+        <div className="clients-section">
+            <div className="create-container">
+                <h2>Edit Show</h2>
+                <div className="filter-group">
+                    <p>Show Name</p>
+                    <input type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
+                        const artistShowCopy = {...artistShow}
+                        artistShowCopy.eventTitle = e.target.value
+                        setArtistShow(artistShowCopy)
+                    }}/>
+                </div>
+                <div className="filter-group">
+                    <p>Show Location</p>
+                    <select onChange={(e) => {
+                        const artistShowCopy = {...artistShow}
+                        artistShowCopy.venueId = e.target.value
+                        setArtistShow(artistShowCopy)
+                    }}>
+                        <option selected value={venue?.id}>{venue?.venueName}</option>
+                        {venues.map((venue) => {
+                            return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
+                        })}
+                    </select>
+                </div>
+                <div className="filter-group">
+                    <p>Date and Time</p>
+                    <input type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
+                        const artistShowCopy = {...artistShow}
+                        artistShowCopy.dateTime = e.target.value
+                        setArtistShow(artistShowCopy)
+                    }}/>
+                </div>
+                <div className="filter-group">
+                    <p>URL Link</p>
+                    <input type="url" value={artistShow.url} onChange={(e) => {
+                        const artistShowCopy = {...artistShow}
+                        artistShowCopy.url = e.target.value
+                        setArtistShow(artistShowCopy)
+                    }} />
+                </div>
             <div>
-                <h4>Show Name</h4>
-                <input type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
-                    const artistShowCopy = {...artistShow}
-                    artistShowCopy.eventTitle = e.target.value
-                    setArtistShow(artistShowCopy)
-                }}/>
+                <button className="submit-btn" onClick={handleShowUpdate}><a>Save Edits</a></button>              
             </div>
-            <div>
-                <h4>Show Location</h4>
-                <select onChange={(e) => {
-                    const artistShowCopy = {...artistShow}
-                    artistShowCopy.venueId = e.target.value
-                    setArtistShow(artistShowCopy)
-                }}>
-                    <option selected value={venue?.id}>{venue?.venueName}</option>
-                    {venues.map((venue) => {
-                        return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
-                    })}
-                </select>
-            </div>
-            <div>
-                <input type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
-                    const artistShowCopy = {...artistShow}
-                    artistShowCopy.dateTime = e.target.value
-                    setArtistShow(artistShowCopy)
-                }}/>
-            </div>
-            <div>
-                <input type="url" value={artistShow.url} onChange={(e) => {
-                    const artistShowCopy = {...artistShow}
-                    artistShowCopy.url = e.target.value
-                    setArtistShow(artistShowCopy)
-                }} />
-            </div>
-            <div>
-                <button onClick={handleShowUpdate}>Save Edits</button>              
             </div>
         </div>
     )
