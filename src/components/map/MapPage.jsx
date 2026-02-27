@@ -91,7 +91,7 @@ export const MapPage = () => {
     }
 
     return (
-        <div>
+        <div className='map-page-container'>
             <div>
                 <h2>GIG Gazette</h2>
                 <div>
@@ -133,7 +133,7 @@ export const MapPage = () => {
                     <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>
-            <div ref={mapContainerRef}>
+            <div className='map-container' ref={mapContainerRef}>
                 {eventIsVisible && <div className='map-blocker' onClick={handleEventInvisible} />}
 
                 {mapContainerRef.current && createPortal(    
@@ -168,28 +168,30 @@ export const MapPage = () => {
                         mapContainerRef.current
                     )
                 }
-                <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {filteredShows.map((show) => {
-                    return (
-                        <>
-                    <Marker position={[show.venue?.lat, show.venue?.lng]}>
-                                <Popup>
-                                    <div>{show.eventTitle}</div>
-                                    <div>{formatDateTime(show.dateTime)}</div>
-                                    <button onClick={() => {
-                                        handleEventVisible(show)
-                                    }}>Event Details</button>
-                                </Popup>                                
-                </Marker>
-                    </>
-                    )
-                })}
-                
-            </MapContainer>
+                <div>
+                    <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        {filteredShows.map((show) => {
+                            return (
+                                <>
+                            <Marker position={[show.venue?.lat, show.venue?.lng]}>
+                                        <Popup>
+                                            <div>{show.eventTitle}</div>
+                                            <div>{formatDateTime(show.dateTime)}</div>
+                                            <button onClick={() => {
+                                                handleEventVisible(show)
+                                            }}>Event Details</button>
+                                        </Popup>                                
+                        </Marker>
+                            </>
+                            )
+                        })}
+                        
+                    </MapContainer>
+                </div>
             </div>        
         </div>
         

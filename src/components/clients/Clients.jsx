@@ -46,19 +46,19 @@ export const Clients = ({ manager }) => {
     }
 
     return (
-        <main>
-            <h2>Clients</h2>
-                <div>
+        <main className="clients-section">
+            <h1>Clients</h1>
+                <div className="create-btn-container">
                     <div>
                         <Link to={"/managers/create-artist"}>
-                            <button>
+                            <button className="create-btn">
                                 Create Client
                             </button>
                         </Link>
                     </div>
                     <div>
                         <Link to={"/managers/create-event"}>
-                            <button>Create Open Mic</button>
+                            <button className="create-btn">Create Open Mic</button>
                         </Link>
                     </div>
                 </div>
