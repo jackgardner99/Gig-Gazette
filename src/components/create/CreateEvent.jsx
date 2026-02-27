@@ -41,14 +41,14 @@ export const CreateEvent = ({ manager }) => {
 
 
     return (
-        <div className="showcase-main">
+        <div>
                 <div>
                     <Link to={'/managers'}>
-                        <button  className="cta-button">Back to Clients</button>
+                        <button>Back to Clients</button>
                     </Link>
                 </div>
                 <h2>Create Open Mic</h2>
-                <div className="form-group">
+                <div>
                     <input type="text" placeholder="Open Mic Name" onChange={(event) => {
                             const copy = {...newOpenMic}
                             copy.eventTitle = event.target.value
@@ -56,7 +56,7 @@ export const CreateEvent = ({ manager }) => {
                         }
                     }/>
                 </div>
-                <div className="form-group">
+                <div>
                     <select onChange={(event) => {
                         setVenue(parseInt(event.target.value))
                     }}>
@@ -71,7 +71,7 @@ export const CreateEvent = ({ manager }) => {
                     </select>
                 </div>
                 {!isRecurring && 
-                <div className="form-group">
+                <div>
                     <label>
                         <input type="datetime-local" onChange={(e) => {
                             setDateTime(e.target.value)
@@ -91,7 +91,7 @@ export const CreateEvent = ({ manager }) => {
                 </div>
 
                 {isRecurring && (
-                <div className='form-group'>
+                <div>
                     <select value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
                         <option>Please select recurrence</option>
                         <option value="Weekly">Weekly</option>
@@ -126,7 +126,7 @@ export const CreateEvent = ({ manager }) => {
                 </div>
                 )}
                 <div>
-                    <button className="submit-btn" onClick={handleSubmit}>Create Event</button>
+                    <button onClick={handleSubmit}>Create Event</button>
                 </div>
             </div>
         )

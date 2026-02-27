@@ -52,20 +52,20 @@ export const CreateArtistShow = () => {
 
     return (
         <div>
-            <div className="showcase-main">
+            <div>
                 <div>
                     <Link to={`/managers/artist-shows/${artistId}`}>
-                        <button className="cta-button">Back to Shows</button>
+                        <button>Back to Shows</button>
                     </Link>
                 </div>
                 <h2>Create Show</h2>
-                <div className="form-group">
+                <div>
                     <h4>Show Name</h4>
                     <input type="text" value={showName} onChange={(e) => {
                         setShowName(e.target.value)
                     }}/>
                 </div>
-                <div className="form-group">
+                <div>
                     <h4>Show Location</h4>
                     <select onChange={(e) => {
                         setVenue(parseInt(e.target.value))
@@ -81,19 +81,19 @@ export const CreateArtistShow = () => {
                         setIntimate(e.target.checked)
                     }} /> Intimate Set
                 </div>
-                <div className="form-group">
+                <div>
                     <input type="datetime-local" value={dateTime} onChange={(e) => {
                         setDateTime(e.target.value)
                     }}/>
                 </div>
-                <div className="form-group">
+                <div>
                     <h4>Show Link</h4>
                     <input type="url" value={url} onChange={(e) => {
                         setUrl(e.target.value)
                     }}/>
                 </div>
                 <div>
-                    <button className="submit-btn" onClick={handleShowCreation}>Create Show</button>              
+                    <button onClick={handleShowCreation}>Create Show</button>              
                 </div>
             </div>
             <div>

@@ -91,10 +91,10 @@ export const MapPage = () => {
     }
 
     return (
-        <div className='section'>
-            <div className='showcase-main'>
-                <h2 className='about-header-gig-map'>GIG Gazette</h2>
-                <div className='form-group'>
+        <div>
+            <div>
+                <h2>GIG Gazette</h2>
+                <div>
                     {displayOpenMics ? (
                         <select disabled>
                             <option>Please Select Genre</option>
@@ -120,7 +120,7 @@ export const MapPage = () => {
                         }}/>
                     )} Intimate Set
                 </div>
-                <div className='form-group'>
+                <div>
                     {displayOpenMics ? (
                         <input disabled placeholder='Search Artist' />
                     ) : (
@@ -133,7 +133,7 @@ export const MapPage = () => {
                     <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>
-            <div className='showcase-main-map' ref={mapContainerRef}>
+            <div ref={mapContainerRef}>
                 {eventIsVisible && <div className='map-blocker' onClick={handleEventInvisible} />}
 
                 {mapContainerRef.current && createPortal(    
@@ -178,7 +178,7 @@ export const MapPage = () => {
                         <>
                     <Marker position={[show.venue?.lat, show.venue?.lng]}>
                                 <Popup>
-                                    <div className='logo-text'>{show.eventTitle}</div>
+                                    <div>{show.eventTitle}</div>
                                     <div>{formatDateTime(show.dateTime)}</div>
                                     <button onClick={() => {
                                         handleEventVisible(show)

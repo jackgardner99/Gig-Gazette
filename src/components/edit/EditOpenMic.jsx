@@ -72,16 +72,16 @@ export const EditOpenMic = () => {
 
 
     return (
-        <div className="showcase-main">
+        <div>
             <h2>{openMic.eventTitle} Edits</h2>
-            <div className="form-group">
+            <div>
                 <input type="text" value={openMic.eventTitle} onChange={(e) => {
                     const copy = {...openMic}
                     copy.eventTitle = e.target.value
                     setOpenMic(copy)
                 }}/>
             </div>
-            <div className="form-group">
+            <div>
                 <select onChange={(e) => {
                     const copy = {...openMic}
                     copy.venueId = parseInt(e.target.value)
@@ -95,7 +95,7 @@ export const EditOpenMic = () => {
                     )}
                 </select>
                 {!openMic.isRecurring && 
-                <div className="form-group">
+                <div>
                     <label>
                         <input type="datetime-local" value={openMic.dateTime} onChange={(e) => {
                             const copy = {...openMic}
@@ -118,7 +118,7 @@ export const EditOpenMic = () => {
                 </div>
 
                 {openMic.isRecurring && (
-                <div className='form-group'>
+                <div>
                     <select value={openMic.recurrence} onChange={(e) => {
                         const copy = {...openMic}
                         copy.recurrence = e.target.value
@@ -182,7 +182,7 @@ export const EditOpenMic = () => {
                 )}
             </div>
             <div>
-                <button className="submit-btn" onClick={() => {
+                <button onClick={() => {
                     handleUpdateOpenMic()
                 }}>
                     Save Changes

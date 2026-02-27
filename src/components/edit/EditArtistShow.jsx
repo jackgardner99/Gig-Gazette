@@ -49,9 +49,9 @@ export const EditArtistShow = () => {
     }
 
     return (
-        <div className="showcase-main">
+        <div>
             <h2>Edit Show</h2>
-            <div className="form-group">
+            <div>
                 <h4>Show Name</h4>
                 <input type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
@@ -59,7 +59,7 @@ export const EditArtistShow = () => {
                     setArtistShow(artistShowCopy)
                 }}/>
             </div>
-            <div className="form-group">
+            <div>
                 <h4>Show Location</h4>
                 <select onChange={(e) => {
                     const artistShowCopy = {...artistShow}
@@ -72,14 +72,14 @@ export const EditArtistShow = () => {
                     })}
                 </select>
             </div>
-            <div className="form-group">
+            <div>
                 <input type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
                     artistShowCopy.dateTime = e.target.value
                     setArtistShow(artistShowCopy)
                 }}/>
             </div>
-            <div className="form-group">
+            <div>
                 <input type="url" value={artistShow.url} onChange={(e) => {
                     const artistShowCopy = {...artistShow}
                     artistShowCopy.url = e.target.value
@@ -87,7 +87,7 @@ export const EditArtistShow = () => {
                 }} />
             </div>
             <div>
-                <button className="submit-btn" onClick={handleShowUpdate}>Save Edits</button>              
+                <button onClick={handleShowUpdate}>Save Edits</button>              
             </div>
         </div>
     )

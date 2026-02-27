@@ -29,9 +29,9 @@ export const Login = () => {
 
 
     return (
-        <main className="showcase-main">
+        <main>
             <section>
-                <form className="form-group">
+                <form>
                     <h1>Welcome Manager!</h1>
                     <h2>Manager Sign In</h2>
                     <fieldset>
@@ -49,7 +49,7 @@ export const Login = () => {
             </section>
             <section>
                 <div>
-                    <button className="submit-btn" onClick={handleLogin}>Sign In</button>
+                    <button onClick={handleLogin}>Sign In</button>
                 </div>
             </section>
             <div>

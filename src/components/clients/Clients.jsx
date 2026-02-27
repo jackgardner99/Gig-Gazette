@@ -47,32 +47,32 @@ export const Clients = ({ manager }) => {
 
     return (
         <main>
-            <h2 className="about-header">Clients</h2>
+            <h2>Clients</h2>
                 <div>
                     <div>
                         <Link to={"/managers/create-artist"}>
-                            <button className="cta-button">
+                            <button>
                                 Create Client
                             </button>
                         </Link>
                     </div>
                     <div>
                         <Link to={"/managers/create-event"}>
-                            <button className="cta-button">Create Open Mic</button>
+                            <button>Create Open Mic</button>
                         </Link>
                     </div>
                 </div>
                 {artists.length > 0 && 
-                    <div className="coverflow-container">
+                    <div>
                         <h2>Artists</h2>
                 <div>
                     {artists.map((artist) => {
                         return <>
-                            <div key={artist.id} className="showcase-display">
+                            <div key={artist.id}>
                                 <Link to={`/managers/edit-artist/${artist.id}`}>
-                                    <div className="badge">
-                                        <div className="badge-text">{artist.name}</div>
-                                        <div className="badge-text">{artist.genre?.name}</div>
+                                    <div>
+                                        <div>{artist.name}</div>
+                                        <div>{artist.genre?.name}</div>
                                     </div>
                                 </Link>
                                 {/* <Link to={`/managers/profile-picture/${artist.id}`}>
@@ -83,19 +83,19 @@ export const Clients = ({ manager }) => {
                                 <div>
                                     <Link to={`/managers/artist-shows/${artist.id}`}>
                                         {artist.isBand === false ? (
-                                            <button className="cta-button">Artist Shows</button>
+                                            <button>Artist Shows</button>
                                         ) : (
-                                            <button className="cta-button">Band Shows</button>
+                                            <button>Band Shows</button>
                                         )}
                                     </Link>
                                 </div>
                                 <div>
                                     {artist.isBand === false ? (
-                                        <button  className="cta-button" onClick={() => {
+                                        <button onClick={() => {
                                             handleDeleteArtist(artist)
                                         }}>Delete Artist</button>
                                     ) : (
-                                        <button  className="cta-button" onClick={() => {
+                                        <button onClick={() => {
                                             handleDeleteArtist(artist)
                                         }}>Delete Band</button>
                                     )}
@@ -108,19 +108,19 @@ export const Clients = ({ manager }) => {
             </div>
                 }
                 {openMics.length > 0 && 
-                    <div className="coverflow-container">
+                    <div>
                         <h2>Open Mics</h2>
                         <div>
                             {openMics.map((openMic) => {
                                 return <>
                                     <Link to={`/managers/edit-openMic/${openMic.id}`}>
-                                        <div className="badge">
-                                            <div className="badge-text">{openMic.eventTitle}</div>
-                                            <div className="badge-text">{openMic.venue?.venueName}</div>
+                                        <div>
+                                            <div>{openMic.eventTitle}</div>
+                                            <div>{openMic.venue?.venueName}</div>
                                         </div>
                                     </Link>
                                     <div>
-                                        <button className="cta-button" onClick={() => {
+                                        <button onClick={() => {
                                             handleDeleteOpenMic(openMic)
                                         }}>Delete Open Mic</button>
                                     </div>

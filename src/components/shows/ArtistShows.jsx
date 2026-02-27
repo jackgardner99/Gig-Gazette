@@ -60,21 +60,21 @@ export const ArtistShows = () => {
 
 
     return (
-        <main className="about-content">
+        <main>
             <div>
-                <h2 className="about-header">
+                <h2>
                     {artist.artistName} Shows
                 </h2>
                 <div>
                     <Link to={`/managers/artist-shows/create/${artistId}`}>
-                        <button className="cta-button">Create Show</button>            
+                        <button>Create Show</button>            
                     </Link>
                 </div>
-                <div className="coverflow-container">
+                <div>
                     {artistShows.map((show) => {
-                        return <div key={show.id} className="showcase-badges">
+                        return <div key={show.id}>
                                 <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
-                                <div className="badge">
+                                <div>
                                     <div>
                                         {show.eventTitle}
                                     </div>
@@ -87,7 +87,7 @@ export const ArtistShows = () => {
                                 </div>                              
                                 </Link>
                                 <div>
-                                    <button className="cta-button" onClick={() => {
+                                    <button onClick={() => {
                                         handleShowDelete(show)
                                     }}>Delete Show</button>
                                 </div>

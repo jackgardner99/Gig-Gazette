@@ -42,16 +42,16 @@ export const EditArtist = () => {
 
 
     return (
-        <div className="showcase-main">
+        <div>
             <h2>{artist.artistName} Edits</h2>
-            <div className="form-group">
+            <div>
                 <input type="text" value={artist.name} onChange={(e) => {
                     const artistCopy = {...artist}
                     artistCopy.name = e.target.value
                     setArtist(artistCopy)
                 }}/>
             </div>
-            <div className="form-group">
+            <div>
                 <select onChange={(e) => {
                     const artistCopy = {...artist}
                     artistCopy.genreId = parseInt(e.target.value)
@@ -66,7 +66,7 @@ export const EditArtist = () => {
                 </select>
             </div>
             <div>
-                <button className="submit-btn" onClick={() => {
+                <button onClick={() => {
                     handleUpdateArtist()
                 }}>
                     Save Changes

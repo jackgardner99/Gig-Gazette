@@ -4,16 +4,16 @@ export const ManagerNavbar = () => {
     const navigate = useNavigate()
 
     return (
-    <header className="header">
-        <ul className="navbar">
-            <Link to={"/managers"}><li className="nav-button">Clients</li></Link>
-            <Link to={"/managers/map"}><li className="nav-button">Map</li></Link>
+    <header>
+        <ul>
+            <Link to={"/managers"}><li>Clients</li></Link>
+            <Link to={"/managers/map"}><li>Map</li></Link>
             {localStorage.getItem("manager") ? 
             (<Link to={"/login"} onClick={() => {
                 localStorage.removeItem("manager")
                 navigate("/login", { replace: true })
             }}>
-            <li className="nav-button">
+            <li>
                 Logout                
             </li></Link>) : 
             ("")

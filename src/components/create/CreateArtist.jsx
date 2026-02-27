@@ -38,14 +38,14 @@ export const CreateArtist = ({ manager }) => {
 
     
     return (
-        <div className="showcase-main">
+        <div>
             <div>
                 <Link to={'/managers'}>
-                    <button  className="cta-button">Back to Clients</button>
+                    <button>Back to Clients</button>
                 </Link>
             </div>
             <h2>Create Client</h2>
-            <div className="form-group">
+            <div>
                 <input type="text" placeholder="Artist Name" onChange={(event) => {
                         const copyArtist = {...newArtist}
                         copyArtist.artistName = event.target.value
@@ -53,7 +53,7 @@ export const CreateArtist = ({ manager }) => {
                     }
                 }/>
             </div>
-            <div className="form-group">
+            <div>
                 <select onChange={(event) => {
                     setGenre({id: parseInt(event.target.value)})
                 }}>
@@ -78,13 +78,13 @@ export const CreateArtist = ({ manager }) => {
             </div>
             <div>
                 {isBand === false ? (
-                    <button className="submit-btn" onClick={() => {
+                    <button onClick={() => {
                     handleArtistCreation()
                 }}>
                     Create Artist
                 </button>
                 ) : (
-                    <button className="submit-btn" onClick={() => {
+                    <button onClick={() => {
                     handleArtistCreation()
                 }}>
                     Create Band

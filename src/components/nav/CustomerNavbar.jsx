@@ -2,15 +2,15 @@ import { Link } from "react-router-dom"
 
 export const CustomerNavbar = () => {
     return (
-        <header className="header">
-            <ul className="navbar">
+        <header>
+            <ul>
                 <Link to={"/"}>
-                    <li className="nav-button">
+                    <li>
                         Map
                     </li>
                 </Link>    
                 <Link to={"/login"}>
-                    <li className="nav-button">
+                    <li>
                         Login
                     </li>
                 </Link>

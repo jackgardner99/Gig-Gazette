@@ -1,7 +1,6 @@
 
 import { Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
-import './templatemo-3d-coverflow.css'
 import { Login } from './components/auth/Login'
 import { ApplicationView } from './components/views/ApplicationView'
 import { Authorized } from './components/views/Authorized'
