@@ -20,23 +20,27 @@ export const CreateEvent = ({ manager }) => {
     }, [manager])
 
     const handleSubmit = () => {
-        const openMic = {
-            eventTitle: newOpenMic.eventTitle,
-            venueId: venue,
-            managerId: manager.id,
-            isRecurring: isRecurring,
-            dateTime: !isRecurring ? dateTime : null,
-            recurrence: isRecurring ? recurrence : null,
-            time: isRecurring ? time : null,
-            dayOfWeek: isRecurring ? dayOfWeek : null,
-            dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
+        if (newOpenMic.eventTitle && venue) {
+            if (dateTime || time) {
+                const openMic = {
+                eventTitle: newOpenMic.eventTitle,
+                venueId: venue,
+                managerId: manager.id,
+                isRecurring: isRecurring,
+                dateTime: !isRecurring ? dateTime : null,
+                recurrence: isRecurring ? recurrence : null,
+                time: isRecurring ? time : null,
+                dayOfWeek: isRecurring ? dayOfWeek : null,
+                dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
+                }
+    
+                createOpenMic(openMic).then(() => {
+                    setNewOpenMic({ name: "" })
+                    setVenue(0)
+                    navigate('/managers')
+                })
+            }
         }
-
-        createOpenMic(openMic).then(() => {
-            setNewOpenMic({ name: "" })
-            setVenue(0)
-            navigate('/managers')
-        })
     }
 
 

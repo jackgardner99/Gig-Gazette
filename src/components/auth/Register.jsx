@@ -29,13 +29,17 @@ export const Register = () => {
 
     const handleRegister = (e) => {
         e.preventDefault()
-        getManagerByEmail(manager.email).then((response) => {
+        if (manager.name && manager.email) {
+            getManagerByEmail(manager.email).then((response) => {
             if (response.length > 0) {
                 window.alert("Email is already in use. Please provide another email.")
             } else {
                 registerNewManager()
             }
         })
+        } else {
+            window.alert('Please make sure all input fields are filled out before submitting')
+        }
     }
 
     return (
