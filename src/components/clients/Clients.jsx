@@ -18,8 +18,7 @@ export const Clients = ({ manager }) => {
             ]).then(([artistsArray, openMicsArray]) => {
                 setArtists(artistsArray)
                 setOpenMics(openMicsArray)
-                setIsLoading(false)
-            })
+            }).then(setIsLoading(false))
         }
     }, [manager])
 

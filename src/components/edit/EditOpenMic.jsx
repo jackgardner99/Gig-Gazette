@@ -26,21 +26,48 @@ export const EditOpenMic = () => {
         if(openMic.eventTitle && openMic.venueId) {
             if(openMic.isRecurring === true) {
                 if (openMic.recurrence && openMic.time) {
-                    const updatedOpenMic = {
-                        id: openMic.id,
-                        eventTitle: openMic.eventTitle,
-                        venueId: openMic.venueId,
-                        managerId: openMic.managerId,
-                        isRecurring: openMic.isRecurring,
-                        dateTime: null,
-                        recurrence: openMic.recurrence,
-                        time: openMic.time,
-                        dayOfWeek: openMic.dayOfWeek,
-                        dayOfMonth: openMic.dayOfMonth
+                    if (openMic.recurrence === "Weekly") {
+                        if(openMic.dayOfWeek) {
+                            const updatedOpenMic = {
+                                id: openMic.id,
+                                eventTitle: openMic.eventTitle,
+                                venueId: openMic.venueId,
+                                managerId: openMic.managerId,
+                                isRecurring: openMic.isRecurring,
+                                dateTime: null,
+                                recurrence: openMic.recurrence,
+                                time: openMic.time,
+                                dayOfWeek: openMic.dayOfWeek,
+                                dayOfMonth: openMic.dayOfMonth
+                            }
+                            updateOpenMic(updatedOpenMic).then(() => {
+                                navigate('/managers')
+                            })
+                        } else {
+                            window.alert('Please make sure all fields are filled out before submitting changes')
+                        }   
+                    } else if (openMic.recurrence === "Monthly") {
+                        if (openMic.dayOfMonth) {
+                            const updatedOpenMic = {
+                                id: openMic.id,
+                                eventTitle: openMic.eventTitle,
+                                venueId: openMic.venueId,
+                                managerId: openMic.managerId,
+                                isRecurring: openMic.isRecurring,
+                                dateTime: null,
+                                recurrence: openMic.recurrence,
+                                time: openMic.time,
+                                dayOfWeek: openMic.dayOfWeek,
+                                dayOfMonth: openMic.dayOfMonth
+                            }
+                            updateOpenMic(updatedOpenMic).then(() => {
+                                navigate('/managers')
+                            })
+                        } else {
+                            window.alert('Please make sure all fields are filled out before submitting changes')
+
+                        }
                     }
-                    updateOpenMic(updatedOpenMic).then(() => {
-                        navigate('/managers')
-                    })
                 } else {
                     window.alert('Please make sure all fields are filled out before submitting changes')
                 }

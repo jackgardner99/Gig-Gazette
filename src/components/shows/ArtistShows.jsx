@@ -24,8 +24,7 @@ export const ArtistShows = () => {
                 ]).then(([artistShowsArray, artist]) => {
                     setArtistShows(artistShowsArray)
                     setArtist(artist)
-                    setIsLoading(false)
-                })
+                }).then(setIsLoading(false))
             }
         }, [artistId])
 

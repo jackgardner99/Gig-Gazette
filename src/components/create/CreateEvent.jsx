@@ -9,10 +9,10 @@ export const CreateEvent = ({ manager }) => {
     const [venue, setVenue] = useState(0)
     const [dateTime, setDateTime] = useState('')
     const [time, setTime] = useState('')
-    const [dayOfWeek, setDayOfWeek] = useState('Monday')
+    const [dayOfWeek, setDayOfWeek] = useState('')
     const [isRecurring, setIsRecurring] = useState(false)
-    const [recurrence, setRecurrence] = useState('weekly')
-    const [dayOfMonth, setDayOfMonth] = useState('1st')
+    const [recurrence, setRecurrence] = useState('')
+    const [dayOfMonth, setDayOfMonth] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -20,26 +20,74 @@ export const CreateEvent = ({ manager }) => {
     }, [manager])
 
     const handleSubmit = () => {
-        if (newOpenMic.eventTitle && venue) {
-            if (dateTime || time) {
-                const openMic = {
-                eventTitle: newOpenMic.eventTitle,
-                venueId: venue,
-                managerId: manager.id,
-                isRecurring: isRecurring,
-                dateTime: !isRecurring ? dateTime : null,
-                recurrence: isRecurring ? recurrence : null,
-                time: isRecurring ? time : null,
-                dayOfWeek: isRecurring ? dayOfWeek : null,
-                dayOfMonth: isRecurring && recurrence === 'monthly' ? dayOfMonth : null
-                }
-    
-                createOpenMic(openMic).then(() => {
-                    setNewOpenMic({ name: "" })
-                    setVenue(0)
-                    navigate('/managers')
-                })
-            }
+        if(newOpenMic.eventTitle && venue) {
+                    if(isRecurring === true) {
+                        if (recurrence && time) {
+                            if(recurrence === "Weekly") {
+                                if(dayOfWeek) {
+                                    const openMic = {
+                                        eventTitle: newOpenMic.eventTitle,
+                                        venueId: venue,
+                                        managerId: manager.id,
+                                        isRecurring: isRecurring,
+                                        dateTime: null,
+                                        recurrence: recurrence,
+                                        time: time,
+                                        dayOfWeek: dayOfWeek,
+                                        dayOfMonth: dayOfMonth
+                                    }
+                                    createOpenMic(openMic).then(() => {
+                                        navigate('/managers')
+                                    })
+                                } else {
+                                    window.alert('Please make sure all fields are filled out before submitting')
+                                }
+                        } else if (recurrence === "Monthly") {
+                            if (dayOfMonth) {
+                                const openMic = {
+                                eventTitle: newOpenMic.eventTitle,
+                                venueId: venue,
+                                managerId: manager.id,
+                                isRecurring: isRecurring,
+                                dateTime: null,
+                                recurrence: recurrence,
+                                time: time,
+                                dayOfWeek: dayOfWeek,
+                                dayOfMonth: dayOfMonth
+                            }
+                            createOpenMic(openMic).then(() => {
+                                navigate('/managers')
+                            })
+                            } else {
+                                window.alert('Please make sure all fields are filled out before submitting')
+
+                            }
+                        }
+                        } else {
+                            window.alert('Please make sure all fields are filled out before submitting')
+                        }
+                    } else {
+                        if (dateTime) {
+                            const openMic = {
+                                eventTitle: newOpenMic.eventTitle,
+                                venueId: venue,
+                                managerId: manager.id,
+                                isRecurring: isRecurring,
+                                dateTime: dateTime,
+                                recurrence: null,
+                                time: null,
+                                dayOfWeek: null,
+                                dayOfMonth: null
+                            }
+                            createOpenMic(openMic).then(() => {
+                                navigate('/managers')
+                            })
+                        } else {
+                            window.alert('Please make sure all fields are filled out before submitting')
+                        }
+                    }
+            } else {
+                window.alert('Please make sure all fields are filled out before submitting')
         }
     }
 
