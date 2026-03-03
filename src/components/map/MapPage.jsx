@@ -122,7 +122,7 @@ export const MapPage = () => {
                     )}
                     
                 </div>
-                <div>
+                <div className='intimate-set-map'>
                     {displayOpenMics ? (
                         <>
                             <input type='checkbox' disabled /> Intimate Set
@@ -134,7 +134,7 @@ export const MapPage = () => {
                     </>   
                     )}
                 </div>
-                <div>
+                <div className='intimate-set-map'>
                     <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>
@@ -161,7 +161,7 @@ export const MapPage = () => {
                                         <div>@{selectedShow.venue?.venueName}</div>
                                         {selectedShow.artistId ? (
                                             <div>
-                                                <button>Get Tickets</button>
+                                                <Link to={selectedShow.url}><button>Get Tickets</button></Link>
                                             </div>
                                         ) : (
                                             ''

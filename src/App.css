@@ -441,3 +441,13 @@ h2 {
 .signin-form h2 {
   color: rgb(255, 162, 0);
 }
+
+.intimate-set {
+  padding-top: 20px;
+  margin-bottom: -20px;
+  margin-left: 10px;
+}
+
+.intimate-set-map {
+  margin-left: 10px;
+}

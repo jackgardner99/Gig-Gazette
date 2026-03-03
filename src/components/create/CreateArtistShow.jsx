@@ -60,39 +60,43 @@ export const CreateArtistShow = () => {
                 </div>
                 <div className="create-container">
                     <h2>Create Show</h2>
-                    <div className="filter-group">
-                        <p>Show Name</p>
-                        <input type="text" value={showName} onChange={(e) => {
-                            setShowName(e.target.value)
-                        }}/>
+                    <div className="create-artist-show-container">
+                        <div className="filter-group">
+                            <p>Show Name</p>
+                            <input type="text" value={showName} onChange={(e) => {
+                                setShowName(e.target.value)
+                            }}/>
+                        </div>
+                        <div className="filter-group">
+                            <p>Show Location</p>
+                            <select onChange={(e) => {
+                                setVenue(parseInt(e.target.value))
+                            }}>
+                                <option selected value={0}>Please select venue</option>
+                                {venues.map((venue) => {
+                                    return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
+                                })}
+                            </select>
+                        </div>
+                        <div className="intimate-set">
+                            <input type="checkbox" checked={intimate} onChange={(e) => {
+                                setIntimate(e.target.checked)
+                            }} /> Intimate Set
+                        </div>
                     </div>
-                    <div className="filter-group">
-                        <p>Show Location</p>
-                        <select onChange={(e) => {
-                            setVenue(parseInt(e.target.value))
-                        }}>
-                            <option selected value={0}>Please select venue</option>
-                            {venues.map((venue) => {
-                                return <option value={venue.id} key={venue.id}>{venue.venueName}</option>
-                            })}
-                        </select>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={intimate} onChange={(e) => {
-                            setIntimate(e.target.checked)
-                        }} /> Intimate Set
-                    </div>
-                    <div className="filter-group">
-                        <p>Date and Time</p>
-                        <input type="datetime-local" value={dateTime} onChange={(e) => {
-                            setDateTime(e.target.value)
-                        }}/>
-                    </div>
-                    <div className="filter-group">
-                        <p>Show Link</p>
-                        <input type="url" value={url} onChange={(e) => {
-                            setUrl(e.target.value)
-                        }}/>
+                    <div className="create-artist-show-container">
+                        <div className="filter-group">
+                            <p>Date and Time</p>
+                            <input type="datetime-local" value={dateTime} onChange={(e) => {
+                                setDateTime(e.target.value)
+                            }}/>
+                        </div>
+                        <div className="filter-group">
+                            <p>Show Link</p>
+                            <input type="url" value={url} onChange={(e) => {
+                                setUrl(e.target.value)
+                            }}/>
+                        </div>
                     </div>
                     <div>
                         <button className="submit-btn" onClick={handleShowCreation}><a>Create Show</a></button>              
