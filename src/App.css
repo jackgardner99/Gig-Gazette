@@ -2,6 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
 }
 
 .artist-image {
@@ -90,7 +91,7 @@
 
 .popup-overlay {
   position: absolute;
-  top: 200px;
+  top: 100px;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -135,6 +136,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-height: 100vh;
 }
 
 .clients-section-create-show {
