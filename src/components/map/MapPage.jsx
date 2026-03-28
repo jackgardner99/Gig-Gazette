@@ -91,10 +91,10 @@ export const MapPage = () => {
     }
 
     return (
-        <div className='map-page-container'>
-            <div className='gig-filter-container'>
+        <div className='map-wrapper'>
+            <div className='filter-panel'>
                 <h2>The Gig Map</h2>
-                <div className='filter-group'>
+                <div className='search-field'>
                     <p>Search</p>
                     {displayOpenMics ? (
                         <input disabled placeholder='Search Artist' />
@@ -104,7 +104,7 @@ export const MapPage = () => {
                     }} />
                     )}
                 </div>
-                <div className='filter-group'>
+                <div className='search-field'>
                     <p>Genre</p>
                     {displayOpenMics ? (
                         <select disabled>
@@ -122,7 +122,7 @@ export const MapPage = () => {
                     )}
                     
                 </div>
-                <div className='intimate-set-map'>
+                <div className='search-field'>
                     {displayOpenMics ? (
                         <>
                             <input type='checkbox' disabled /> Intimate Set
@@ -134,7 +134,7 @@ export const MapPage = () => {
                     </>   
                     )}
                 </div>
-                <div className='intimate-set-map'>
+                <div className='search-field'>
                     <input type='checkbox' checked={displayOpenMics} onChange={(e) => setDisplayOpenMics(e.target.checked)} /> Open Mics
                 </div>
             </div>

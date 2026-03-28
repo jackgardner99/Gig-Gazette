@@ -2,8 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import "./App.css"
 import App from "./App"
-import "./index.css"
+// import "./index.css"
 import { BrowserRouter } from "react-router-dom"
+import "./CSS/NewCSS.css"
 
 
 const container = document.getElementById("root")

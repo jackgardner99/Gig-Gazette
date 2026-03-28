@@ -1,24 +1,24 @@
 import { Link, useNavigate } from "react-router-dom"
-import '../../CSS/NavBar.css'
+
 
 export const ManagerNavbar = () => {
     const navigate = useNavigate()
 
     return (
-    <header id="header">
-        <div className="logo">
+    <header className="nav">
+        <div className="nav__brand-name">
             Gig Gazette
         </div>
         <nav>
-            <ul>
-                <Link to={"/managers"}><li>Clients</li></Link>
-                <Link to={"/managers/map"}><li>Map</li></Link>
+            <ul className="nav__links">
+                <Link to={"/managers"}><li className="nav__link">Clients</li></Link>
+                <Link to={"/managers/map"}><li className="nav__link">Map</li></Link>
                 {localStorage.getItem("manager") ? 
                 (<Link to={"/login"} onClick={() => {
                     localStorage.removeItem("manager")
                     navigate("/login", { replace: true })
                 }}>
-                <li>
+                <li className="nav__link">
                     Logout                
                 </li></Link>) : 
                 ("")

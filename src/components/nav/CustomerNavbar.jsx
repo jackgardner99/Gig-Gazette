@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom"
-import '../../CSS/NavBar.css'
+
 
 export const CustomerNavbar = () => {
     return (
-        <header id="header">
-            <div className="logo">
+        <header className="nav">
+            <div className="nav__brand-name">
                 Gig Gazette
             </div>
             <nav>
-                <ul>
+                <ul className="nav__links">
                     <Link to={"/"}>
-                        <li>
+                        <li className="nav__link">
                             Map
                         </li>
                     </Link>    
                     <Link to={"/login"}>
-                        <li>
+                        <li className="nav__link">
                             Login
                         </li>
                     </Link>
