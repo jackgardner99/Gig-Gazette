@@ -173,8 +173,7 @@ export const MapPage = () => {
                         mapContainerRef.current
                     )
                 }
-                <div>
-                    <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false}>
+                    <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -196,7 +195,6 @@ export const MapPage = () => {
                         })}
                         
                     </MapContainer>
-                </div>
             </div>        
         </div>
         
