@@ -1,32 +1,45 @@
 
 
-export const VenueShows = ({ artistShows }) => {
+export const VenueShows = ({ filteredArtistShowsByDate }) => {
     
-    const formatDateTime = (dateTimeString) => {
-        if (!dateTimeString) return ""
+    const formatDate = (dateString) => {
+        if (!dateString) return ""
         
-        const date = new Date(dateTimeString)
+        const date = new Date(dateString)
         
         return date.toLocaleString('en-US', {
             month: 'numeric',
             day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
+            year: 'numeric'
         })
+    }
+
+    const formatStartTime = (timeString) => {
+        const [hourStr, minute] = timeString.split(":")
+        let hour = parseInt(hourStr)
+        const ampm = hour >= 12 ? "PM" : "AM"
+        hour = hour % 12 || 12
+        return `${hour}:${minute} ${ampm}`
+    }
+
+    const formatEndTime = (timeString) => {
+        const [hourStr, minute] = timeString.split(":")
+        let hour = parseInt(hourStr)
+        const ampm = hour >= 12 ? "PM" : "AM"
+        hour = hour % 12 || 12
+        return `${hour}:${minute} ${ampm}`
     }
 
     return (
         <div className="venue-shows-container">
             <div className="venue-shows">
             <h2>Show Conflicts</h2>
-                {artistShows.map((artistShow) => {
+                {filteredArtistShowsByDate.map((artistShow) => {
                     return (
                         <div>
                             <div>{artistShow.eventTitle}</div>
                             <div>{artistShow.artist?.artistName}</div>
-                            <div><strong>{formatDateTime(artistShow.dateTime)}</strong></div>
+                            <div><strong>{formatDate(artistShow.date)} {formatStartTime(artistShow.startTime)} - {formatEndTime(artistShow.endTime)}</strong></div>
                         </div>
                     )
                 })}

@@ -32,19 +32,24 @@ export const ArtistShows = () => {
         deleteArtistShow(show).then(getAndSetArtistShows(artistId))
     }
 
-    const formatDateTime = (dateTimeString) => {
-        if (!dateTimeString) return ""
+    const formatDate = (dateString) => {
+        if (!dateString) return ""
         
-        const date = new Date(dateTimeString)
+        const date = new Date(dateString)
         
         return date.toLocaleString('en-US', {
             month: 'numeric',
             day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
+            year: 'numeric'
         })
+    }
+
+    const formatTime = (timeString) => {
+        const [hourStr, minute] = timeString.split(":")
+        let hour = parseInt(hourStr)
+        const ampm = hour >= 12 ? "PM" : "AM"
+        hour = hour % 12 || 12
+        return `${hour}:${minute} ${ampm}`
     }
 
     if (isLoading) {
@@ -81,7 +86,7 @@ export const ArtistShows = () => {
                                             {show?.venue?.venueName}
                                         </div>
                                         <div>
-                                            {formatDateTime(show.dateTime)}
+                                            {formatDate(show.date)} {formatTime(show.startTime)}
                                         </div>
                                     </div>                              
                                     </Link>
