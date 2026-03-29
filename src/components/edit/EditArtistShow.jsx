@@ -28,24 +28,11 @@ export const EditArtistShow = () => {
     }, [artistShow, venues])
 
     const handleShowUpdate = () => {
-        if (artistShow.eventTitle && artistShow.venueId && artistShow.dateTime && artistShow.url) {
+        if (artistShow.eventTitle && artistShow.venueId && artistShow.date && artistShow.startTime && artistShow.endTime && artistShow.url) {
             updateArtistShow(artistShow).then(navigate(`/managers/artist-shows/${artistShow.artistId}`))
         } else {
             window.alert("Please fill out all fields before updating show")
         }
-    }
-
-    const formatForInput = (dateTimeString) => {
-        if (!dateTimeString) return ""
-        const date = new Date(dateTimeString)
-        
-        const year = date.getFullYear()
-        const month = String(date.getMonth() + 1).padStart(2, '0')
-        const day = String(date.getDate()).padStart(2, '0')
-        const hours = String(date.getHours()).padStart(2, '0')
-        const minutes = String(date.getMinutes()).padStart(2, '0')
-        
-        return `${year}-${month}-${day}T${hours}:${minutes}`
     }
 
     return (
@@ -74,11 +61,27 @@ export const EditArtistShow = () => {
                     </select>
                 </div>
                 <div>
-                    <p>Date and Time</p>
-                    <input className="form__input" type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
-                        const artistShowCopy = {...artistShow}
-                        artistShowCopy.dateTime = e.target.value
-                        setArtistShow(artistShowCopy)
+                    <p>Show Date</p>
+                    <input className="form__input" type="date" value={artistShow.date} onChange={(e) => {
+                        const copy = {...artistShow}
+                        copy.date = e.target.value
+                        setArtistShow(copy)
+                    }}/>
+                </div>
+                <div>
+                    <p>Start Time</p>
+                    <input className="form__input" type="time" value={artistShow.startTime} onChange={(e) => {
+                        const copy = {...artistShow}
+                        copy.date = e.target.value
+                        setArtistShow(copy)
+                    }}/>
+                </div>
+                <div>
+                    <p>End Time</p>
+                    <input className="form__input" type="time" value={artistShow.endTime} onChange={(e) => {
+                        const copy = {...artistShow}
+                        copy.date = e.target.value
+                        setArtistShow(copy)
                     }}/>
                 </div>
                 <div>
