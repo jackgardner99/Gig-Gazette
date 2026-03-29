@@ -18,9 +18,15 @@ export const Clients = ({ manager }) => {
             ]).then(([artistsArray, openMicsArray]) => {
                 setArtists(artistsArray)
                 setOpenMics(openMicsArray)
-            }).then(setIsLoading(false))
+            })
         }
     }, [manager])
+
+    useEffect(() => {
+        if (artists.length > 0 && openMics.length > 0) {
+            setIsLoading(false)
+        }
+    }, [artists, openMics])
 
     const handleDeleteArtist = (artist) => {
         deleteArtist(artist).then(() => {
@@ -36,10 +42,8 @@ export const Clients = ({ manager }) => {
 
     if (isLoading) {
         return (
-            <div class="spinner-box">
-                <div class="circle-border">
-                    <div class="circle-core"></div>
-                </div>  
+            <div>
+                Loading...
             </div>
         )
     }
@@ -64,7 +68,7 @@ export const Clients = ({ manager }) => {
                 <div>
                     {artists.length > 0 && 
                         <div>
-                            <h2>Artists</h2>
+                            <h2 className="form__section-title">Artists</h2>
                     <div className="card-grid">
                         {artists.map((artist) => {
                             return <>
@@ -80,7 +84,7 @@ export const Clients = ({ manager }) => {
                                             <img className="artist-image" src={artist.img} loading="lazy" />
                                         </div>                               
                                     </Link> */}
-                                    <div className="">
+                                    <div>
                                         <div>
                                             <Link to={`/managers/artist-shows/${artist.id}`}>
                                                 {artist.isBand === false ? (
@@ -111,14 +115,14 @@ export const Clients = ({ manager }) => {
                     }
                     {openMics.length > 0 && 
                         <div>
-                            <h2>Open Mics</h2>
+                            <h2 className="form__section-title">Open Mics</h2>
                             <div className="card-grid">
                                 {openMics.map((openMic) => {
                                     return <div>
                                         <Link to={`/managers/edit-openMic/${openMic.id}`}>
                                             <div className="card">
-                                                <div>{openMic.eventTitle}</div>
-                                                <div>{openMic.venue?.venueName}</div>
+                                                <div className="card__title">{openMic.eventTitle}</div>
+                                                <div className="card__subtitle">{openMic.venue?.venueName}</div>
                                             </div>
                                         </Link>
                                         <div>
