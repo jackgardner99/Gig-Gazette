@@ -49,20 +49,20 @@ export const EditArtistShow = () => {
     }
 
     return (
-        <div className="clients-section">
-            <div className="create-container">
-                <h2>Edit Show</h2>
-                <div className="filter-group">
+        <div>
+                <h2 className="form__section-title">Edit Show</h2>
+            <div className="form">
+                <div>
                     <p>Show Name</p>
-                    <input type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
+                    <input className="form__input" type="text" value={artistShow.eventTitle} {...console.log(artistShow)} onChange={(e) => {
                         const artistShowCopy = {...artistShow}
                         artistShowCopy.eventTitle = e.target.value
                         setArtistShow(artistShowCopy)
                     }}/>
                 </div>
-                <div className="filter-group">
+                <div>
                     <p>Show Location</p>
-                    <select onChange={(e) => {
+                    <select className="form__select" onChange={(e) => {
                         const artistShowCopy = {...artistShow}
                         artistShowCopy.venueId = e.target.value
                         setArtistShow(artistShowCopy)
@@ -73,24 +73,24 @@ export const EditArtistShow = () => {
                         })}
                     </select>
                 </div>
-                <div className="filter-group">
+                <div>
                     <p>Date and Time</p>
-                    <input type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
+                    <input className="form__input" type="datetime-local" value={formatForInput(artistShow.dateTime)} {...console.log(artistShow)} onChange={(e) => {
                         const artistShowCopy = {...artistShow}
                         artistShowCopy.dateTime = e.target.value
                         setArtistShow(artistShowCopy)
                     }}/>
                 </div>
-                <div className="filter-group">
+                <div>
                     <p>URL Link</p>
-                    <input type="url" value={artistShow.url} onChange={(e) => {
+                    <input className="form__input" type="url" value={artistShow.url} onChange={(e) => {
                         const artistShowCopy = {...artistShow}
                         artistShowCopy.url = e.target.value
                         setArtistShow(artistShowCopy)
                     }} />
                 </div>
             <div>
-                <button className="submit-btn" onClick={handleShowUpdate}><a>Save Edits</a></button>              
+                <button className="form__day-btn" onClick={handleShowUpdate}><a>Save Edits</a></button>              
             </div>
             </div>
         </div>

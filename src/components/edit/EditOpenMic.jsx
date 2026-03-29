@@ -99,22 +99,22 @@ export const EditOpenMic = () => {
 
 
     return (
-        <div className="clients-section">
-            <div className="create-container-open-mic">
+        <div>
                 <h2>{openMic.eventTitle} Edits</h2>
-                <div className="create-open-mic-container">
-                    <div className="open-mic-not-recurring">
-                        <div className="filter-group">
+            <div className="form">
+                <div>
+                    <div>
+                        <div>
                             <p>Name</p>
-                            <input type="text" value={openMic.eventTitle} onChange={(e) => {
+                            <input className="form__input" type="text" value={openMic.eventTitle} onChange={(e) => {
                                 const copy = {...openMic}
                                 copy.eventTitle = e.target.value
                                 setOpenMic(copy)
                             }}/>
                         </div>
-                        <div className="filter-group">
+                        <div>
                             <p>Venue</p>
-                            <select onChange={(e) => {
+                            <select className="form__select" onChange={(e) => {
                                 const copy = {...openMic}
                                 copy.venueId = parseInt(e.target.value)
                                 setOpenMic(copy)
@@ -128,9 +128,9 @@ export const EditOpenMic = () => {
                             </select>
                             </div>
                             {!openMic.isRecurring && 
-                            <div className="filter-group">
+                            <div>
                                 <p>Date and Time</p>
-                                    <input type="datetime-local" value={openMic.dateTime} onChange={(e) => {
+                                    <input className="form__input" type="datetime-local" value={openMic.dateTime} onChange={(e) => {
                                         const copy = {...openMic}
                                         copy.dateTime = e.target.value
                                         setOpenMic(copy)
@@ -140,7 +140,8 @@ export const EditOpenMic = () => {
                             <div>
                                 <label>
                                     Recurring Event
-                                    <input 
+                                    <input
+                                    className="form__check" 
                                     type="checkbox" 
                                     checked={openMic.isRecurring}
                                     onChange={(e) => {
@@ -154,11 +155,11 @@ export const EditOpenMic = () => {
                     </div>
 
                     {openMic.isRecurring && (
-                    <div className="open-mic-is-recurring">
+                    <div>
                         <div>
-                            <div className="filter-group">
+                            <div>
                                 <p>Recurrence</p>
-                                <select value={openMic.recurrence} onChange={(e) => {
+                                <select className="form__select" value={openMic.recurrence} onChange={(e) => {
                                     const copy = {...openMic}
                                     copy.recurrence = e.target.value
                                     setOpenMic(copy)
@@ -172,9 +173,9 @@ export const EditOpenMic = () => {
                                     <option value="Monthly">Monthly</option>
                                 </select>
                                     </div>
-                                    <div className="filter-group">
+                                    <div>
                                         <p>Day of Week</p>
-                                        <select onChange={(e) => {
+                                        <select className="form__select" onChange={(e) => {
                                             const copy = {...openMic}
                                             copy.dayOfWeek = e.target.value
                                             setOpenMic(copy)
@@ -194,9 +195,9 @@ export const EditOpenMic = () => {
                                         </select>
                                     </div>
                                 {openMic.recurrence === 'Monthly' && 
-                                    <div className="filter-group">
+                                    <div>
                                         <p>Day of Month</p>
-                                        <select onChange={(e) => {
+                                        <select className="form__select" onChange={(e) => {
                                             const copy = {...openMic}
                                             copy.dayOfMonth = e.target.value
                                             setOpenMic(copy)
@@ -214,9 +215,9 @@ export const EditOpenMic = () => {
                                         of every Month
                                     </div>
                                 }
-                                <div className="filter-group">
+                                <div>
                                     <p>Time</p>
-                                <input type="time" value={openMic.time} onChange={(e) => {
+                                <input className="form__input" type="time" value={openMic.time} onChange={(e) => {
                                     const copy = {...openMic}
                                     copy.time = e.target.value
                                     setOpenMic(copy)
@@ -227,7 +228,7 @@ export const EditOpenMic = () => {
                         )}
                 </div>
                 <div>
-                    <button className="submit-btn-open-mic-edits" onClick={() => {
+                    <button className="form__day-btn" onClick={() => {
                         handleUpdateOpenMic()
                     }}>
                         <a>Save Changes</a>

@@ -42,20 +42,20 @@ export const EditArtist = () => {
 
 
     return (
-        <div className="clients-section">
-            <div className="create-container">
-                <h2>{artist.name} Edits</h2>
-                <div className="filter-group">
+        <div>
+                <h2 className="form__section-title">{artist.name} Edits</h2>
+            <div className="form">
+                <div>
                     <p>Name</p>
-                    <input type="text" value={artist.name} onChange={(e) => {
+                    <input className="form__input" type="text" value={artist.name} onChange={(e) => {
                         const artistCopy = {...artist}
                         artistCopy.name = e.target.value
                         setArtist(artistCopy)
                     }}/>
                 </div>
-                <div className="filter-group">
+                <div>
                     <p>Genre</p>
-                    <select onChange={(e) => {
+                    <select className="form__select" onChange={(e) => {
                         const artistCopy = {...artist}
                         artistCopy.genreId = parseInt(e.target.value)
                         setArtist(artistCopy)
@@ -69,7 +69,7 @@ export const EditArtist = () => {
                     </select>
                 </div>
                 <div>
-                    <button className="submit-btn" onClick={() => {
+                    <button className="form__day-btn" onClick={() => {
                         handleUpdateArtist()
                     }}>
                         <a>Save Changes</a>

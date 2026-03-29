@@ -59,25 +59,25 @@ export const ArtistShows = () => {
 
 
     return (
-        <main className="clients-section">
+        <main>
             <div>
-                <h1>
+                <h1 className="form__section-title">
                     {artist.name} Shows
                 </h1>
-                <div className="create-btn-container">
+                <div>
                     <Link to={`/managers/artist-shows/create/${artistId}`}>
-                        <button className="create-btn">Create Show</button>            
+                        <button className="btn--primary">Create Show</button>            
                     </Link>
                 </div>
-                <div className="shows-container">
+                <div className="card-grid">
                     {artistShows.map((show) => {
                         return <div key={show.id}>
                                     <Link to={`/managers/artist-shows/edit-show/${show.id}`}>
-                                    <div className="artist-show-container">
-                                        <div>
+                                    <div className="card">
+                                        <div className="card__title">
                                             {show.eventTitle}
                                         </div>
-                                        <div>
+                                        <div className="card__subtitle">
                                             {show?.venue?.venueName}
                                         </div>
                                         <div>
@@ -85,8 +85,8 @@ export const ArtistShows = () => {
                                         </div>
                                     </div>                              
                                     </Link>
-                                    <div className="client-button-container">
-                                        <button className="client-button-delete" onClick={() => {
+                                    <div>
+                                        <button className="btn--danger" onClick={() => {
                                             handleShowDelete(show)
                                         }}>Delete Show</button>
                                     </div>

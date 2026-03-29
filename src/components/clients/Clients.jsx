@@ -45,9 +45,9 @@ export const Clients = ({ manager }) => {
     }
 
     return (
-        <main className="">
+        <main>
             <h1>Clients</h1>
-                <div className="">
+                <div>
                     <div>
                         <Link to={"/managers/create-artist"}>
                             <button className="btn--primary">
@@ -61,9 +61,9 @@ export const Clients = ({ manager }) => {
                         </Link>
                     </div>
                 </div>
-                <div className="">
+                <div>
                     {artists.length > 0 && 
-                        <div className="">
+                        <div>
                             <h2>Artists</h2>
                     <div className="card-grid">
                         {artists.map((artist) => {
@@ -121,7 +121,7 @@ export const Clients = ({ manager }) => {
                                                 <div>{openMic.venue?.venueName}</div>
                                             </div>
                                         </Link>
-                                        <div className="">
+                                        <div>
                                             <button className="btn--danger" onClick={() => {
                                                 handleDeleteOpenMic(openMic)
                                             }}>Delete Open Mic</button>
