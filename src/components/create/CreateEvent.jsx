@@ -93,28 +93,28 @@ export const CreateEvent = ({ manager }) => {
 
 
     return (
-        <div className="clients-section">
-            <div className="back-button-container">
+        <div>
+            <div>
                 <Link to={'/managers'}>
-                    <button className="button">Back to Clients</button>
+                    <button className="btn--primary">Back to Clients</button>
                 </Link>
             </div>
-            <div className="create-container-open-mic">
-                <h2>Create Open Mic</h2>
-                <div className="create-open-mic-container">
-                    <div className="open-mic-not-recurring">
-                        <div className="filter-group">
+            <div>
+                <h2 className="form__section-title">Create Open Mic</h2>
+                <div className="form">
+                    <div>
+                        <div>
                             <p>Name</p>
-                            <input type="text" placeholder="Open Mic Name" onChange={(event) => {
+                            <input className="form__input" type="text" placeholder="Open Mic Name" onChange={(event) => {
                                     const copy = {...newOpenMic}
                                     copy.eventTitle = event.target.value
                                     setNewOpenMic(copy)
                                 }
                             }/>
                         </div>
-                        <div className="filter-group">
+                        <div>
                             <p>Genre</p>
-                            <select onChange={(event) => {
+                            <select className="form__select" onChange={(event) => {
                                 setVenue(parseInt(event.target.value))
                             }}>
                                 <option value={0} key={0}>Please select venue</option>
@@ -128,10 +128,10 @@ export const CreateEvent = ({ manager }) => {
                             </select>
                         </div>
                         {!isRecurring && 
-                        <div className="filter-group">
+                        <div>
                             <label>
                                 <p>Date and Time</p>
-                                <input type="datetime-local" onChange={(e) => {
+                                <input className="form__input" type="datetime-local" onChange={(e) => {
                                     setDateTime(e.target.value)
                                 }} />
                             </label>
@@ -141,6 +141,7 @@ export const CreateEvent = ({ manager }) => {
                             <label>
                                 Recurring Event
                                 <input 
+                                className="form__check"
                                 type="checkbox" 
                                 checked={isRecurring}
                                 onChange={(e) => setIsRecurring(e.target.checked)} 
@@ -150,18 +151,18 @@ export const CreateEvent = ({ manager }) => {
                     </div>
 
                     {isRecurring && (
-                    <div className="open-mic-is-recurring">
-                        <div className="filter-group">
+                    <div>
+                        <div>
                             <p>Recurrence</p>
-                            <select value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
+                            <select className="form__select" value={recurrence} onChange={(e) => setRecurrence(e.target.value)}>
                                 <option>Please select recurrence</option>
                                 <option value="Weekly">Weekly</option>
                                 <option value="Monthly">Monthly</option>
                             </select>
                         </div>
-                        <div className="filter-group">
+                        <div>
                             <p>Day of Week</p>
-                            <select onChange={(e) => setDayOfWeek(e.target.value)}>
+                            <select className="form__select" onChange={(e) => setDayOfWeek(e.target.value)}>
                                 <option>Please select a day</option>
                                 <option value='Monday'>Monday</option>
                                 <option value='Tuesday'>Tuesday</option>
@@ -173,9 +174,9 @@ export const CreateEvent = ({ manager }) => {
                             </select>
                         </div>
                         {recurrence === 'Monthly' && 
-                            <div className="filter-group">
+                            <div>
                                 <p>Day of Month</p>
-                                <select onChange={(e) => setDayOfMonth(e.target.value)}>
+                                <select className="form__select" onChange={(e) => setDayOfMonth(e.target.value)}>
                                     <option>Please select day of month</option>
                                     <option value='1st'>1st</option>
                                     <option value='2nd'>2nd</option>
@@ -185,16 +186,16 @@ export const CreateEvent = ({ manager }) => {
                                 of every Month
                             </div>
                         }
-                        <div className="filter-group">
+                        <div>
                             <p>Time</p>
-                            <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+                            <input className="form__input" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                         </div>
                     </div>
                     )}
                 </div>
             </div>
             <div>
-                <button className="submit-btn-open-mic" onClick={handleSubmit}><a>Create Event</a></button>
+                <button className="form__day-btn" onClick={handleSubmit}><a>Create Event</a></button>
             </div>
         </div>
         )
