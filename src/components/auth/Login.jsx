@@ -29,14 +29,15 @@ export const Login = () => {
 
 
     return (
-        <main className="clients-section">
+        <main>
             <section>
-                <form className="container-form">
-                    <div className="signin-form">
-                        <h2>Manager Sign In</h2>
-                                <div className="filter-group">
-                                    <p>Email</p>
+                <form className="form">
+                    <div className="form__field">
+                        <h2 className="form__section-title">Manager Sign In</h2>
+                                <div>
+                                    <p className="form__label">Email</p>
                                     <input 
+                                    className="form__input"
                                     type="email" 
                                     value={email} 
                                     onChange={(event) => {setEmail(event.target.value)}}
@@ -46,7 +47,7 @@ export const Login = () => {
                                 </div>
                             <section>
                         <div>
-                            <button className="button" onClick={handleLogin}>Sign In</button>
+                            <button className="form__day-btn" onClick={handleLogin}>Sign In</button>
                         </div>
                     </section>
                     <div>

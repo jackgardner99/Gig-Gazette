@@ -43,22 +43,22 @@ export const Register = () => {
     }
 
     return (
-        <main className="clients-section">
-            <form className="container-form">
-                <div className="signin-form">
-                    <h2>Welcome New Manager!</h2>
-                    <div className="filter-group">
-                        <p>Name</p>
-                        <input type="text" onChange={(e) => {
+        <main>
+            <form className="form">
+                <div className="form__field">
+                    <h2 className="form__section-title">Welcome New Manager!</h2>
+                    <div>
+                        <p className="form__label">Name</p>
+                        <input className="form__input" type="text" onChange={(e) => {
                             const copy = {...manager}
                             copy.name = e.target.value
                             setManager(copy)
                         }} placeholder="Enter your name" required/>
                     </div>
 
-                    <div className="filter-group">
-                        <p>Email</p>
-                        <input type="email" onChange={(e) => {
+                    <div>
+                        <p className="form__label">Email</p>
+                        <input className="form__input" type="email" onChange={(e) => {
                             const copy = {...manager}
                             copy.email = e.target.value
                             setManager(copy)
@@ -66,7 +66,7 @@ export const Register = () => {
                     </div>
 
                 <div>
-                    <button className="button" type="submit" onClick={handleRegister}>Register</button>
+                    <button className="form__day-btn" type="submit" onClick={handleRegister}>Register</button>
                 </div>
             <div>
                 Already have an account? <Link to={'/login'}>Login!</Link>

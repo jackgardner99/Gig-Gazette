@@ -45,34 +45,34 @@ export const Clients = ({ manager }) => {
     }
 
     return (
-        <main className="clients-section">
+        <main className="">
             <h1>Clients</h1>
-                <div className="create-btn-container">
+                <div className="">
                     <div>
                         <Link to={"/managers/create-artist"}>
-                            <button className="create-btn">
+                            <button className="btn--primary">
                                 Create Client
                             </button>
                         </Link>
                     </div>
                     <div>
                         <Link to={"/managers/create-event"}>
-                            <button className="create-btn">Create Open Mic</button>
+                            <button className="btn--primary">Create Open Mic</button>
                         </Link>
                     </div>
                 </div>
-                <div className="clients-container">
+                <div className="">
                     {artists.length > 0 && 
-                        <div className="artists-container">
+                        <div className="">
                             <h2>Artists</h2>
-                    <div>
+                    <div className="card-grid">
                         {artists.map((artist) => {
                             return <>
                                 <div key={artist.id}>
                                     <Link to={`/managers/edit-artist/${artist.id}`}>
-                                        <div className="profile-container">
-                                            <div>{artist.name}</div>
-                                            <div>{artist.genre?.name}</div>
+                                        <div className="card">
+                                            <div className="card__title">{artist.name}</div>
+                                            <div className="card__subtitle">{artist.genre?.name}</div>
                                         </div>
                                     </Link>
                                     {/* <Link to={`/managers/profile-picture/${artist.id}`}>
@@ -80,23 +80,23 @@ export const Clients = ({ manager }) => {
                                             <img className="artist-image" src={artist.img} loading="lazy" />
                                         </div>                               
                                     </Link> */}
-                                    <div className="client-button-container">
+                                    <div className="">
                                         <div>
                                             <Link to={`/managers/artist-shows/${artist.id}`}>
                                                 {artist.isBand === false ? (
-                                                    <button className="client-button">Artist Shows</button>
+                                                    <button className="btn--primary">Artist Shows</button>
                                                 ) : (
-                                                    <button className="client-button">Band Shows</button>
+                                                    <button className="btn--primary">Band Shows</button>
                                                 )}
                                             </Link>
                                         </div>
                                         <div>
                                             {artist.isBand === false ? (
-                                                <button className="client-button-delete" onClick={() => {
+                                                <button className="btn--danger" onClick={() => {
                                                     handleDeleteArtist(artist)
                                                 }}>Delete Artist</button>
                                             ) : (
-                                                <button className="client-button-delete" onClick={() => {
+                                                <button className="btn--danger" onClick={() => {
                                                     handleDeleteArtist(artist)
                                                 }}>Delete Band</button>
                                             )}
@@ -110,23 +110,23 @@ export const Clients = ({ manager }) => {
                 </div>
                     }
                     {openMics.length > 0 && 
-                        <div className="open-mic-container">
+                        <div>
                             <h2>Open Mics</h2>
-                            <div>
+                            <div className="card-grid">
                                 {openMics.map((openMic) => {
-                                    return <>
+                                    return <div>
                                         <Link to={`/managers/edit-openMic/${openMic.id}`}>
-                                            <div className="profile-container">
+                                            <div className="card">
                                                 <div>{openMic.eventTitle}</div>
                                                 <div>{openMic.venue?.venueName}</div>
                                             </div>
                                         </Link>
-                                        <div className="client-button-container">
-                                            <button className="client-button-delete" onClick={() => {
+                                        <div className="">
+                                            <button className="btn--danger" onClick={() => {
                                                 handleDeleteOpenMic(openMic)
                                             }}>Delete Open Mic</button>
                                         </div>
-                                    </>
+                                    </div>
                                 })}
                             </div>
                         </div>

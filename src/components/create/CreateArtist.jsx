@@ -38,26 +38,26 @@ export const CreateArtist = ({ manager }) => {
 
     
     return (
-        <div className="clients-section">
-            <div className="back-button-container">
+        <div className="">
+            <div className="">
                 <Link to={'/managers'}>
-                    <button className="button">Back to Clients</button>
+                    <button className="btn--primary">Back to Clients</button>
                 </Link>
             </div>
-            <div className="create-container">
-                <h2>Create Client</h2>
-                <div className="filter-group">
+            <div className="form">
+                <h2 className="form__section-title">Create Client</h2>
+                <div className="">
                     <p>Name</p>
-                    <input type="text" placeholder="Artist Name" onChange={(event) => {
+                    <input className="form__input" type="text" placeholder="Artist Name" onChange={(event) => {
                             const copyArtist = {...newArtist}
                             copyArtist.name = event.target.value
                             setNewArtist(copyArtist)
                         }
                     }/>
                 </div>
-                <div className="filter-group">
+                <div>
                     <p>Genre</p>
-                    <select onChange={(event) => {
+                    <select className="form__select" onChange={(event) => {
                         setGenre({id: parseInt(event.target.value)})
                     }}>
                         <option value={0} key={0}>Please select genre</option>
@@ -72,7 +72,7 @@ export const CreateArtist = ({ manager }) => {
                 </div>
                 <div>
                     <p>Is this client a band?</p>
-                    <div className="radio-options">
+                    <div className="form__check">
                         <input type="radio" value={isBand} name="is-band" onClick={() => {
                             setIsBand(false)
                         }} defaultChecked/> No
@@ -83,12 +83,12 @@ export const CreateArtist = ({ manager }) => {
                 </div>
                 <div>
                     {isBand === false ? (
-                        <button className="submit-btn" onClick={() => {
+                        <button className="form__day-btn" onClick={() => {
                         handleArtistCreation()
                     }}><a>Create Artist</a>
                     </button>
                     ) : (
-                        <button className="submit-btn" onClick={() => {
+                        <button className="form__day-btn" onClick={() => {
                         handleArtistCreation()
                     }}>
                         <a>Create Band</a>
