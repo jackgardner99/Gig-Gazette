@@ -4,9 +4,9 @@ Table Managers {
 	email varchar
 }
 
-Table Artist {
+Table Artists {
     id int [pk]
-    artistName varchar
+    name varchar
     genreId int [ref: > Genre.id]
 	managerId int [ref: > Managers.id]
 	isBand boolean
@@ -22,26 +22,29 @@ Table Venues {
 	name varchar
 	latitude varchar
 	longitude varchar
-	location varchar
-	link url
 }
 
-Table ArtistShow {
+Table ArtistShows {
 	id int [pk]
-	artistId int [ref: > Artist.id]
+	artistId int [ref: > Artists.id]
 	venueId int [ref: > Venues.id]
+	eventTitle varchar
 	link url
-	showDate date
+	date date
+	startTime time
+	endTime time
+	intimate boolean
 }
 
-Table MusicPlatforms {
+Table OpenMics {
 	id int [pk]
-	name varchar
-}
-
-Table ArtistMusic {
-	id int [pk]
-	artistId int [ref: - Artist.id]
-	musicLink url
-	platformId int [ref: > MusicPlatforms.id]
+	eventTitle varchar
+	venueId int [ref: > Venues.id]
+	managerId int [ref: > Managers.id]
+	isRecurring boolean
+	dateTime datetime
+	recurrence varchar
+	time time
+	dayOfWeek varchar
+	dayOfMonth varchar
 }
