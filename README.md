@@ -1,16 +1,79 @@
-# React + Vite
+# Gig Gazette
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A live music discovery and booking platform for Nashville. Connects artists and bands with venues, and helps audiences find live shows near them.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### For Audiences
+- Interactive map of live shows and open mic events across Nashville
+- Filter by genre, search by artist/venue name, or toggle intimate sets
+- View event details and access ticket links
 
-## React Compiler
+### For Managers
+- Create and manage artists and bands
+- Schedule shows at venues with automatic time conflict detection
+- Create and manage open mic events (one-time or recurring weekly/monthly)
+- View all managed talent and upcoming events from a single dashboard
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19** with React Router DOM v6
+- **Vite** for development and builds
+- **Leaflet / React-Leaflet** for interactive map rendering
+- **REST API** at `http://localhost:3000` (requires a running backend)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- A running backend API at `http://localhost:3000`
+
+### Installation
+
+```bash
+npm install
+```
+
+### Running the App
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+### Other Scripts
+
+```bash
+npm run build      # Production build
+npm run preview    # Preview production build
+npm run lint       # Run ESLint
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── auth/        # Login and registration forms
+│   ├── clients/     # Manager dashboard (artist/open mic list)
+│   ├── create/      # Create artist, show, and open mic forms
+│   ├── edit/        # Edit artist, show, and open mic forms
+│   ├── map/         # Interactive map page
+│   ├── nav/         # Customer and manager navbars
+│   ├── shows/       # Artist and venue show views
+│   └── views/       # Route wrappers (CustomerView, ManagerView, Authorized)
+├── services/        # API service modules (artists, shows, venues, genres, etc.)
+├── CSS/             # Stylesheets
+├── App.jsx          # Route definitions
+└── main.jsx         # App entry point
+```
+
+## Authentication
+
+Authentication is email-based. Manager credentials are stored in `localStorage` after login. Protected manager routes are guarded by the `Authorized` component.
+
+## Database Schema
+
+See [ERD.dbml](./ERD.dbml) for the full database schema including tables for Managers, Artists, Genres, Venues, Shows, and Music Platforms.
