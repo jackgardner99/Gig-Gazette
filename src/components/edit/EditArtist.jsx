@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getArtistById, updateArtist } from "../../services/artistService"
+import { getArtistById, updateArtist } from "../../services/clientService"
 import { getGenres } from "../../services/genreService"
 
 export const EditArtist = () => {

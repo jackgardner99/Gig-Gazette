@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { deleteArtist, getArtists } from "../../services/artistService"
+import { deleteArtist, getArtists } from "../../services/clientService"
 import { Link } from "react-router-dom"
 import { deleteOpenMic, getOpenMicsByManagerId } from "../../services/eventService"
 

@@ -24,9 +24,17 @@ export const MapPage = () => {
     const mapContainerRef = useRef(null)
 
     useEffect(() => {
-        getArtistShows().then(setArtistShows)
-        getGenres().then(setGenres)
-        getOpenMics().then(setOpenMics)
+        getArtistShows().then(data => {
+            const shows = Array.isArray(data) ? data : (data?.results ?? [])
+            console.log("shows sample:", shows[0])
+            setArtistShows(shows)
+        })
+        getGenres().then(data => setGenres(Array.isArray(data) ? data : (data?.results ?? [])))
+        getOpenMics().then(data => {
+            const openMics = Array.isArray(data) ? data : (data?.results ?? [])
+            console.log("openMics sample:", openMics[0])
+            setOpenMics(openMics)
+        })
     }, [])
 
     useEffect(() => {

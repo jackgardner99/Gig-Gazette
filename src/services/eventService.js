@@ -1,40 +1,42 @@
+import { getAuthHeader } from "./tokenService"
+
 export const createOpenMic = (openMic) => {
-    return fetch("http://localhost:3000/openMics", {
+    return fetch("http://localhost:8000/open_mics", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            ...getAuthHeader()
         },
         body: JSON.stringify(openMic)
     })
 }
 
 export const getOpenMicsByManagerId = (managerId) => {
-    return fetch(`http://localhost:3000/openMics?_expand=venue&managerId=${managerId}`).then((res) => res.json())
+    return fetch(`http://localhost:8000/open_mics?managerId=${managerId}`).then((res) => res.json())
 }
 
 export const getOpenMics = () => {
-    return fetch(`http://localhost:3000/openMics?_expand=venue`).then((res) => res.json())
+    return fetch(`http://localhost:8000/open_mics`).then((res) => res.json())
 }
 
 export const getOpenMicById = (id) => {
-    return fetch(`http://localhost:3000/openMics/${id}`).then(res => res.json())
+    return fetch(`http://localhost:8000/open_mics/${id}`).then(res => res.json())
 }
 
 export const updateOpenMic = (openMic) => {
-    return fetch(`http://localhost:3000/openMics/${openMic.id}`, {
+    return fetch(`http://localhost:8000/open_mics/${openMic.id}`, {
         method: 'PUT',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            ...getAuthHeader()
         },
         body: JSON.stringify(openMic)
     })
 }
 
 export const deleteOpenMic = (openMic) => {
-    return fetch(`http://localhost:3000/openMics/${openMic.id}`, {
+    return fetch(`http://localhost:8000/open_mics/${openMic.id}`, {
         method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: { ...getAuthHeader() }
     })
 }

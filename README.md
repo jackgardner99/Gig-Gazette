@@ -28,7 +28,7 @@ A live music discovery and booking platform for Nashville. Connects artists and 
 
 - Node.js (v18+)
 - REST API for App [https://github.com/jackgardner99/Gig-Gazette-API/tree/main]
-- A running backend API at `http://localhost:3000`
+- A running backend API at `http://localhost:8000`
 
 ### Installation
 

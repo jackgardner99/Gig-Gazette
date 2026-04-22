@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "../../services/genreService"
-import { createArtist } from "../../services/artistService"
+import { createArtist } from "../../services/clientService"
 import { Link, useNavigate } from "react-router-dom"
 
 export const CreateArtist = ({ manager }) => {

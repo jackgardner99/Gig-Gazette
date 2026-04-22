@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { deleteArtistShow, getArtistShowsById } from "../../services/artistShowsService"
-import { getArtistById } from "../../services/artistService"
+import { getArtistById } from "../../services/clientService"
 
 export const ArtistShows = () => {
     const { artistId } = useParams()
