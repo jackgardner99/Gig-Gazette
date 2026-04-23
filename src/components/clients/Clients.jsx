@@ -75,7 +75,7 @@ export const Clients = ({ manager }) => {
                                 <div key={client.id}>
                                     <Link to={`/managers/edit-artist/${client.id}`}>
                                         <div className="card">
-                                            <div className="card__title">{client.name}</div>
+                                            <div className="card__title">{client.client_name}</div>
                                             <div className="card__subtitle">{client.genre?.name}</div>
                                         </div>
                                     </Link>
@@ -87,7 +87,7 @@ export const Clients = ({ manager }) => {
                                     <div>
                                         <div>
                                             <Link to={`/managers/artist-shows/${client.id}`}>
-                                                {client.isBand === false ? (
+                                                {client.is_band === false ? (
                                                     <button className="btn--primary">Artist Shows</button>
                                                 ) : (
                                                     <button className="btn--primary">Band Shows</button>
@@ -95,7 +95,7 @@ export const Clients = ({ manager }) => {
                                             </Link>
                                         </div>
                                         <div>
-                                            {client.isBand === false ? (
+                                            {client.is_band === false ? (
                                                 <button className="btn--danger" onClick={() => {
                                                     handleDeleteClient(client)
                                                 }}>Delete client</button>
@@ -121,8 +121,8 @@ export const Clients = ({ manager }) => {
                                     return <div>
                                         <Link to={`/managers/edit-openMic/${openMic.id}`}>
                                             <div className="card">
-                                                <div className="card__title">{openMic.eventTitle}</div>
-                                                <div className="card__subtitle">{openMic.venue?.venueName}</div>
+                                                <div className="card__title">{openMic.event_title}</div>
+                                                <div className="card__subtitle">{openMic.venue?.name}</div>
                                             </div>
                                         </Link>
                                         <div>

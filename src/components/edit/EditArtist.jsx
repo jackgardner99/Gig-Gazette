@@ -17,12 +17,12 @@ export const EditArtist = () => {
     }, [artistId])
 
     useEffect(() => {
-        const genre = genres.filter((genre) => genre.id === artist.genreId)
+        const genre = genres.filter((genre) => genre.id === artist.genre?.id)
         setGenre(genre[0])
     }, [genres, artist])
 
         const handleUpdateArtist = () => {
-            if (artist.name && artist.genreId) {
+            if (artist.client_name && artist.genre) {
                 const updatedArtist = {
                     id: artist.id,
                     name: artist.name,
@@ -47,18 +47,17 @@ export const EditArtist = () => {
             <div className="form">
                 <div>
                     <p>Name</p>
-                    <input className="form__input" type="text" value={artist.name} onChange={(e) => {
+                    <input className="form__input" type="text" value={artist.client_name} onChange={(e) => {
                         const artistCopy = {...artist}
-                        artistCopy.name = e.target.value
+                        artistCopy.client_name = e.target.value
                         setArtist(artistCopy)
                     }}/>
                 </div>
                 <div>
                     <p>Genre</p>
                     <select className="form__select" onChange={(e) => {
-                        const artistCopy = {...artist}
-                        artistCopy.genreId = parseInt(e.target.value)
-                        setArtist(artistCopy)
+                        const selectedGenre = genres.find(g => g.id === parseInt(e.target.value))
+                        setArtist({ ...artist, genre: selectedGenre })
                     }}>
                         <option key={genre?.id} value={genre?.id} selected>{genre?.name}</option>
                         {genres.map(

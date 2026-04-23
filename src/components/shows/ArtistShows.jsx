@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { deleteArtistShow, getArtistShowsById } from "../../services/artistShowsService"
-import { getArtistById } from "../../services/clientService"
+import { getClientById } from "../../services/clientService"
 
 export const ArtistShows = () => {
     const { artistId } = useParams()
@@ -11,7 +11,7 @@ export const ArtistShows = () => {
 
     const getAndSetArtistShows = (artistId) => {
         getArtistShowsById(artistId).then(setArtistShows)
-        getArtistById(artistId).then(setArtist)
+        getClientById(artistId).then(setArtist)
     }
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export const ArtistShows = () => {
     
                 Promise.all([
                     getArtistShowsById(artistId),
-                    getArtistById(artistId)
+                    getClientById(artistId)
                 ]).then(([artistShowsArray, artist]) => {
                     setArtistShows(artistShowsArray)
                     setArtist(artist)

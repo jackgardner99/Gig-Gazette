@@ -1,7 +1,9 @@
 import { getAuthHeader } from "./tokenService"
 
-export const getClients = (managerId) => {
-    return fetch(`http://localhost:8000/clients?managerId=${managerId}`).then(res => res.json())
+export const getClients = () => {
+    return fetch("http://localhost:8000/clients", {
+        headers: { ...getAuthHeader() }
+    }).then(res => res.json())
 }
 
 export const createClient = (client) => {
@@ -31,7 +33,7 @@ export const updateClient = (client) => {
 }
 
 export const deleteClient = (client) => {
-    return fetch(`http://localhost:8000/clients/${artist.id}`, {
+    return fetch(`http://localhost:8000/clients/${client.id}`, {
         method: "DELETE",
         headers: { ...getAuthHeader() }
     })
