@@ -9,13 +9,13 @@ export const loginManager = (username, password) => {
 }
 
 export const getManagerProfile = () => {
-    return fetch("http://localhost:8000/managers/me/", {
+    return fetch("http://localhost:8000/users", {
         headers: { ...getAuthHeader() }
     }).then(res => res.json())
 }
 
 export const createManager = (manager) => {
-    return fetch("http://localhost:8000/managers/", {
+    return fetch("http://localhost:8000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(manager)
