@@ -1,37 +1,37 @@
 import { getAuthHeader } from "./tokenService"
 
-export const getArtists = (managerId) => {
-    return fetch(`http://localhost:8000/artists?managerId=${managerId}`).then(res => res.json())
+export const getClients = (managerId) => {
+    return fetch(`http://localhost:8000/clients?managerId=${managerId}`).then(res => res.json())
 }
 
-export const createArtist = (artist) => {
-    return fetch("http://localhost:8000/artists", {
+export const createClient = (client) => {
+    return fetch("http://localhost:8000/clients", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             ...getAuthHeader()
         },
-        body: JSON.stringify(artist)
+        body: JSON.stringify(client)
     })
 }
 
-export const getArtistById = (id) => {
-    return fetch(`http://localhost:8000/artists/${id}`).then(res => res.json())
+export const getClientById = (id) => {
+    return fetch(`http://localhost:8000/clients/${id}`).then(res => res.json())
 }
 
-export const updateArtist = (artist) => {
-    return fetch(`http://localhost:8000/artists/${artist.id}`, {
+export const updateClient = (client) => {
+    return fetch(`http://localhost:8000/clients/${client.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
             ...getAuthHeader()
         },
-        body: JSON.stringify(artist)
+        body: JSON.stringify(client)
     })
 }
 
-export const deleteArtist = (artist) => {
-    return fetch(`http://localhost:8000/artists/${artist.id}`, {
+export const deleteClient = (client) => {
+    return fetch(`http://localhost:8000/clients/${artist.id}`, {
         method: "DELETE",
         headers: { ...getAuthHeader() }
     })

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getGenres } from "../../services/genreService"
-import { createArtist } from "../../services/clientService"
+import { createClient } from "../../services/clientService"
 import { Link, useNavigate } from "react-router-dom"
 
 export const CreateArtist = ({ manager }) => {
@@ -26,7 +26,7 @@ export const CreateArtist = ({ manager }) => {
                 isBand: isBand
             }
 
-            createArtist(artist).then(() => {
+            createClient(artist).then(() => {
                 setNewArtist({ name: "" })
                 setGenre({})
                 navigate("/managers")

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getArtistById, updateArtist } from "../../services/clientService"
+import { getClientById, updateClient } from "../../services/clientService"
 import { getGenres } from "../../services/genreService"
 
 export const EditArtist = () => {
@@ -12,7 +12,7 @@ export const EditArtist = () => {
     const [genre, setGenre] = useState({})
     
     useEffect(() => {
-        getArtistById(artistId).then(setArtist)
+        getClientById(artistId).then(setArtist)
         getGenres().then(setGenres)
     }, [artistId])
 
@@ -32,7 +32,7 @@ export const EditArtist = () => {
 
                 }
 
-                updateArtist(updatedArtist).then(navigate("/managers"))               
+                updateClient(updatedArtist).then(navigate("/managers"))               
             } else {
                 window.alert("Please make sure all the fields are filled out")
             }

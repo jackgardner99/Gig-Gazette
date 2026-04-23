@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { deleteArtist, getArtists } from "../../services/clientService"
+import { deleteClient, getClients } from "../../services/clientService"
 import { Link } from "react-router-dom"
 import { deleteOpenMic, getOpenMicsByManagerId } from "../../services/eventService"
 
 export const Clients = ({ manager }) => {
-    const [artists, setArtists] = useState([])
+    const [clients, setClients] = useState([])
     const [openMics, setOpenMics] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -13,24 +13,24 @@ export const Clients = ({ manager }) => {
             setIsLoading(true)
 
             Promise.all([
-                getArtists(manager.id),
+                getClients(manager.id),
                 getOpenMicsByManagerId(manager.id)
             ]).then(([artistsArray, openMicsArray]) => {
-                setArtists(artistsArray)
+                setClients(artistsArray)
                 setOpenMics(openMicsArray)
             })
         }
     }, [manager])
 
     useEffect(() => {
-        if (artists.length > 0 && openMics.length > 0) {
+        if (clients.length > 0 && openMics.length > 0) {
             setIsLoading(false)
         }
-    }, [artists, openMics])
+    }, [clients, openMics])
 
-    const handleDeleteArtist = (artist) => {
-        deleteArtist(artist).then(() => {
-            getArtists(manager.id).then(setArtists)
+    const handleDeleteClient = (client) => {
+        deleteClient(client).then(() => {
+            getClients(manager.id).then(setClients)
         })
     }
 
@@ -66,17 +66,17 @@ export const Clients = ({ manager }) => {
                     </div>
                 </div>
                 <div>
-                    {artists.length > 0 && 
+                    {clients.length > 0 && 
                         <div>
                             <h2 className="form__section-title">Artists</h2>
                     <div className="card-grid">
-                        {artists.map((artist) => {
+                        {clients.map((client) => {
                             return <>
-                                <div key={artist.id}>
-                                    <Link to={`/managers/edit-artist/${artist.id}`}>
+                                <div key={client.id}>
+                                    <Link to={`/managers/edit-artist/${client.id}`}>
                                         <div className="card">
-                                            <div className="card__title">{artist.name}</div>
-                                            <div className="card__subtitle">{artist.genre?.name}</div>
+                                            <div className="card__title">{client.name}</div>
+                                            <div className="card__subtitle">{client.genre?.name}</div>
                                         </div>
                                     </Link>
                                     {/* <Link to={`/managers/profile-picture/${artist.id}`}>
@@ -86,8 +86,8 @@ export const Clients = ({ manager }) => {
                                     </Link> */}
                                     <div>
                                         <div>
-                                            <Link to={`/managers/artist-shows/${artist.id}`}>
-                                                {artist.isBand === false ? (
+                                            <Link to={`/managers/artist-shows/${client.id}`}>
+                                                {client.isBand === false ? (
                                                     <button className="btn--primary">Artist Shows</button>
                                                 ) : (
                                                     <button className="btn--primary">Band Shows</button>
@@ -95,13 +95,13 @@ export const Clients = ({ manager }) => {
                                             </Link>
                                         </div>
                                         <div>
-                                            {artist.isBand === false ? (
+                                            {client.isBand === false ? (
                                                 <button className="btn--danger" onClick={() => {
-                                                    handleDeleteArtist(artist)
-                                                }}>Delete Artist</button>
+                                                    handleDeleteClient(client)
+                                                }}>Delete client</button>
                                             ) : (
                                                 <button className="btn--danger" onClick={() => {
-                                                    handleDeleteArtist(artist)
+                                                    handleDeleteClient(client)
                                                 }}>Delete Band</button>
                                             )}
                                         </div>
