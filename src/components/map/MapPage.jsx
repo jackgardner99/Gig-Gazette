@@ -1,26 +1,42 @@
-import { Marker, Popup } from 'react-leaflet'
+import { Marker, Popup, useMap } from 'react-leaflet'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
-import { getGenres } from '../../services/genreService'
 import { getOpenMics } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
+import { reverseGeocode } from '../../services/geocodeService'
+
+const MapFlyTo = ({ venue }) => {
+    const map = useMap()
+    useEffect(() => {
+        if (venue) {
+            map.flyTo([parseFloat(venue.lat), parseFloat(venue.lng)], 17, { duration: 1 })
+        }
+    }, [venue, map])
+    return null
+}
 
 export const MapPage = () => {
     const [venues, setVenues] = useState([])
     const [artistShows, setArtistShows] = useState([])
     const [openMics, setOpenMics] = useState([])
-    const [genres, setGenres] = useState([])
     const [search, setSearch] = useState("")
     const [displayOpenMics, setDisplayOpenMics] = useState(false)
     const [selectedVenue, setSelectedVenue] = useState(null)
     const [overlayVisible, setOverlayVisible] = useState(false)
 
+    const [noiseFilter, setNoiseFilter] = useState("")
+    const [filterBar, setFilterBar] = useState(false)
+    const [filterFood, setFilterFood] = useState(false)
+    const [filterKidFriendly, setFilterKidFriendly] = useState(false)
+    const [filterParking, setFilterParking] = useState(false)
+    const [popupVenue, setPopupVenue] = useState(null)
+    const restaurantClickedRef = useRef(false)
+
     useEffect(() => {
-        getGenres().then(data => setGenres(Array.isArray(data) ? data : (data?.results ?? [])))
-        getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
+getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
         getArtistShows().then(data => setArtistShows(Array.isArray(data) ? data : (data?.results ?? [])))
         getOpenMics().then(data => setOpenMics(Array.isArray(data) ? data : (data?.results ?? [])))
     }, [])
@@ -43,24 +59,39 @@ export const MapPage = () => {
         setOverlayVisible(true)
     }
 
+    const [address, setAddress] = useState("")
+
+    useEffect(() => {
+        if (selectedVenue) {
+            reverseGeocode(selectedVenue.lat, selectedVenue.lng).then(setAddress)
+        }
+    }, [selectedVenue])
+
     const handleCloseOverlay = () => {
         setOverlayVisible(false)
         setSelectedVenue(null)
+        setAddress("")
     }
 
     const filteredVenues = venues.filter((venue) => {
-        if (search) return venue.name.toLowerCase().includes(search.toLowerCase())
+        if (search && !venue.name.toLowerCase().includes(search.toLowerCase())) return false
+        if (noiseFilter && venue.noise_level !== noiseFilter) return false
+        if (filterBar && !venue.bar) return false
+        if (filterFood && !venue.food) return false
+        if (filterKidFriendly && !venue.kid_friendly) return false
+        if (filterParking && !venue.parking) return false
         return true
     })
 
     const venueEvents = selectedVenue
-        ? (displayOpenMics ? openMics : artistShows).filter(e => e.venue.id === selectedVenue.id)
+        ? (displayOpenMics ? openMics : artistShows).filter(e => e.venue === selectedVenue.id)
         : []
 
     return (
         <div className='map-wrapper'>
             <div className='filter-panel'>
                 <h2>The Gig Map</h2>
+
                 <div className='search-field'>
                     <p>Search</p>
                     <input
@@ -69,28 +100,44 @@ export const MapPage = () => {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
+
                 <div className='search-field'>
-                    <p>Genre</p>
-                    {displayOpenMics ? (
-                        <select disabled>
-                            <option>Please Select Genre</option>
-                        </select>
-                    ) : (
-                        <select>
-                            <option value="0">Please select genre</option>
-                            {genres.map((genre) => (
-                                <option value={genre.id} key={genre.id}>{genre.name}</option>
-                            ))}
-                        </select>
-                    )}
+                    <p>Noise Level</p>
+                    <select onChange={(e) => setNoiseFilter(e.target.value)} value={noiseFilter}>
+                        <option value="">Any</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
                 </div>
+
                 <div className='search-field'>
-                    <input
-                        type='checkbox'
-                        checked={displayOpenMics}
-                        onChange={(e) => setDisplayOpenMics(e.target.checked)}
-                    /> Open Mics
+                    <p>Amenities</p>
+                    <label>
+                        <input type='checkbox' checked={filterBar} onChange={(e) => setFilterBar(e.target.checked)} /> Bar
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterFood} onChange={(e) => setFilterFood(e.target.checked)} /> Food
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterKidFriendly} onChange={(e) => setFilterKidFriendly(e.target.checked)} /> Kid Friendly
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterParking} onChange={(e) => setFilterParking(e.target.checked)} /> Parking
+                    </label>
                 </div>
+
+                <div className='search-field'>
+                    <p>Events</p>
+                    <label>
+                        <input
+                            type='checkbox'
+                            checked={displayOpenMics}
+                            onChange={(e) => setDisplayOpenMics(e.target.checked)}
+                        /> Open Mics
+                    </label>
+                </div>
+
             </div>
 
             <div className='map-container'>
@@ -102,12 +149,21 @@ export const MapPage = () => {
                             <button className='close-btn' onClick={handleCloseOverlay}>X</button>
 
                             <h2>{selectedVenue.name}</h2>
+                            {address && <div>{address}</div>}
                             <div>Noise Level: {selectedVenue.noise_level}</div>
                             <div>
-                                {selectedVenue.bar && <span>Bar </span>}
-                                {selectedVenue.food && <span>Food </span>}
-                                {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
-                                {selectedVenue.parking && <span>Parking</span>}
+                                <div>
+                                    {selectedVenue.bar && <span>Bar </span>}
+                                </div>
+                                <div>
+                                    {selectedVenue.food && <span>Food </span>}
+                                </div>
+                                <div>
+                                    {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
+                                </div>
+                                <div>
+                                    {selectedVenue.parking && <span>Parking</span>}
+                                </div>
                             </div>
 
                             <hr />
@@ -132,30 +188,61 @@ export const MapPage = () => {
                                     </div>
                                 ))
                             )}
+
+                            {(() => {
+                                const visibleRestaurants = (selectedVenue.restaurants ?? []).filter(r => r.is_visible)
+                                if (visibleRestaurants.length === 0) return null
+                                return (
+                                    <>
+                                        <hr />
+                                        <div><strong>Nearby Restaurants</strong></div>
+                                        {visibleRestaurants.map((r) => (
+                                            <div key={r.id}>{r.name}</div>
+                                        ))}
+                                    </>
+                                )
+                            })()}
                         </div>
                     )}
                 </div>
 
                 <MapContainer center={[36.1627, -86.7816]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+                    <MapFlyTo venue={popupVenue} />
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     {filteredVenues.map((venue) => (
-                        <Marker key={venue.id} position={[parseFloat(venue.lat), parseFloat(venue.lng)]}>
+                        <Marker
+                            key={venue.id}
+                            position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
+                            eventHandlers={{
+                                click: () => setPopupVenue(venue),
+                                popupclose: () => {
+                                    if (!restaurantClickedRef.current) setPopupVenue(null)
+                                }
+                            }}
+                        >
                             <Popup>
                                 <div><strong>{venue.name}</strong></div>
-                                <div>Noise Level: {venue.noise_level}</div>
-                                <div>
-                                    {venue.bar && <span>Bar </span>}
-                                    {venue.food && <span>Food </span>}
-                                    {venue.kid_friendly && <span>Kid Friendly </span>}
-                                    {venue.parking && <span>Parking</span>}
-                                </div>
                                 <button onClick={() => handleViewEvents(venue)}>
                                     View {displayOpenMics ? 'Open Mics' : 'Shows'}
                                 </button>
                             </Popup>
+                        </Marker>
+                    ))}
+                    {(popupVenue?.restaurants ?? []).filter(r => r.is_visible).map((r) => (
+                        <Marker
+                            key={r.id}
+                            position={[parseFloat(r.lat), parseFloat(r.lng)]}
+                            eventHandlers={{
+                                mousedown: () => {
+                                    restaurantClickedRef.current = true
+                                    setTimeout(() => { restaurantClickedRef.current = false }, 200)
+                                }
+                            }}
+                        >
+                            <Popup><div><strong>{r.name}</strong></div><div>{r.food_type}</div></Popup>
                         </Marker>
                     ))}
                 </MapContainer>
