@@ -2,11 +2,27 @@ import { Marker, Popup, useMap } from 'react-leaflet'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import 'leaflet/dist/leaflet.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import L from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
 import { getOpenMics } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
+
+const makeFaIcon = (faClass, color) => L.divIcon({
+    html: `<div style="background:${color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.45);">
+               <i class="${faClass}" style="color:#fff;font-size:15px;"></i>
+           </div>`,
+    className: '',
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -18],
+})
+
+const showIcon = makeFaIcon('fas fa-star', '#e8a020')
+const openMicIcon = makeFaIcon('fas fa-microphone', '#7c3aed')
+const restaurantIcon = makeFaIcon('fas fa-utensils', '#16a34a')
 
 const MapFlyTo = ({ venue }) => {
     const map = useMap()
@@ -80,6 +96,7 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
         if (filterFood && !venue.food) return false
         if (filterKidFriendly && !venue.kid_friendly) return false
         if (filterParking && !venue.parking) return false
+        if (displayOpenMics && !openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return false
         return true
     })
 
@@ -219,6 +236,7 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                         <Marker
                             key={venue.id}
                             position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
+                            icon={displayOpenMics ? openMicIcon : showIcon}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
                                 popupclose: () => {
@@ -238,6 +256,7 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                         <Marker
                             key={r.id}
                             position={[parseFloat(r.lat), parseFloat(r.lng)]}
+                            icon={restaurantIcon}
                             eventHandlers={{
                                 mousedown: () => {
                                     restaurantClickedRef.current = true
