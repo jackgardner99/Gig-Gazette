@@ -4,5 +4,8 @@ export const reverseGeocode = async (lat, lng) => {
         { headers: { "Accept-Language": "en" } }
     )
     const data = await res.json()
-    return data.display_name ?? null
+    const { house_number, road, city, town, village, state } = data.address ?? {}
+    const street = [house_number, road].filter(Boolean).join(' ')
+    const locality = city ?? town ?? village ?? ''
+    return [street, locality, state].filter(Boolean).join(', ') || null
 }

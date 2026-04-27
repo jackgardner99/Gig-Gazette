@@ -84,7 +84,10 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
     })
 
     const venueEvents = selectedVenue
-        ? (displayOpenMics ? openMics : artistShows).filter(e => e.venue === selectedVenue.id)
+        ? (displayOpenMics ? openMics : artistShows).filter(e => {
+            const venueId = e.venue?.id ?? e.venue
+            return venueId == selectedVenue.id
+        })
         : []
 
     return (
