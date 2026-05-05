@@ -20,9 +20,25 @@ const makeFaIcon = (faClass, color) => L.divIcon({
     popupAnchor: [0, -18],
 })
 
+const makeCombinedFaIcon = (faClass1, color1, faClass2, color2) => L.divIcon({
+    html: `<div style="display:flex;gap:3px;">
+               <div style="background:${color1};width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.4);">
+                   <i class="${faClass1}" style="color:#fff;font-size:12px;"></i>
+               </div>
+               <div style="background:${color2};width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.4);">
+                   <i class="${faClass2}" style="color:#fff;font-size:12px;"></i>
+               </div>
+           </div>`,
+    className: '',
+    iconSize: [55, 26],
+    iconAnchor: [27, 13],
+    popupAnchor: [0, -15],
+})
+
 const showIcon = makeFaIcon('fas fa-star', '#e8a020')
 const openMicIcon = makeFaIcon('fas fa-microphone', '#7c3aed')
 const writersRoundIcon = makeFaIcon('fas fa-pen', '#db2777')
+const openMicAndWritersIcon = makeCombinedFaIcon('fas fa-microphone', '#7c3aed', 'fas fa-pen', '#db2777')
 const restaurantIcon = makeFaIcon('fas fa-utensils', '#16a34a')
 
 const MapFlyTo = ({ venue }) => {
@@ -63,7 +79,8 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
 
     const formatDate = (dateStr) => {
         if (!dateStr) return ""
-        return new Date(dateStr).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
+        const [year, month, day] = dateStr.split('-').map(Number)
+        return new Date(year, month - 1, day).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
     }
 
     const formatTime = (timeString) => {
@@ -108,11 +125,24 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
         return true
     })
 
+    const getVenueIcon = (venue) => {
+        if (!displayOpenMics && !displayWritersRounds) return showIcon
+        if (displayOpenMics && displayWritersRounds) {
+            const hasOpenMic = openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
+            const hasWritersRound = writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
+            if (hasOpenMic && hasWritersRound) return openMicAndWritersIcon
+            if (hasWritersRound) return writersRoundIcon
+            return openMicIcon
+        }
+        if (displayWritersRounds) return writersRoundIcon
+        return openMicIcon
+    }
+
     const venueEvents = selectedVenue
         ? [
-            ...(!displayOpenMics && !displayWritersRounds ? artistShows : []),
-            ...(displayOpenMics ? openMics : []),
-            ...(displayWritersRounds ? writersRounds : []),
+            ...(!displayOpenMics && !displayWritersRounds ? artistShows.map(e => ({ ...e, _type: 'show' })) : []),
+            ...(displayOpenMics ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
+            ...(displayWritersRounds ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
           ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
         : []
 
@@ -205,19 +235,19 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                             <hr />
 
                             {venueEvents.length === 0 ? (
-                                <div>No {displayOpenMics ? 'open mics' : 'shows'} at this venue.</div>
+                                <div>No events at this venue.</div>
                             ) : (
                                 venueEvents.map((event) => (
-                                    <div key={event.id}>
+                                    <div key={`${event._type}-${event.id}`}>
                                         <div><strong>{event.event_title}</strong></div>
-                                        {displayOpenMics ? (
+                                        {event.date ? (
                                             <>
-                                                <div>{event.weekly_recurrence || event.monthly_recurrence}</div>
+                                                <div>{formatDate(event.date)}</div>
                                                 <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                             </>
                                         ) : (
                                             <>
-                                                <div>{formatDate(event.date)}</div>
+                                                <div>{event.weekly_recurrence || event.monthly_recurrence}</div>
                                                 <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                             </>
                                         )}
@@ -252,7 +282,7 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                         <Marker
                             key={venue.id}
                             position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
-                            icon={displayWritersRounds ? writersRoundIcon : displayOpenMics ? openMicIcon : showIcon}
+                            icon={getVenueIcon(venue)}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
                                 popupclose: () => {
