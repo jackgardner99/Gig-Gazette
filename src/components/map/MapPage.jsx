@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import L from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { getArtistShows } from '../../services/artistShowsService'
-import { getOpenMics } from '../../services/eventService'
+import { getOpenMics, getWritersRounds } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
 
@@ -22,6 +22,7 @@ const makeFaIcon = (faClass, color) => L.divIcon({
 
 const showIcon = makeFaIcon('fas fa-star', '#e8a020')
 const openMicIcon = makeFaIcon('fas fa-microphone', '#7c3aed')
+const writersRoundIcon = makeFaIcon('fas fa-pen', '#db2777')
 const restaurantIcon = makeFaIcon('fas fa-utensils', '#16a34a')
 
 const MapFlyTo = ({ venue }) => {
@@ -38,8 +39,10 @@ export const MapPage = () => {
     const [venues, setVenues] = useState([])
     const [artistShows, setArtistShows] = useState([])
     const [openMics, setOpenMics] = useState([])
+    const [writersRounds, setWritersRounds] = useState([])
     const [search, setSearch] = useState("")
     const [displayOpenMics, setDisplayOpenMics] = useState(false)
+    const [displayWritersRounds, setDisplayWritersRounds] = useState(false)
     const [selectedVenue, setSelectedVenue] = useState(null)
     const [overlayVisible, setOverlayVisible] = useState(false)
 
@@ -55,6 +58,7 @@ export const MapPage = () => {
 getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
         getArtistShows().then(data => setArtistShows(Array.isArray(data) ? data : (data?.results ?? [])))
         getOpenMics().then(data => setOpenMics(Array.isArray(data) ? data : (data?.results ?? [])))
+        getWritersRounds().then(data => setWritersRounds(Array.isArray(data) ? data : (data?.results ?? [])))
     }, [])
 
     const formatDate = (dateStr) => {
@@ -96,15 +100,20 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
         if (filterFood && !venue.food) return false
         if (filterKidFriendly && !venue.kid_friendly) return false
         if (filterParking && !venue.parking) return false
-        if (displayOpenMics && !openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return false
+        if (displayOpenMics || displayWritersRounds) {
+            const hasOpenMic = displayOpenMics && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
+            const hasWritersRound = displayWritersRounds && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
+            if (!hasOpenMic && !hasWritersRound) return false
+        }
         return true
     })
 
     const venueEvents = selectedVenue
-        ? (displayOpenMics ? openMics : artistShows).filter(e => {
-            const venueId = e.venue?.id ?? e.venue
-            return venueId == selectedVenue.id
-        })
+        ? [
+            ...(!displayOpenMics && !displayWritersRounds ? artistShows : []),
+            ...(displayOpenMics ? openMics : []),
+            ...(displayWritersRounds ? writersRounds : []),
+          ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
         : []
 
     return (
@@ -155,6 +164,13 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                             checked={displayOpenMics}
                             onChange={(e) => setDisplayOpenMics(e.target.checked)}
                         /> Open Mics
+                    </label>
+                    <label>
+                        <input
+                            type='checkbox'
+                            checked={displayWritersRounds}
+                            onChange={(e) => setDisplayWritersRounds(e.target.checked)}
+                        /> Writers Rounds
                     </label>
                 </div>
 
@@ -236,7 +252,7 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                         <Marker
                             key={venue.id}
                             position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
-                            icon={displayOpenMics ? openMicIcon : showIcon}
+                            icon={displayWritersRounds ? writersRoundIcon : displayOpenMics ? openMicIcon : showIcon}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
                                 popupclose: () => {
