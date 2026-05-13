@@ -44,3 +44,14 @@ export const deleteOpenMic = (openMic) => {
         headers: { ...getAuthHeader() }
     })
 }
+
+export const createWritersRound = (writersRound) => {
+    return fetch("http://localhost:8000/writers_rounds", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader()
+        },
+        body: JSON.stringify(writersRound)
+    })
+}

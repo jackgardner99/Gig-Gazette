@@ -1,12 +1,8 @@
 
 import { Outlet, Route, Routes } from 'react-router-dom'
-// import './App.css'
-import { Login } from './components/auth/Login'
-import { ApplicationView } from './components/views/ApplicationView'
-import { Authorized } from './components/views/Authorized'
 import { CustomerNavbar } from './components/nav/CustomerNavbar'
 import { MapPage } from './components/map/MapPage'
-import { Register } from './components/auth/Register'
+import { SubmitEventPage } from './components/submit/SubmitEventPage'
 
 
 function App() {
@@ -20,14 +16,8 @@ function App() {
               </>}
             >
         <Route index element={<MapPage />} />
-        <Route path="login" element={<Login />} />
-        <Route path='register' element={<Register />} />
+        <Route path="submit" element={<SubmitEventPage />} />
       </Route>
-        <Route path="*" element={
-          <Authorized>
-            <ApplicationView />
-          </Authorized>
-        } />
     </Routes>
   )
 }
