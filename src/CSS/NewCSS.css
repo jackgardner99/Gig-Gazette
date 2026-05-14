@@ -856,6 +856,13 @@ p { color: var(--text-secondary); line-height: 1.7; }
    10. FORMS
    ============================================================ */
 
+.page-content {
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: var(--space-10) var(--space-6);
+}
+
+
 .form {
   display: flex;
   flex-direction: column;
