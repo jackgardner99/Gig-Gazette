@@ -1,45 +1,39 @@
 import { useState } from "react"
-import { createManager, getManagerByEmail } from "../../services/managerService"
+import { createManager, loginManager, getManagerProfile } from "../../services/managerService"
 import { Link, useNavigate } from "react-router-dom"
 
 export const Register = () => {
     const [manager, setManager] = useState({
-        name: "",
-        email: ""
+        username: "",
+        email: "",
+        password: ""
     })
     const navigate = useNavigate()
 
-    const navigateToManagersPage = () => {
-        getManagerByEmail(manager.email).then((res) => {
-                if (res.length === 1) {
-                    const manager = res[0]
-                    console.log(manager)
-                    localStorage.setItem(
-                        "manager",
-                        JSON.stringify({id: manager.id})
-                    )
-                    navigate('/managers')
-                }
-            })
-    }
-
-    const registerNewManager = () => {
-        createManager(manager).then(navigateToManagersPage)
-    }
-
     const handleRegister = (e) => {
         e.preventDefault()
-        if (manager.name && manager.email) {
-            getManagerByEmail(manager.email).then((response) => {
-            if (response.length > 0) {
-                window.alert("Email is already in use. Please provide another email.")
+
+        if (!manager.username || !manager.email || !manager.password) {
+            window.alert("Please make sure all input fields are filled out before submitting")
+            return
+        }
+
+        createManager(manager).then((res) => {
+            if (res.ok) {
+                loginManager(manager.username, manager.password).then((authRes) => {
+                    if (authRes.token) {
+                        localStorage.setItem("manager", JSON.stringify({ token: authRes.token }))
+
+                        getManagerProfile().then((profile) => {
+                            localStorage.setItem("manager", JSON.stringify({ id: profile.id, token: authRes.token }))
+                            navigate("/managers")
+                        })
+                    }
+                })
             } else {
-                registerNewManager()
+                window.alert("Registration failed. That username or email may already be in use.")
             }
         })
-        } else {
-            window.alert('Please make sure all input fields are filled out before submitting')
-        }
     }
 
     return (
@@ -48,29 +42,29 @@ export const Register = () => {
                 <div className="form__field">
                     <h2 className="form__section-title">Welcome New Manager!</h2>
                     <div>
-                        <p className="form__label">Name</p>
+                        <p className="form__label">Username</p>
                         <input className="form__input" type="text" onChange={(e) => {
-                            const copy = {...manager}
-                            copy.name = e.target.value
-                            setManager(copy)
-                        }} placeholder="Enter your name" required/>
+                            setManager({ ...manager, username: e.target.value })
+                        }} placeholder="Enter a username" required />
                     </div>
-
                     <div>
                         <p className="form__label">Email</p>
                         <input className="form__input" type="email" onChange={(e) => {
-                            const copy = {...manager}
-                            copy.email = e.target.value
-                            setManager(copy)
-                        }} placeholder="Enter your email" required/>
+                            setManager({ ...manager, email: e.target.value })
+                        }} placeholder="Enter your email" required />
                     </div>
-
-                <div>
-                    <button className="form__day-btn" type="submit" onClick={handleRegister}>Register</button>
-                </div>
-            <div>
-                Already have an account? <Link to={'/login'}>Login!</Link>
-            </div>
+                    <div>
+                        <p className="form__label">Password</p>
+                        <input className="form__input" type="password" onChange={(e) => {
+                            setManager({ ...manager, password: e.target.value })
+                        }} placeholder="Create a password" required />
+                    </div>
+                    <div>
+                        <button className="form__day-btn" type="submit" onClick={handleRegister}>Register</button>
+                    </div>
+                    <div>
+                        Already have an account? <Link to={'/login'}>Login!</Link>
+                    </div>
                 </div>
             </form>
         </main>

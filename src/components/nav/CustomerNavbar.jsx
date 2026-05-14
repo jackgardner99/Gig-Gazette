@@ -13,14 +13,14 @@ export const CustomerNavbar = () => {
                         <li className="nav__link">
                             Map
                         </li>
-                    </Link>    
-                    <Link to={"/login"}>
+                    </Link>
+                    <Link to={"/submit"}>
                         <li className="nav__link">
-                            Login
+                            Submit Event
                         </li>
                     </Link>
                 </ul>
-            </nav>            
+            </nav>
         </header>
     )
 }
