@@ -1,4 +1,4 @@
 export const getAuthHeader = () => {
-    const manager = JSON.parse(localStorage.getItem("manager"))
-    return manager?.token ? { "Authorization": `Token ${manager.token}` } : {}
+    const user = JSON.parse(sessionStorage.getItem("user"))
+    return user?.token ? { "Authorization": `Token ${user.token}` } : {}
 }
