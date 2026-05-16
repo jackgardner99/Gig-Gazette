@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import L from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getArtistShows } from '../../services/artistShowsService'
 import { getOpenMics, getWritersRounds } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
@@ -51,7 +52,15 @@ const MapFlyTo = ({ venue }) => {
     return null
 }
 
+const EDIT_PATH = {
+    show: (id) => `/edit/show/${id}`,
+    openMic: (id) => `/edit/open-mic/${id}`,
+    writersRound: (id) => `/edit/writers-round/${id}`,
+}
+
 export const MapPage = () => {
+    const navigate = useNavigate()
+    const currentUserId = JSON.parse(sessionStorage.getItem("user"))?.id
     const [venues, setVenues] = useState([])
     const [artistShows, setArtistShows] = useState([])
     const [openMics, setOpenMics] = useState([])
@@ -250,6 +259,14 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                                                 <div>{event.weekly_recurrence || event.monthly_recurrence}</div>
                                                 <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                             </>
+                                        )}
+                                        {currentUserId && event.user === currentUserId && (
+                                            <button
+                                                className="btn btn--secondary btn--sm"
+                                                onClick={() => navigate(EDIT_PATH[event._type](event.id))}
+                                            >
+                                                Edit
+                                            </button>
                                         )}
                                     </div>
                                 ))

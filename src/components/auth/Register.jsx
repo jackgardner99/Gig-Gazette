@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { createManager, loginManager, getManagerProfile } from "../../services/managerService"
+import { createManager } from "../../services/managerService"
 
 export const Register = () => {
     const [manager, setManager] = useState({ username: "", email: "", password: "" })
@@ -11,18 +11,11 @@ export const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault()
 
-        createManager(manager).then((res) => {
+        createManager(manager).then(async (res) => {
             if (res.ok) {
-                loginManager(manager.username, manager.password).then((authRes) => {
-                    if (authRes.token) {
-                        sessionStorage.setItem("user", JSON.stringify({ token: authRes.token }))
-
-                        getManagerProfile().then((profile) => {
-                            sessionStorage.setItem("user", JSON.stringify({ id: profile.id, token: authRes.token }))
-                            navigate(from, { replace: true })
-                        })
-                    }
-                })
+                const data = await res.json()
+                sessionStorage.setItem("user", JSON.stringify({ id: data.id, token: data.token }))
+                navigate(from, { replace: true })
             } else {
                 window.alert("Registration failed. That username or email may already be in use.")
             }

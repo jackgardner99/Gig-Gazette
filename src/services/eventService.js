@@ -55,3 +55,25 @@ export const createWritersRound = (writersRound) => {
         body: JSON.stringify(writersRound)
     })
 }
+
+export const getWritersRoundById = (id) => {
+    return fetch(`http://localhost:8000/writers_rounds/${id}`).then(res => res.json())
+}
+
+export const updateWritersRound = (writersRound) => {
+    return fetch(`http://localhost:8000/writers_rounds/${writersRound.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader()
+        },
+        body: JSON.stringify(writersRound)
+    })
+}
+
+export const deleteWritersRound = (id) => {
+    return fetch(`http://localhost:8000/writers_rounds/${id}`, {
+        method: "DELETE",
+        headers: { ...getAuthHeader() }
+    })
+}

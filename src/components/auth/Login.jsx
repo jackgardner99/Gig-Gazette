@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { loginManager, getManagerProfile } from "../../services/managerService"
+import { loginManager } from "../../services/managerService"
 
 export const Login = () => {
     const [username, setUsername] = useState("")
@@ -14,12 +14,8 @@ export const Login = () => {
 
         loginManager(username, password).then((res) => {
             if (res.token) {
-                sessionStorage.setItem("user", JSON.stringify({ token: res.token }))
-
-                getManagerProfile().then((profile) => {
-                    sessionStorage.setItem("user", JSON.stringify({ id: profile.id, token: res.token }))
-                    navigate(from, { replace: true })
-                })
+                sessionStorage.setItem("user", JSON.stringify({ id: res.id, token: res.token }))
+                navigate(from, { replace: true })
             } else {
                 window.alert("Invalid username or password")
             }
