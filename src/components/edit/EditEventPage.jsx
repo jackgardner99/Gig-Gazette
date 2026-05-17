@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getVenues } from '../../services/venuesService'
 import { getOpenMicById, updateOpenMic, deleteOpenMic, getWritersRoundById, updateWritersRound, deleteWritersRound } from '../../services/eventService'
-import { getArtistShowByShowId, updateArtistShow, deleteArtistShow } from '../../services/artistShowsService'
+import { getShowById, updateArtistShow, deleteArtistShow } from '../../services/artistShowsService'
 
 const CONFIG = {
     show: {
         label: 'Artist Show',
-        getFn: (id) => getArtistShowByShowId(id).then(data => Array.isArray(data) ? data[0] : data),
+        getFn: (id) => getShowById(id).then(data => Array.isArray(data) ? data[0] : data),
         updateFn: updateArtistShow,
         deleteFn: (id) => deleteArtistShow({ id }),
         hasDate: true,

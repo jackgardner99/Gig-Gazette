@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import L from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getArtistShows } from '../../services/artistShowsService'
+import { getShows } from '../../services/artistShowsService'
 import { getOpenMics, getWritersRounds } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
@@ -81,7 +81,7 @@ export const MapPage = () => {
 
     useEffect(() => {
 getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
-        getArtistShows().then(data => setArtistShows(Array.isArray(data) ? data : (data?.results ?? [])))
+        getShows().then(data => setArtistShows(Array.isArray(data) ? data : (data?.results ?? [])))
         getOpenMics().then(data => setOpenMics(Array.isArray(data) ? data : (data?.results ?? [])))
         getWritersRounds().then(data => setWritersRounds(Array.isArray(data) ? data : (data?.results ?? [])))
     }, [])

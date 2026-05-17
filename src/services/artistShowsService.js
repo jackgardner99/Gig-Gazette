@@ -1,18 +1,18 @@
 import { getAuthHeader } from "./tokenService"
 
-export const getArtistShows = () => {
+export const getShows = () => {
     return fetch("http://localhost:8000/shows").then(res => res.json())
 }
 
-export const getArtistShowsById = (artistId) => {
-    return fetch(`http://localhost:8000/shows?artistId=${artistId}`).then(res => res.json())
+export const getShowsByUserId = (userId) => {
+    return fetch(`http://localhost:8000/shows?userId=${userId}`).then(res => res.json())
 }
 
-export const getArtistShowByShowId = (showId) => {
-    return fetch(`http://localhost:8000/shows?id=${showId}`).then(res => res.json())
+export const getShowById = (showId) => {
+    return fetch(`http://localhost:8000/shows/${showId}`).then(res => res.json())
 }
 
-export const getArtistShowsByVenueId = (venueId) => {
+export const getShowsByVenueId = (venueId) => {
     return fetch(`http://localhost:8000/shows?venueId=${venueId}`).then(res => res.json())
 }
 
