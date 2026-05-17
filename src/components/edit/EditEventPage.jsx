@@ -11,6 +11,7 @@ const CONFIG = {
         updateFn: updateArtistShow,
         deleteFn: (id) => deleteArtistShow({ id }),
         hasDate: true,
+        hasTicketLink: true,
     },
     openMic: {
         label: 'Open Mic',
@@ -46,6 +47,7 @@ export const EditEventPage = ({ eventType }) => {
                 weekly_recurrence: data.weekly_recurrence ?? '',
                 start_time: data.start_time ?? '',
                 end_time: data.end_time ?? '',
+                ticket_link: data.ticket_link ?? '',
             })
         })
     }, [id])
@@ -130,6 +132,20 @@ export const EditEventPage = ({ eventType }) => {
                             onChange={handleChange}
                             placeholder="e.g. Every Tuesday"
                             required
+                        />
+                    </div>
+                )}
+
+                {config.hasTicketLink && (
+                    <div className="form__field">
+                        <label className="form__label">Ticket Link</label>
+                        <input
+                            className="form__input"
+                            type="url"
+                            name="ticket_link"
+                            value={form.ticket_link}
+                            onChange={handleChange}
+                            placeholder="https://..."
                         />
                     </div>
                 )}
