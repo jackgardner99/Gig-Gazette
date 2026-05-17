@@ -260,6 +260,14 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                                                 <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                             </>
                                         )}
+                                        {event._type === 'show' && event.ticket_link && (
+                                            <button
+                                                className="btn btn--secondary btn--sm"
+                                                onClick={() => window.open(event.ticket_link, '_blank', 'noreferrer')}
+                                            >
+                                                Buy Tickets
+                                            </button>
+                                        )}
                                         {currentUserId && event.user === currentUserId && (
                                             <button
                                                 className="btn btn--secondary btn--sm"

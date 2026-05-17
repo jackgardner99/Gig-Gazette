@@ -20,6 +20,7 @@ export const SubmitEventPage = () => {
         weekly_recurrence: '',
         start_time: '',
         end_time: '',
+        ticket_link: '',
     })
 
     useEffect(() => {
@@ -43,7 +44,7 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date })
+                await createArtistShow({ ...payload, date: form.date, ticket_link: form.ticket_link })
             } else if (eventType === 'openMic') {
                 await createOpenMic({ ...payload, weekly_recurrence: form.weekly_recurrence })
             } else {
@@ -131,6 +132,20 @@ export const SubmitEventPage = () => {
                             value={form.date}
                             onChange={handleChange}
                             required
+                        />
+                    </div>
+                )}
+
+                {eventType === 'show' && (
+                    <div className="form__field">
+                        <label className="form__label">Ticket Link</label>
+                        <input
+                            className="form__input"
+                            type="url"
+                            name="ticket_link"
+                            value={form.ticket_link}
+                            onChange={handleChange}
+                            placeholder="https://..."
                         />
                     </div>
                 )}
