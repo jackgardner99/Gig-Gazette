@@ -19,6 +19,11 @@ export const CustomerNavbar = () => {
                             Submit Event
                         </li>
                     </Link>
+                    <Link to={"/venues/new"}>
+                        <li className="nav__link">
+                            Add Venue
+                        </li>
+                    </Link>
                 </ul>
             </nav>
         </header>

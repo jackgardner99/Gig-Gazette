@@ -241,6 +241,14 @@ export const MapPage = () => {
                             <button className='close-btn' onClick={handleCloseOverlay}>X</button>
 
                             <h2>{selectedVenue.name}</h2>
+                            {currentUserId && selectedVenue.user === currentUserId && (
+                                <button
+                                    className="btn btn--secondary btn--sm"
+                                    onClick={() => navigate(`/venues/edit/${selectedVenue.id}`)}
+                                >
+                                    Edit Venue
+                                </button>
+                            )}
                             {address && (
                                 <div>
                                     {[selectedVenue.address_number, address].filter(Boolean).join(' ')}
