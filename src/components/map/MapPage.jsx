@@ -6,8 +6,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import L from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getShows } from '../../services/artistShowsService'
-import { getOpenMics, getWritersRounds } from '../../services/eventService'
+import { getShows, deleteArtistShow } from '../../services/artistShowsService'
+import { getOpenMics, getWritersRounds, deleteWritersRound } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
 
@@ -79,11 +79,28 @@ export const MapPage = () => {
     const [popupVenue, setPopupVenue] = useState(null)
     const restaurantClickedRef = useRef(false)
 
+    const today = new Date().toISOString().split('T')[0]
+
     useEffect(() => {
-getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
-        getShows().then(data => setArtistShows(Array.isArray(data) ? data : (data?.results ?? [])))
+        getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
+
+        getShows().then(data => {
+            const shows = Array.isArray(data) ? data : (data?.results ?? [])
+            const past = shows.filter(e => e.date && e.date < today)
+            const current = shows.filter(e => !e.date || e.date >= today)
+            Promise.all(past.map(e => deleteArtistShow({ id: e.id })))
+            setArtistShows(current)
+        })
+
         getOpenMics().then(data => setOpenMics(Array.isArray(data) ? data : (data?.results ?? [])))
-        getWritersRounds().then(data => setWritersRounds(Array.isArray(data) ? data : (data?.results ?? [])))
+
+        getWritersRounds().then(data => {
+            const rounds = Array.isArray(data) ? data : (data?.results ?? [])
+            const past = rounds.filter(e => e.date && e.date < today)
+            const current = rounds.filter(e => !e.date || e.date >= today)
+            Promise.all(past.map(e => deleteWritersRound(e.id)))
+            setWritersRounds(current)
+        })
     }, [])
 
     const formatDate = (dateStr) => {
@@ -224,7 +241,11 @@ getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?
                             <button className='close-btn' onClick={handleCloseOverlay}>X</button>
 
                             <h2>{selectedVenue.name}</h2>
-                            {address && <div>{address}</div>}
+                            {address && (
+                                <div>
+                                    {[selectedVenue.address_number, address].filter(Boolean).join(' ')}
+                                </div>
+                            )}
                             <div>Noise Level: {selectedVenue.noise_level}</div>
                             <div>
                                 <div>
