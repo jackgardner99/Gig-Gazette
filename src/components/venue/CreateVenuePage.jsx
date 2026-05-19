@@ -11,6 +11,9 @@ export const CreateVenuePage = () => {
         name: '',
         address_number: '',
         address: '',
+        city: '',
+        state: '',
+        country: 'US',
         noise_level: '',
         bar: false,
         food: false,
@@ -77,8 +80,46 @@ export const CreateVenuePage = () => {
                             name="address"
                             value={form.address}
                             onChange={handleChange}
-                            placeholder="e.g. Hillsboro Pike, Nashville, TN"
+                            placeholder="e.g. Hillsboro Pike"
                             required
+                        />
+                    </div>
+                </div>
+
+                <div className="form__row">
+                    <div className="form__field">
+                        <label className="form__label form__label--required">City</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="city"
+                            value={form.city}
+                            onChange={handleChange}
+                            placeholder="e.g. Nashville"
+                            required
+                        />
+                    </div>
+                    <div className="form__field">
+                        <label className="form__label form__label--required">State</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="state"
+                            value={form.state}
+                            onChange={handleChange}
+                            placeholder="e.g. TN"
+                            required
+                        />
+                    </div>
+                    <div className="form__field">
+                        <label className="form__label">Country</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="country"
+                            value={form.country}
+                            onChange={handleChange}
+                            placeholder="e.g. US"
                         />
                     </div>
                 </div>

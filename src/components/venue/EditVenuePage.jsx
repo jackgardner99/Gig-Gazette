@@ -16,6 +16,9 @@ export const EditVenuePage = () => {
                 name: data.name ?? '',
                 address_number: data.address_number ?? '',
                 address: data.address ?? '',
+                city: data.city ?? '',
+                state: data.state ?? '',
+                country: data.country ?? 'US',
                 noise_level: data.noise_level ?? '',
                 bar: data.bar ?? false,
                 food: data.food ?? false,
@@ -91,6 +94,40 @@ export const EditVenuePage = () => {
                             value={form.address}
                             onChange={handleChange}
                             required
+                        />
+                    </div>
+                </div>
+
+                <div className="form__row">
+                    <div className="form__field">
+                        <label className="form__label form__label--required">City</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="city"
+                            value={form.city}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form__field">
+                        <label className="form__label form__label--required">State</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="state"
+                            value={form.state}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form__field">
+                        <label className="form__label">Country</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="country"
+                            value={form.country}
+                            onChange={handleChange}
                         />
                     </div>
                 </div>
