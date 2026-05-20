@@ -76,6 +76,7 @@ export const MapPage = () => {
     const [filterFood, setFilterFood] = useState(false)
     const [filterKidFriendly, setFilterKidFriendly] = useState(false)
     const [filterParking, setFilterParking] = useState(false)
+    const [filterRecurringShows, setFilterRecurringShows] = useState(false)
     const [popupVenue, setPopupVenue] = useState(null)
     const restaurantClickedRef = useRef(false)
 
@@ -148,6 +149,7 @@ export const MapPage = () => {
             const hasWritersRound = displayWritersRounds && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
             if (!hasOpenMic && !hasWritersRound) return false
         }
+        if (filterRecurringShows && !artistShows.some(s => (s.venue?.id ?? s.venue) == venue.id && s.recurrence)) return false
         return true
     })
 
@@ -228,6 +230,13 @@ export const MapPage = () => {
                             onChange={(e) => setDisplayWritersRounds(e.target.checked)}
                         /> Writers Rounds
                     </label>
+                    <label>
+                        <input
+                            type='checkbox'
+                            checked={filterRecurringShows}
+                            onChange={(e) => setFilterRecurringShows(e.target.checked)}
+                        /> Recurring Shows
+                    </label>
                 </div>
 
             </div>
@@ -285,7 +294,7 @@ export const MapPage = () => {
                                             </>
                                         ) : (
                                             <>
-                                                <div>{event.weekly_recurrence || event.monthly_recurrence}</div>
+                                                <div>{event.recurrence}</div>
                                                 <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                             </>
                                         )}

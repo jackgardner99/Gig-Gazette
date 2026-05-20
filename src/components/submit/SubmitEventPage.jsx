@@ -17,7 +17,7 @@ export const SubmitEventPage = () => {
         event_title: '',
         venue: '',
         date: '',
-        weekly_recurrence: '',
+        recurrence: '',
         start_time: '',
         end_time: '',
         ticket_link: '',
@@ -44,14 +44,14 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, ticket_link: form.ticket_link })
+                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link })
             } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, weekly_recurrence: form.weekly_recurrence })
+                await createOpenMic({ ...payload, recurrence: form.recurrence })
             } else {
                 await createWritersRound({ ...payload, date: form.date })
             }
             setStatus('success')
-            setForm({ event_title: '', venue: '', date: '', weekly_recurrence: '', start_time: '', end_time: '' })
+            setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '' })
         } catch {
             setStatus('error')
         }
@@ -115,8 +115,8 @@ export const SubmitEventPage = () => {
                         <input
                             className="form__input"
                             type="text"
-                            name="weekly_recurrence"
-                            value={form.weekly_recurrence}
+                            name="recurrence"
+                            value={form.recurrence}
                             onChange={handleChange}
                             placeholder="e.g. Every Tuesday"
                             required
@@ -124,14 +124,28 @@ export const SubmitEventPage = () => {
                     </div>
                 ) : (
                     <div className="form__field">
-                        <label className="form__label form__label--required">Date</label>
+                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date</label>
                         <input
                             className="form__input"
                             type="date"
                             name="date"
                             value={form.date}
                             onChange={handleChange}
-                            required
+                            required={eventType === 'writersRound' || !form.recurrence}
+                        />
+                    </div>
+                )}
+
+                {eventType === 'show' && (
+                    <div className="form__field">
+                        <label className="form__label">Recurrence</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="recurrence"
+                            value={form.recurrence}
+                            onChange={handleChange}
+                            placeholder="e.g. Every Friday"
                         />
                     </div>
                 )}

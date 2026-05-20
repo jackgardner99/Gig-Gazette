@@ -44,10 +44,10 @@ export const EditEventPage = ({ eventType }) => {
                 event_title: data.event_title ?? '',
                 venue: data.venue?.id ?? '',
                 date: data.date ?? '',
-                weekly_recurrence: data.weekly_recurrence ?? '',
+                recurrence: data.recurrence ?? '',
+                ticket_link: data.ticket_link ?? '',
                 start_time: data.start_time ?? '',
                 end_time: data.end_time ?? '',
-                ticket_link: data.ticket_link ?? '',
             })
         })
     }, [id])
@@ -111,14 +111,14 @@ export const EditEventPage = ({ eventType }) => {
 
                 {config.hasDate ? (
                     <div className="form__field">
-                        <label className="form__label form__label--required">Date</label>
+                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date</label>
                         <input
                             className="form__input"
                             type="date"
                             name="date"
                             value={form.date}
                             onChange={handleChange}
-                            required
+                            required={eventType === 'writersRound' || !form.recurrence}
                         />
                     </div>
                 ) : (
@@ -127,11 +127,25 @@ export const EditEventPage = ({ eventType }) => {
                         <input
                             className="form__input"
                             type="text"
-                            name="weekly_recurrence"
-                            value={form.weekly_recurrence}
+                            name="recurrence"
+                            value={form.recurrence}
                             onChange={handleChange}
                             placeholder="e.g. Every Tuesday"
                             required
+                        />
+                    </div>
+                )}
+
+                {config.hasTicketLink && (
+                    <div className="form__field">
+                        <label className="form__label">Recurrence</label>
+                        <input
+                            className="form__input"
+                            type="text"
+                            name="recurrence"
+                            value={form.recurrence}
+                            onChange={handleChange}
+                            placeholder="e.g. Every Friday"
                         />
                     </div>
                 )}
