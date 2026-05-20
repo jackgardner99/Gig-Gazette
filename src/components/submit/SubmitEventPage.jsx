@@ -124,7 +124,7 @@ export const SubmitEventPage = () => {
                     </div>
                 ) : (
                     <div className="form__field">
-                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date</label>
+                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date (not required if recurring event)</label>
                         <input
                             className="form__input"
                             type="date"

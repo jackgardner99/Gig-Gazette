@@ -166,9 +166,13 @@ export const MapPage = () => {
         return openMicIcon
     }
 
+    const showsForOverlay = (!displayOpenMics && !displayWritersRounds) || filterRecurringShows
+        ? artistShows.filter(s => !filterRecurringShows || s.recurrence).map(e => ({ ...e, _type: 'show' }))
+        : []
+
     const venueEvents = selectedVenue
         ? [
-            ...(!displayOpenMics && !displayWritersRounds ? artistShows.map(e => ({ ...e, _type: 'show' })) : []),
+            ...showsForOverlay,
             ...(displayOpenMics ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
             ...(displayWritersRounds ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
           ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
