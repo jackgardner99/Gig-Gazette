@@ -76,6 +76,11 @@ export const MapPage = () => {
     const [filterFood, setFilterFood] = useState(false)
     const [filterKidFriendly, setFilterKidFriendly] = useState(false)
     const [filterParking, setFilterParking] = useState(false)
+    const [filterSeating, setFilterSeating] = useState(false)
+    const [filterRequiresReservation, setFilterRequiresReservation] = useState(false)
+    const [filterOutdoor, setFilterOutdoor] = useState(false)
+    const [barTypeFilter, setBarTypeFilter] = useState("")
+    const [filterFreeEntry, setFilterFreeEntry] = useState(false)
     const [filterRecurringShows, setFilterRecurringShows] = useState(false)
     const [popupVenue, setPopupVenue] = useState(null)
     const restaurantClickedRef = useRef(false)
@@ -144,6 +149,12 @@ export const MapPage = () => {
         if (filterFood && !venue.food) return false
         if (filterKidFriendly && !venue.kid_friendly) return false
         if (filterParking && !venue.parking) return false
+        if (filterSeating && !venue.seating) return false
+        if (filterRequiresReservation && !venue.requires_reservation) return false
+        if (filterOutdoor && !venue.outdoor) return false
+        if (barTypeFilter === 'full_bar' && !(venue.bar && !venue.beer_only)) return false
+        if (barTypeFilter === 'beer_only' && !venue.beer_only) return false
+        if (filterFreeEntry && venue.cover_charge) return false
         if (displayOpenMics || displayWritersRounds) {
             const hasOpenMic = displayOpenMics && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
             const hasWritersRound = displayWritersRounds && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
@@ -216,6 +227,23 @@ export const MapPage = () => {
                     <label>
                         <input type='checkbox' checked={filterParking} onChange={(e) => setFilterParking(e.target.checked)} /> Parking
                     </label>
+                    <label>
+                        <input type='checkbox' checked={filterSeating} onChange={(e) => setFilterSeating(e.target.checked)} /> Seating
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterRequiresReservation} onChange={(e) => setFilterRequiresReservation(e.target.checked)} /> Requires Reservation
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterOutdoor} onChange={(e) => setFilterOutdoor(e.target.checked)} /> Outdoor
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterFreeEntry} onChange={(e) => setFilterFreeEntry(e.target.checked)} /> Free Entry
+                    </label>
+                    <select onChange={(e) => setBarTypeFilter(e.target.value)} value={barTypeFilter}>
+                        <option value="">Any Bar</option>
+                        <option value="full_bar">Full Bar</option>
+                        <option value="beer_only">Beer Only</option>
+                    </select>
                 </div>
 
                 <div className='search-field'>

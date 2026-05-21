@@ -16,9 +16,14 @@ export const CreateVenuePage = () => {
         country: 'US',
         noise_level: '',
         bar: false,
+        beer_only: false,
         food: false,
         kid_friendly: false,
         parking: false,
+        seating: false,
+        requires_reservation: false,
+        outdoor: false,
+        cover_charge: false,
     })
 
     const handleChange = (e) => {
@@ -146,9 +151,14 @@ export const CreateVenuePage = () => {
                     <label className="form__label">Amenities</label>
                     {[
                         { name: 'bar', label: 'Bar' },
+                        { name: 'beer_only', label: 'Beer Only' },
                         { name: 'food', label: 'Food' },
                         { name: 'kid_friendly', label: 'Kid Friendly' },
                         { name: 'parking', label: 'Parking' },
+                        { name: 'seating', label: 'Seating' },
+                        { name: 'requires_reservation', label: 'Requires Reservation' },
+                        { name: 'outdoor', label: 'Outdoor' },
+                        { name: 'cover_charge', label: 'Cover Charge' },
                     ].map(({ name, label }) => (
                         <label key={name} className="form__check">
                             <input
