@@ -232,90 +232,102 @@ export const MapPage = () => {
                 <div className={`popup-overlay ${overlayVisible ? 'active' : ''}`}>
                     {selectedVenue && (
                         <div>
-                            <button className='close-btn' onClick={handleCloseOverlay}>X</button>
+                            <button className='close-btn' onClick={handleCloseOverlay}>✕</button>
 
-                            <h2>{selectedVenue.name}</h2>
-                            {currentUserId && selectedVenue.user === currentUserId && (
-                                <button
-                                    className="btn btn--secondary btn--sm"
-                                    onClick={() => navigate(`/venues/edit/${selectedVenue.id}`)}
-                                >
-                                    Edit Venue
-                                </button>
-                            )}
-                            {address && (
-                                <div>
-                                    {[selectedVenue.address_number, address].filter(Boolean).join(' ')}
+                            {selectedVenue.venue_image && (
+                                <div className="popup-hero">
+                                    <img
+                                        src={`http://localhost:8000${selectedVenue.venue_image}`}
+                                        alt={selectedVenue.name}
+                                    />
                                 </div>
                             )}
-                            <div>Noise Level: {selectedVenue.noise_level}</div>
-                            <div>
-                                <div>
-                                    {selectedVenue.bar && <span>Bar </span>}
-                                </div>
-                                <div>
-                                    {selectedVenue.food && <span>Food </span>}
-                                </div>
-                                <div>
-                                    {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
-                                </div>
-                                <div>
-                                    {selectedVenue.parking && <span>Parking</span>}
-                                </div>
-                            </div>
 
-                            <hr />
+                            <div className="popup-body">
+                                <h2>{selectedVenue.name}</h2>
 
-                            {venueEvents.length === 0 ? (
-                                <div>No events at this venue.</div>
-                            ) : (
-                                venueEvents.map((event) => (
-                                    <div key={`${event._type}-${event.id}`}>
-                                        <div><strong>{event.event_title}</strong></div>
-                                        {event.date ? (
-                                            <>
-                                                <div>{formatDate(event.date)}</div>
-                                                <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div>{event.recurrence}</div>
-                                                <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
-                                            </>
-                                        )}
-                                        {event._type === 'show' && event.ticket_link && (
-                                            <button
-                                                className="btn btn--secondary btn--sm"
-                                                onClick={() => window.open(event.ticket_link, '_blank', 'noreferrer')}
-                                            >
-                                                Buy Tickets
-                                            </button>
-                                        )}
-                                        {currentUserId && event.user === currentUserId && (
-                                            <button
-                                                className="btn btn--secondary btn--sm"
-                                                onClick={() => navigate(EDIT_PATH[event._type](event.id))}
-                                            >
-                                                Edit
-                                            </button>
-                                        )}
+                                {currentUserId && selectedVenue.user === currentUserId && (
+                                    <button
+                                        className="btn btn--secondary btn--sm"
+                                        onClick={() => navigate(`/venues/edit/${selectedVenue.id}`)}
+                                    >
+                                        Edit Venue
+                                    </button>
+                                )}
+                                {address && (
+                                    <div>
+                                        {[selectedVenue.address_number, address].filter(Boolean).join(' ')}
                                     </div>
-                                ))
-                            )}
+                                )}
+                                <div>Noise Level: {selectedVenue.noise_level}</div>
+                                <div>
+                                    <div>
+                                        {selectedVenue.bar && <span>Bar </span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.food && <span>Food </span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.parking && <span>Parking</span>}
+                                    </div>
+                                </div>
 
-                            {(() => {
-                                const visibleRestaurants = (selectedVenue.restaurants ?? []).filter(r => r.is_visible)
-                                if (visibleRestaurants.length === 0) return null
-                                return (
-                                    <>
-                                        <hr />
-                                        <div><strong>Nearby Restaurants</strong></div>
-                                        {visibleRestaurants.map((r) => (
-                                            <div key={r.id}>{r.name}</div>
-                                        ))}
-                                    </>
-                                )
-                            })()}
+                                <hr />
+
+                                {venueEvents.length === 0 ? (
+                                    <div>No events at this venue.</div>
+                                ) : (
+                                    venueEvents.map((event) => (
+                                        <div key={`${event._type}-${event.id}`}>
+                                            <div><strong>{event.event_title}</strong></div>
+                                            {event.date ? (
+                                                <>
+                                                    <div>{formatDate(event.date)}</div>
+                                                    <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div>{event.recurrence}</div>
+                                                    <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
+                                                </>
+                                            )}
+                                            {event._type === 'show' && event.ticket_link && (
+                                                <button
+                                                    className="btn btn--secondary btn--sm"
+                                                    onClick={() => window.open(event.ticket_link, '_blank', 'noreferrer')}
+                                                >
+                                                    Buy Tickets
+                                                </button>
+                                            )}
+                                            {currentUserId && event.user === currentUserId && (
+                                                <button
+                                                    className="btn btn--secondary btn--sm"
+                                                    onClick={() => navigate(EDIT_PATH[event._type](event.id))}
+                                                >
+                                                    Edit
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))
+                                )}
+
+                                {(() => {
+                                    const visibleRestaurants = (selectedVenue.restaurants ?? []).filter(r => r.is_visible)
+                                    if (visibleRestaurants.length === 0) return null
+                                    return (
+                                        <>
+                                            <hr />
+                                            <div><strong>Nearby Restaurants</strong></div>
+                                            {visibleRestaurants.map((r) => (
+                                                <div key={r.id}>{r.name}</div>
+                                            ))}
+                                        </>
+                                    )
+                                })()}
+                            </div>
                         </div>
                     )}
                 </div>

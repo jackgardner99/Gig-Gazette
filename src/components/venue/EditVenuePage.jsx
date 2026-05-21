@@ -9,9 +9,12 @@ export const EditVenuePage = () => {
     const navigate = useNavigate()
     const [form, setForm] = useState(null)
     const [status, setStatus] = useState(null)
+    const [existingImage, setExistingImage] = useState(null)
+    const [venueImage, setVenueImage] = useState(null)
 
     useEffect(() => {
         getVenueById(id).then(data => {
+            setExistingImage(data.venue_image ?? null)
             setForm({
                 name: data.name ?? '',
                 address_number: data.address_number ?? '',
@@ -42,7 +45,16 @@ export const EditVenuePage = () => {
         e.preventDefault()
         setStatus(null)
         try {
-            const res = await updateVenue({ id: parseInt(id), ...form })
+            let payload
+            if (venueImage) {
+                payload = new FormData()
+                payload.append('id', parseInt(id))
+                Object.entries(form).forEach(([k, v]) => payload.append(k, v))
+                payload.append('venue_image', venueImage)
+            } else {
+                payload = { id: parseInt(id), ...form }
+            }
+            const res = await updateVenue(payload)
             if (res.ok) {
                 setStatus('success')
             } else {
@@ -178,6 +190,19 @@ export const EditVenuePage = () => {
                             <span className="form__check-label">{label}</span>
                         </label>
                     ))}
+                </div>
+
+                <div className="form__field">
+                    <label className="form__label">Venue Image</label>
+                    {existingImage && !venueImage && (
+                        <img src={`http://localhost:8000${existingImage}`} alt="Current venue" style={{ width: '100%', maxHeight: '180px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }} />
+                    )}
+                    <input
+                        className="form__input"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setVenueImage(e.target.files[0] ?? null)}
+                    />
                 </div>
 
                 {status === 'success' && (

@@ -7,6 +7,7 @@ const NOISE_LEVELS = ['low', 'medium', 'high']
 export const CreateVenuePage = () => {
     const navigate = useNavigate()
     const [status, setStatus] = useState(null)
+    const [venueImage, setVenueImage] = useState(null)
     const [form, setForm] = useState({
         name: '',
         address_number: '',
@@ -35,7 +36,15 @@ export const CreateVenuePage = () => {
         e.preventDefault()
         setStatus(null)
         try {
-            const res = await createVenue(form)
+            let payload
+            if (venueImage) {
+                payload = new FormData()
+                Object.entries(form).forEach(([k, v]) => payload.append(k, v))
+                payload.append('venue_image', venueImage)
+            } else {
+                payload = form
+            }
+            const res = await createVenue(payload)
             if (res.ok) {
                 navigate('/')
             } else {
@@ -170,6 +179,16 @@ export const CreateVenuePage = () => {
                             <span className="form__check-label">{label}</span>
                         </label>
                     ))}
+                </div>
+
+                <div className="form__field">
+                    <label className="form__label">Venue Image</label>
+                    <input
+                        className="form__input"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setVenueImage(e.target.files[0] ?? null)}
+                    />
                 </div>
 
                 {status === 'error' && (

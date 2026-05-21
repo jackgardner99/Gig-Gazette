@@ -5,13 +5,14 @@ export const getVenues = () => {
 }
 
 export const createVenue = (venue) => {
+    const isFormData = venue instanceof FormData
     return fetch("http://localhost:8000/venues", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
             ...getAuthHeader()
         },
-        body: JSON.stringify(venue)
+        body: isFormData ? venue : JSON.stringify(venue)
     })
 }
 
@@ -20,13 +21,15 @@ export const getVenueById = (id) => {
 }
 
 export const updateVenue = (venue) => {
-    return fetch(`http://localhost:8000/venues/${venue.id}`, {
+    const isFormData = venue instanceof FormData
+    const id = isFormData ? venue.get('id') : venue.id
+    return fetch(`http://localhost:8000/venues/${id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json",
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
             ...getAuthHeader()
         },
-        body: JSON.stringify(venue)
+        body: isFormData ? venue : JSON.stringify(venue)
     })
 }
 
