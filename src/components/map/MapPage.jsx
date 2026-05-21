@@ -21,25 +21,10 @@ const makeFaIcon = (faClass, color) => L.divIcon({
     popupAnchor: [0, -18],
 })
 
-const makeCombinedFaIcon = (faClass1, color1, faClass2, color2) => L.divIcon({
-    html: `<div style="display:flex;gap:3px;">
-               <div style="background:${color1};width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.4);">
-                   <i class="${faClass1}" style="color:#fff;font-size:12px;"></i>
-               </div>
-               <div style="background:${color2};width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.4);">
-                   <i class="${faClass2}" style="color:#fff;font-size:12px;"></i>
-               </div>
-           </div>`,
-    className: '',
-    iconSize: [55, 26],
-    iconAnchor: [27, 13],
-    popupAnchor: [0, -15],
-})
-
 const showIcon = makeFaIcon('fas fa-star', '#e8a020')
+const recurringShowIcon = makeFaIcon('fas fa-star', '#16a34a')
 const openMicIcon = makeFaIcon('fas fa-microphone', '#7c3aed')
 const writersRoundIcon = makeFaIcon('fas fa-pen', '#db2777')
-const openMicAndWritersIcon = makeCombinedFaIcon('fas fa-microphone', '#7c3aed', 'fas fa-pen', '#db2777')
 const restaurantIcon = makeFaIcon('fas fa-utensils', '#16a34a')
 
 const MapFlyTo = ({ venue }) => {
@@ -66,17 +51,19 @@ export const MapPage = () => {
     const [openMics, setOpenMics] = useState([])
     const [writersRounds, setWritersRounds] = useState([])
     const [search, setSearch] = useState("")
-    const [displayOpenMics, setDisplayOpenMics] = useState(false)
-    const [displayWritersRounds, setDisplayWritersRounds] = useState(false)
+    const [eventFilter, setEventFilter] = useState("")
     const [selectedVenue, setSelectedVenue] = useState(null)
     const [overlayVisible, setOverlayVisible] = useState(false)
 
     const [noiseFilter, setNoiseFilter] = useState("")
-    const [filterBar, setFilterBar] = useState(false)
     const [filterFood, setFilterFood] = useState(false)
     const [filterKidFriendly, setFilterKidFriendly] = useState(false)
     const [filterParking, setFilterParking] = useState(false)
-    const [filterRecurringShows, setFilterRecurringShows] = useState(false)
+    const [filterSeating, setFilterSeating] = useState(false)
+    const [filterRequiresReservation, setFilterRequiresReservation] = useState(false)
+    const [filterOutdoor, setFilterOutdoor] = useState(false)
+    const [barTypeFilter, setBarTypeFilter] = useState("")
+    const [filterFreeEntry, setFilterFreeEntry] = useState(false)
     const [popupVenue, setPopupVenue] = useState(null)
     const restaurantClickedRef = useRef(false)
 
@@ -140,41 +127,34 @@ export const MapPage = () => {
     const filteredVenues = venues.filter((venue) => {
         if (search && !venue.name.toLowerCase().includes(search.toLowerCase())) return false
         if (noiseFilter && venue.noise_level !== noiseFilter) return false
-        if (filterBar && !venue.bar) return false
         if (filterFood && !venue.food) return false
         if (filterKidFriendly && !venue.kid_friendly) return false
         if (filterParking && !venue.parking) return false
-        if (displayOpenMics || displayWritersRounds) {
-            const hasOpenMic = displayOpenMics && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
-            const hasWritersRound = displayWritersRounds && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
-            if (!hasOpenMic && !hasWritersRound) return false
-        }
-        if (filterRecurringShows && !artistShows.some(s => (s.venue?.id ?? s.venue) == venue.id && s.recurrence)) return false
+        if (filterSeating && !venue.seating) return false
+        if (filterRequiresReservation && !venue.requires_reservation) return false
+        if (filterOutdoor && !venue.outdoor) return false
+        if (barTypeFilter === 'full_bar' && !(venue.bar && !venue.beer_only)) return false
+        if (barTypeFilter === 'beer_only' && !venue.beer_only) return false
+        if (filterFreeEntry && venue.cover_charge) return false
+        if (eventFilter === 'openMic' && !openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return false
+        if (eventFilter === 'writersRound' && !writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)) return false
+        if (eventFilter === 'recurringShows' && !artistShows.some(s => (s.venue?.id ?? s.venue) == venue.id && s.recurrence)) return false
         return true
     })
 
-    const getVenueIcon = (venue) => {
-        if (!displayOpenMics && !displayWritersRounds) return showIcon
-        if (displayOpenMics && displayWritersRounds) {
-            const hasOpenMic = openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
-            const hasWritersRound = writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
-            if (hasOpenMic && hasWritersRound) return openMicAndWritersIcon
-            if (hasWritersRound) return writersRoundIcon
-            return openMicIcon
-        }
-        if (displayWritersRounds) return writersRoundIcon
-        return openMicIcon
+    const getVenueIcon = () => {
+        if (eventFilter === 'openMic') return openMicIcon
+        if (eventFilter === 'writersRound') return writersRoundIcon
+        if (eventFilter === 'recurringShows') return recurringShowIcon
+        return showIcon
     }
-
-    const showsForOverlay = (!displayOpenMics && !displayWritersRounds) || filterRecurringShows
-        ? artistShows.filter(s => !filterRecurringShows || s.recurrence).map(e => ({ ...e, _type: 'show' }))
-        : []
 
     const venueEvents = selectedVenue
         ? [
-            ...showsForOverlay,
-            ...(displayOpenMics ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
-            ...(displayWritersRounds ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
+            ...(eventFilter === '' ? artistShows.map(e => ({ ...e, _type: 'show' })) : []),
+            ...(eventFilter === 'recurringShows' ? artistShows.filter(s => s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
+            ...(eventFilter === 'openMic' ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
+            ...(eventFilter === 'writersRound' ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
           ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
         : []
 
@@ -193,6 +173,16 @@ export const MapPage = () => {
                 </div>
 
                 <div className='search-field'>
+                    <p>Events</p>
+                    <select onChange={(e) => setEventFilter(e.target.value)} value={eventFilter}>
+                        <option value="">⭐ Shows</option>
+                        <option value="openMic">🎤 Open Mics</option>
+                        <option value="writersRound">✍️ Writers Rounds</option>
+                        <option value="recurringShows">🟢 Recurring Shows</option>
+                    </select>
+                </div>
+
+                <div className='search-field'>
                     <p>Noise Level</p>
                     <select onChange={(e) => setNoiseFilter(e.target.value)} value={noiseFilter}>
                         <option value="">Any</option>
@@ -205,9 +195,6 @@ export const MapPage = () => {
                 <div className='search-field'>
                     <p>Amenities</p>
                     <label>
-                        <input type='checkbox' checked={filterBar} onChange={(e) => setFilterBar(e.target.checked)} /> Bar
-                    </label>
-                    <label>
                         <input type='checkbox' checked={filterFood} onChange={(e) => setFilterFood(e.target.checked)} /> Food
                     </label>
                     <label>
@@ -216,30 +203,24 @@ export const MapPage = () => {
                     <label>
                         <input type='checkbox' checked={filterParking} onChange={(e) => setFilterParking(e.target.checked)} /> Parking
                     </label>
-                </div>
-
-                <div className='search-field'>
-                    <p>Events</p>
                     <label>
-                        <input
-                            type='checkbox'
-                            checked={displayOpenMics}
-                            onChange={(e) => setDisplayOpenMics(e.target.checked)}
-                        /> Open Mics
+                        <input type='checkbox' checked={filterSeating} onChange={(e) => setFilterSeating(e.target.checked)} /> Seating
                     </label>
                     <label>
-                        <input
-                            type='checkbox'
-                            checked={displayWritersRounds}
-                            onChange={(e) => setDisplayWritersRounds(e.target.checked)}
-                        /> Writers Rounds
+                        <input type='checkbox' checked={filterRequiresReservation} onChange={(e) => setFilterRequiresReservation(e.target.checked)} /> Requires Reservation
                     </label>
                     <label>
-                        <input
-                            type='checkbox'
-                            checked={filterRecurringShows}
-                            onChange={(e) => setFilterRecurringShows(e.target.checked)}
-                        /> Recurring Shows
+                        <input type='checkbox' checked={filterOutdoor} onChange={(e) => setFilterOutdoor(e.target.checked)} /> Outdoor
+                    </label>
+                    <label>
+                        <input type='checkbox' checked={filterFreeEntry} onChange={(e) => setFilterFreeEntry(e.target.checked)} /> Free Entry
+                    </label>
+                    <label> Bar Type
+                        <select onChange={(e) => setBarTypeFilter(e.target.value)} value={barTypeFilter}>
+                            <option value="">Any Bar</option>
+                            <option value="full_bar">Full Bar</option>
+                            <option value="beer_only">Beer Only</option>
+                        </select>
                     </label>
                 </div>
 
@@ -349,7 +330,7 @@ export const MapPage = () => {
                         <Marker
                             key={venue.id}
                             position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
-                            icon={getVenueIcon(venue)}
+                            icon={getVenueIcon()}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
                                 popupclose: () => {
@@ -360,7 +341,7 @@ export const MapPage = () => {
                             <Popup>
                                 <div><strong>{venue.name}</strong></div>
                                 <button onClick={() => handleViewEvents(venue)}>
-                                    View {displayOpenMics ? 'Open Mics' : 'Shows'}
+                                    View {eventFilter === 'openMic' ? 'Open Mics' : eventFilter === 'writersRound' ? 'Writers Rounds' : 'Shows'}
                                 </button>
                             </Popup>
                         </Marker>
