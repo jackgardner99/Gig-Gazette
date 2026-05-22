@@ -7,7 +7,7 @@ export const ManagerNavbar = () => {
     return (
     <header className="nav">
         <div className="nav__brand-name">
-            Gig Gazette
+            Gig Gazette™
         </div>
         <nav>
             <ul className="nav__links">
