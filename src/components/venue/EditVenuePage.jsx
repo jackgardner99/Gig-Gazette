@@ -195,7 +195,7 @@ export const EditVenuePage = () => {
                 <div className="form__field">
                     <label className="form__label">Venue Image</label>
                     {existingImage && !venueImage && (
-                        <img src={`http://localhost:8000${existingImage}`} alt="Current venue" style={{ width: '100%', maxHeight: '180px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }} />
+                        <img src={`https://api.giggazette.com${existingImage}`} alt="Current venue" style={{ width: '100%', maxHeight: '180px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }} />
                     )}
                     <input
                         className="form__input"
