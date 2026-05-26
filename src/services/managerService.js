@@ -1,7 +1,7 @@
 import { getAuthHeader } from "./tokenService"
 
 export const loginManager = (username, password) => {
-    return fetch("http://localhost:8000/api-token-auth/", {
+    return fetch("https://api.giggazette.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
@@ -9,13 +9,13 @@ export const loginManager = (username, password) => {
 }
 
 export const getManagerProfile = () => {
-    return fetch("http://localhost:8000/users", {
+    return fetch("https://api.giggazette.com/users", {
         headers: { ...getAuthHeader() }
     }).then(res => res.json())
 }
 
 export const createManager = (manager) => {
-    return fetch("http://localhost:8000/users", {
+    return fetch("https://api.giggazette.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(manager)

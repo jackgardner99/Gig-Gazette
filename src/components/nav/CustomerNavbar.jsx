@@ -5,7 +5,7 @@ export const CustomerNavbar = () => {
     return (
         <header className="nav">
             <div className="nav__brand-name">
-                Gig Gazette
+                Gig Gazette™
             </div>
             <nav>
                 <ul className="nav__links">
@@ -17,6 +17,11 @@ export const CustomerNavbar = () => {
                     <Link to={"/submit"}>
                         <li className="nav__link">
                             Submit Event
+                        </li>
+                    </Link>
+                    <Link to={"/venues/new"}>
+                        <li className="nav__link">
+                            Add Venue
                         </li>
                     </Link>
                 </ul>

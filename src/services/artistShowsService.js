@@ -1,23 +1,23 @@
 import { getAuthHeader } from "./tokenService"
 
-export const getArtistShows = () => {
-    return fetch("http://localhost:8000/shows").then(res => res.json())
+export const getShows = () => {
+    return fetch("https://api.giggazette.com/shows").then(res => res.json())
 }
 
-export const getArtistShowsById = (artistId) => {
-    return fetch(`http://localhost:8000/shows?artistId=${artistId}`).then(res => res.json())
+export const getShowsByUserId = (userId) => {
+    return fetch(`https://api.giggazette.com/shows?userId=${userId}`).then(res => res.json())
 }
 
-export const getArtistShowByShowId = (showId) => {
-    return fetch(`http://localhost:8000/shows?id=${showId}`).then(res => res.json())
+export const getShowById = (showId) => {
+    return fetch(`https://api.giggazette.com/shows/${showId}`).then(res => res.json())
 }
 
-export const getArtistShowsByVenueId = (venueId) => {
-    return fetch(`http://localhost:8000/shows?venueId=${venueId}`).then(res => res.json())
+export const getShowsByVenueId = (venueId) => {
+    return fetch(`https://api.giggazette.com/shows?venueId=${venueId}`).then(res => res.json())
 }
 
 export const createArtistShow = (show) => {
-    return fetch("http://localhost:8000/shows", {
+    return fetch("https://api.giggazette.com/shows", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const createArtistShow = (show) => {
 }
 
 export const updateArtistShow = (artistShow) => {
-    return fetch(`http://localhost:8000/shows/${artistShow.id}`, {
+    return fetch(`https://api.giggazette.com/shows/${artistShow.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const updateArtistShow = (artistShow) => {
 }
 
 export const deleteArtistShow = (artistShow) => {
-    return fetch(`http://localhost:8000/shows/${artistShow.id}`, {
+    return fetch(`https://api.giggazette.com/shows/${artistShow.id}`, {
         method: "DELETE",
         headers: { ...getAuthHeader() }
     })

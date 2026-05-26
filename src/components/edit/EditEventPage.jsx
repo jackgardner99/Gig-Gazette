@@ -1,31 +1,56 @@
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getVenues } from '../../services/venuesService'
-import { createArtistShow } from '../../services/artistShowsService'
-import { createOpenMic, createWritersRound } from '../../services/eventService'
+import { getOpenMicById, updateOpenMic, deleteOpenMic, getWritersRoundById, updateWritersRound, deleteWritersRound } from '../../services/eventService'
+import { getShowById, updateArtistShow, deleteArtistShow } from '../../services/artistShowsService'
 
-const EVENT_TYPES = [
-    { value: 'show', label: 'Artist Show' },
-    { value: 'openMic', label: 'Open Mic' },
-    { value: 'writersRound', label: "Writers Round" },
-]
+const CONFIG = {
+    show: {
+        label: 'Artist Show',
+        getFn: (id) => getShowById(id).then(data => Array.isArray(data) ? data[0] : data),
+        updateFn: updateArtistShow,
+        deleteFn: (id) => deleteArtistShow({ id }),
+        hasDate: true,
+        hasTicketLink: true,
+    },
+    openMic: {
+        label: 'Open Mic',
+        getFn: getOpenMicById,
+        updateFn: updateOpenMic,
+        deleteFn: (id) => deleteOpenMic({ id }),
+        hasDate: false,
+    },
+    writersRound: {
+        label: "Writers Round",
+        getFn: getWritersRoundById,
+        updateFn: updateWritersRound,
+        deleteFn: deleteWritersRound,
+        hasDate: true,
+    },
+}
 
-export const SubmitEventPage = () => {
+export const EditEventPage = ({ eventType }) => {
+    const { id } = useParams()
+    const navigate = useNavigate()
     const [venues, setVenues] = useState([])
-    const [eventType, setEventType] = useState('show')
     const [status, setStatus] = useState(null)
-    const [form, setForm] = useState({
-        event_title: '',
-        venue: '',
-        date: '',
-        recurrence: '',
-        start_time: '',
-        end_time: '',
-        ticket_link: '',
-    })
+    const [form, setForm] = useState(null)
+    const config = CONFIG[eventType]
 
     useEffect(() => {
         getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
-    }, [])
+        config.getFn(id).then(data => {
+            setForm({
+                event_title: data.event_title ?? '',
+                venue: data.venue?.id ?? '',
+                date: data.date ?? '',
+                recurrence: data.recurrence ?? '',
+                ticket_link: data.ticket_link ?? '',
+                start_time: data.start_time ?? '',
+                end_time: data.end_time ?? '',
+            })
+        })
+    }, [id])
 
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -36,49 +61,25 @@ export const SubmitEventPage = () => {
         setStatus(null)
         try {
             const userId = JSON.parse(sessionStorage.getItem("user"))?.id
-            const payload = {
-                event_title: form.event_title,
-                venue: parseInt(form.venue),
-                start_time: form.start_time,
-                end_time: form.end_time,
-                user: userId,
-            }
-            if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link })
-            } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, recurrence: form.recurrence })
-            } else {
-                await createWritersRound({ ...payload, date: form.date })
-            }
+            await config.updateFn({ id: parseInt(id), ...form, venue: parseInt(form.venue), user: userId })
             setStatus('success')
-            setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '' })
         } catch {
             setStatus('error')
         }
     }
 
+    const handleDelete = async () => {
+        if (!window.confirm('Are you sure you want to delete this event?')) return
+        await config.deleteFn(parseInt(id))
+        navigate('/submit')
+    }
+
+    if (!form) return null
+
     return (
         <div className="page-content">
             <form className="form" onSubmit={handleSubmit}>
-                <h2 className="form__section-title">Submit an Event</h2>
-
-                <div className="form__field">
-                    <label className="form__label form__label--required">Event Type</label>
-                    <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-                        {EVENT_TYPES.map(({ value, label }) => (
-                            <label key={value} className="form__check">
-                                <input
-                                    type="radio"
-                                    name="eventType"
-                                    value={value}
-                                    checked={eventType === value}
-                                    onChange={() => setEventType(value)}
-                                />
-                                <span className="form__check-label">{label}</span>
-                            </label>
-                        ))}
-                    </div>
-                </div>
+                <h2 className="form__section-title">Edit {config.label}</h2>
 
                 <div className="form__field">
                     <label className="form__label form__label--required">Venue</label>
@@ -104,12 +105,23 @@ export const SubmitEventPage = () => {
                         name="event_title"
                         value={form.event_title}
                         onChange={handleChange}
-                        placeholder="e.g. Tuesday Night Open Mic"
                         required
                     />
                 </div>
 
-                {eventType === 'openMic' ? (
+                {config.hasDate ? (
+                    <div className="form__field">
+                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date</label>
+                        <input
+                            className="form__input"
+                            type="date"
+                            name="date"
+                            value={form.date}
+                            onChange={handleChange}
+                            required={eventType === 'writersRound' || !form.recurrence}
+                        />
+                    </div>
+                ) : (
                     <div className="form__field">
                         <label className="form__label form__label--required">Recurrence</label>
                         <input
@@ -122,21 +134,9 @@ export const SubmitEventPage = () => {
                             required
                         />
                     </div>
-                ) : (
-                    <div className="form__field">
-                        <label className={`form__label${eventType === 'writersRound' || !form.recurrence ? ' form__label--required' : ''}`}>Date (not required if recurring event)</label>
-                        <input
-                            className="form__input"
-                            type="date"
-                            name="date"
-                            value={form.date}
-                            onChange={handleChange}
-                            required={eventType === 'writersRound' || !form.recurrence}
-                        />
-                    </div>
                 )}
 
-                {eventType === 'show' && (
+                {config.hasTicketLink && (
                     <div className="form__field">
                         <label className="form__label">Recurrence</label>
                         <input
@@ -150,7 +150,7 @@ export const SubmitEventPage = () => {
                     </div>
                 )}
 
-                {eventType === 'show' && (
+                {config.hasTicketLink && (
                     <div className="form__field">
                         <label className="form__label">Ticket Link</label>
                         <input
@@ -191,7 +191,7 @@ export const SubmitEventPage = () => {
 
                 {status === 'success' && (
                     <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                        Event submitted successfully!
+                        Event updated successfully!
                     </div>
                 )}
                 {status === 'error' && (
@@ -201,8 +201,9 @@ export const SubmitEventPage = () => {
                 )}
 
                 <div className="form__actions">
-                    <button type="submit" className="btn btn--primary btn--full">
-                        Submit Event
+                    <button type="submit" className="btn btn--primary btn--full">Save Changes</button>
+                    <button type="button" className="btn btn--danger btn--full" onClick={handleDelete}>
+                        Delete Event
                     </button>
                 </div>
             </form>
