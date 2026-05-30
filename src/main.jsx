@@ -8,7 +8,7 @@ import "./CSS/NewCSS.css"
 const container = document.getElementById("root")
 const root = ReactDOM.createRoot(container)
 root.render(
-    <BrowserRouter basename="/Gig-Gazette">
+    <BrowserRouter>
         <App />
     </BrowserRouter>
 )
