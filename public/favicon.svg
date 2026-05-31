@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" width="512" height="640">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&display=swap');
+    </style>
+  </defs>
+  <rect width="512" height="640" rx="90" fill="#0f0f0f"/>
+  <g transform="translate(248, 320) scale(1, 1.5) translate(-248, -320)">
+    <text x="248" y="380" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="300" font-weight="300" fill="#F5A623" text-anchor="middle" dominant-baseline="middle" letter-spacing="-10" textLength="480" lengthAdjust="spacingAndGlyphs">G<tspan fill="#7EC8E3">i</tspan>G</text>
+  </g>
+</svg>
