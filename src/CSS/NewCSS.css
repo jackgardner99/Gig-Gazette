@@ -354,6 +354,20 @@ p { color: var(--text-secondary); line-height: 1.7; }
   overflow-y: auto;
 }
 
+.filter-panel__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.filter-toggle-btn { display: none; }
+
 .filter-panel h2 {
   font-size: var(--text-xl);
   background: linear-gradient(135deg, var(--text-primary) 40%, var(--amber));
@@ -1372,24 +1386,59 @@ p { color: var(--text-secondary); line-height: 1.7; }
     height: calc(100dvh - 64px);
   }
 
+  /* Filter panel — collapsed by default, expands on toggle */
   .filter-panel {
     width: 100%;
     height: auto;
-    max-height: 220px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
+    padding: 0;
+    gap: 0;
     border-bottom: 1px solid var(--border-subtle);
-    padding: var(--space-4);
-    gap: var(--space-4);
   }
 
-  .filter-panel h2  { display: none; }
+  .filter-panel h2 { margin-bottom: 0; }
 
-  .filter-panel .search-field {
-    min-width: 160px;
-    flex: 1;
+  .filter-panel__toggle {
+    padding: var(--space-3) var(--space-5);
+    min-height: 52px;
+    flex-shrink: 0;
+  }
+
+  .filter-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-glass-light);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--fast) var(--ease);
+    min-height: 36px;
+  }
+
+  .filter-toggle-btn:hover,
+  .filter-panel--open .filter-toggle-btn {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: var(--amber-glow);
+  }
+
+  /* Collapsible content */
+  .filter-panel__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .filter-panel--open .filter-panel__content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-5) var(--space-5);
   }
 
   .map-container { flex: 1; min-height: 0; }

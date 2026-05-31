@@ -66,6 +66,7 @@ export const MapPage = () => {
     const [filterFreeEntry, setFilterFreeEntry] = useState(false)
     const [popupVenue, setPopupVenue] = useState(null)
     const restaurantClickedRef = useRef(false)
+    const [filterOpen, setFilterOpen] = useState(false)
 
     const today = new Date().toISOString().split('T')[0]
 
@@ -160,70 +161,77 @@ export const MapPage = () => {
 
     return (
         <div className='map-wrapper'>
-            <div className='filter-panel'>
-                <h2>The Gig Map</h2>
-
-                <div className='search-field'>
-                    <p>Search</p>
-                    <input
-                        type="text"
-                        placeholder="Search Venue"
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+            <div className={`filter-panel ${filterOpen ? 'filter-panel--open' : ''}`}>
+                <div className='filter-panel__toggle'>
+                    <h2>The Gig Map</h2>
+                    <button className='filter-toggle-btn' onClick={() => setFilterOpen(f => !f)}>
+                        <i className={`fas ${filterOpen ? 'fa-chevron-up' : 'fa-sliders'}`}></i>
+                        {filterOpen ? 'Close' : 'Filters'}
+                    </button>
                 </div>
 
-                <div className='search-field'>
-                    <p>Events</p>
-                    <select onChange={(e) => setEventFilter(e.target.value)} value={eventFilter}>
-                        <option value="">⭐ Shows</option>
-                        <option value="openMic">🎤 Open Mics</option>
-                        <option value="writersRound">✍️ Writers Rounds</option>
-                        <option value="recurringShows">🟢 Recurring Shows</option>
-                    </select>
-                </div>
+                <div className='filter-panel__content'>
+                    <div className='search-field'>
+                        <p>Search</p>
+                        <input
+                            type="text"
+                            placeholder="Search Venue"
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
 
-                <div className='search-field'>
-                    <p>Noise Level</p>
-                    <select onChange={(e) => setNoiseFilter(e.target.value)} value={noiseFilter}>
-                        <option value="">Any</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-
-                <div className='search-field'>
-                    <p>Amenities</p>
-                    <label>
-                        <input type='checkbox' checked={filterFood} onChange={(e) => setFilterFood(e.target.checked)} /> Food
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterKidFriendly} onChange={(e) => setFilterKidFriendly(e.target.checked)} /> Kid Friendly
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterParking} onChange={(e) => setFilterParking(e.target.checked)} /> Parking
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterSeating} onChange={(e) => setFilterSeating(e.target.checked)} /> Seating
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterRequiresReservation} onChange={(e) => setFilterRequiresReservation(e.target.checked)} /> Requires Reservation
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterOutdoor} onChange={(e) => setFilterOutdoor(e.target.checked)} /> Outdoor
-                    </label>
-                    <label>
-                        <input type='checkbox' checked={filterFreeEntry} onChange={(e) => setFilterFreeEntry(e.target.checked)} /> Free Entry
-                    </label>
-                    <label> Bar Type
-                        <select onChange={(e) => setBarTypeFilter(e.target.value)} value={barTypeFilter}>
-                            <option value="">Any Bar</option>
-                            <option value="full_bar">Full Bar</option>
-                            <option value="beer_only">Beer Only</option>
+                    <div className='search-field'>
+                        <p>Events</p>
+                        <select onChange={(e) => setEventFilter(e.target.value)} value={eventFilter}>
+                            <option value="">⭐ Shows</option>
+                            <option value="openMic">🎤 Open Mics</option>
+                            <option value="writersRound">✍️ Writers Rounds</option>
+                            <option value="recurringShows">🟢 Recurring Shows</option>
                         </select>
-                    </label>
-                </div>
+                    </div>
 
+                    <div className='search-field'>
+                        <p>Noise Level</p>
+                        <select onChange={(e) => setNoiseFilter(e.target.value)} value={noiseFilter}>
+                            <option value="">Any</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div className='search-field'>
+                        <p>Amenities</p>
+                        <label>
+                            <input type='checkbox' checked={filterFood} onChange={(e) => setFilterFood(e.target.checked)} /> Food
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterKidFriendly} onChange={(e) => setFilterKidFriendly(e.target.checked)} /> Kid Friendly
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterParking} onChange={(e) => setFilterParking(e.target.checked)} /> Parking
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterSeating} onChange={(e) => setFilterSeating(e.target.checked)} /> Seating
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterRequiresReservation} onChange={(e) => setFilterRequiresReservation(e.target.checked)} /> Requires Reservation
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterOutdoor} onChange={(e) => setFilterOutdoor(e.target.checked)} /> Outdoor
+                        </label>
+                        <label>
+                            <input type='checkbox' checked={filterFreeEntry} onChange={(e) => setFilterFreeEntry(e.target.checked)} /> Free Entry
+                        </label>
+                        <label> Bar Type
+                            <select onChange={(e) => setBarTypeFilter(e.target.value)} value={barTypeFilter}>
+                                <option value="">Any Bar</option>
+                                <option value="full_bar">Full Bar</option>
+                                <option value="beer_only">Beer Only</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div className='map-container'>
