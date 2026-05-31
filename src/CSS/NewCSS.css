@@ -1349,7 +1349,57 @@ p { color: var(--text-secondary); line-height: 1.7; }
    13. RESPONSIVE
    ============================================================ */
 
-@media (max-width: 900px) {
+/* iOS Safari fix — background-attachment: fixed is broken on iOS */
+@media (max-width: 1024px) {
+  body { background-attachment: scroll; }
+}
+
+/* Use dynamic viewport height where supported (fixes iOS browser chrome) */
+@supports (height: 100dvh) {
+  .map-wrapper    { height: calc(100dvh - 64px); }
+  .page-content   { min-height: calc(100dvh - 64px); }
+}
+
+/* ── iPad landscape / small desktop (max 1024px) ── */
+@media (max-width: 1024px) {
+  .filter-panel { width: 260px; min-width: 260px; }
+}
+
+/* ── iPad portrait / large phone landscape (max 768px) ── */
+@media (max-width: 768px) {
+  .map-wrapper {
+    flex-direction: column;
+    height: calc(100dvh - 64px);
+  }
+
+  .filter-panel {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .filter-panel h2  { display: none; }
+
+  .filter-panel .search-field {
+    min-width: 160px;
+    flex: 1;
+  }
+
+  .map-container { flex: 1; min-height: 0; }
+
+  .popup-overlay { padding: var(--space-3); }
+  .popup-overlay > div {
+    max-width: 100%;
+    max-height: 82vh;
+  }
+
   .app-shell,
   .app-shell--map {
     grid-template-columns: 1fr;
@@ -1366,17 +1416,61 @@ p { color: var(--text-secondary); line-height: 1.7; }
     max-height: 220px;
   }
 
-  .map-wrapper { height: 55vh; }
-  .card-grid   { padding: var(--space-4); gap: var(--space-4); }
-  .form__row   { grid-template-columns: 1fr; }
-  .modal       { max-width: 100%; }
+  .card-grid { padding: var(--space-4); gap: var(--space-4); }
+  .modal     { max-width: 100%; border-radius: var(--radius-lg); }
 }
 
-@media (max-width: 600px) {
+/* ── iPhone / small phones (max 480px) ── */
+@media (max-width: 480px) {
   h1 { font-size: var(--text-2xl); }
   h2 { font-size: var(--text-xl); }
+
+  /* Prevent iOS auto-zoom on input focus — must be 16px+ */
+  .form__input,
+  .form__select,
+  .form__textarea,
+  .search-field input,
+  .search-field select {
+    font-size: 16px;
+  }
+
+  /* Minimum 44px touch targets */
+  .btn          { min-height: 44px; }
+  .nav__link    { min-height: 44px; padding: 0 var(--space-3); }
+  .form__input,
+  .form__select { min-height: 44px; }
+
+  /* Compact nav — stack links under brand */
+  .nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .nav__links {
+    width: 100%;
+    justify-content: space-around;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-2);
+  }
+
+  .nav__link { font-size: var(--text-xs); }
+
+  /* Adjust map wrapper for taller nav */
+  .map-wrapper  { height: calc(100dvh - 110px); }
+  .page-content { min-height: calc(100dvh - 110px); }
+
+  .form         { padding: var(--space-4); }
+  .form__row    { grid-template-columns: 1fr; }
+  .page-content { padding: var(--space-5) var(--space-4); }
   .card-grid    { grid-template-columns: 1fr; }
-  .nav__links   { display: none; }
   .filter-pills { gap: var(--space-1); }
-  .form         { padding: var(--space-5); }
+
+  /* Popup full width, taller on phone */
+  .popup-overlay { padding: 0; align-items: flex-end; }
+  .popup-overlay > div {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 88vh;
+  }
 }
