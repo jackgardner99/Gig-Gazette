@@ -1,3 +1,3 @@
 export const getGenres = () => {
-    return fetch("https://api.giggazette.com/genres").then(res => res.json())
+    return fetch("https://gig-gazette-api-production.up.railway.app/genres").then(res => res.json())
 }
