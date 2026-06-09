@@ -245,7 +245,7 @@ export const MapPage = () => {
                             {selectedVenue.venue_image && (
                                 <div className="popup-hero">
                                     <img
-                                        src={`https://api.giggazette.com${selectedVenue.venue_image}`}
+                                        src={`https://gig-gazette-api-production.up.railway.app${selectedVenue.venue_image}`}
                                         alt={selectedVenue.name}
                                     />
                                 </div>
