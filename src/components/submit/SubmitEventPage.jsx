@@ -21,6 +21,7 @@ export const SubmitEventPage = () => {
         start_time: '',
         end_time: '',
         ticket_link: '',
+        description: '',
     })
 
     useEffect(() => {
@@ -44,14 +45,14 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link })
+                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description })
             } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, recurrence: form.recurrence })
+                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description })
             } else {
-                await createWritersRound({ ...payload, date: form.date })
+                await createWritersRound({ ...payload, date: form.date, description: form.description })
             }
             setStatus('success')
-            setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '' })
+            setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '', description: '' })
         } catch {
             setStatus('error')
         }
@@ -163,6 +164,18 @@ export const SubmitEventPage = () => {
                         />
                     </div>
                 )}
+
+                <div className="form__field">
+                    <label className="form__label">Description</label>
+                    <textarea
+                        className="form__textarea"
+                        name="description"
+                        value={form.description}
+                        onChange={handleChange}
+                        placeholder="Details please..."
+                        rows={3}
+                    />
+                </div>
 
                 <div className="form__row">
                     <div className="form__field">
