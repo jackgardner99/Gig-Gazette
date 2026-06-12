@@ -281,6 +281,21 @@ export const MapPage = () => {
                                     <div>
                                         {selectedVenue.parking && <span>Parking</span>}
                                     </div>
+                                    <div>
+                                        {selectedVenue.beer_only && <span>Beer Only</span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.requires_reservation && <span>Reservation Required</span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.seating && <span>Seating</span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.cover_charge && <span>Cover Charge</span>}
+                                    </div>
+                                    <div>
+                                        {selectedVenue.outdoor && <span>Outdoor</span>}
+                                    </div>
                                 </div>
 
                                 <hr />
