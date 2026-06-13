@@ -23,13 +23,14 @@ const CONFIG = {
 }
 
 
-export const EventDetails = () => {
+export const EventDetails = ({ eventType }) => {
     const { id } = useParams()
     const navigate = useNavigate()
     const [details, setDetails] = useState(null)
+    const config = CONFIG[eventType]
 
     useEffect(() => {
-        CONFIG.getFn(id).then(data => {
+        config.getFn(id).then(data => {
             setDetails({
                 event_title: data.event_title ?? '',
                 date: data.date ?? '',
@@ -38,30 +39,49 @@ export const EventDetails = () => {
                 description: data.description ?? ''
             })
         })
-    }, [id])
+    }, [id, config])
 
-    
+    if (!details) return null
+
+    const formatDate = (dateStr) => {
+        if (!dateStr) return ""
+        const [year, month, day] = dateStr.split('-').map(Number)
+        return new Date(year, month - 1, day).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
+    }
+
+    const formatTime = (timeString) => {
+        if (!timeString) return ''
+        const [hours, minutes] = timeString.split(':').map(Number)
+        const period = hours >= 12 ? 'PM' : 'AM'
+        const h12 = hours % 12 || 12
+        return `${h12}:${String(minutes).padStart(2, '0')} ${period}`
+    }
 
     return (
         <div className="page-content">
-            <div>
-                <button
-                    onClick={() => {
-                        navigate("/")
-                    }}
-                >Go Back</button>
-            </div>
-            <div>
-                {details.event_title}
-            </div>
-            <div>
-                {details.date}
-            </div>
-            <div>
-                {details.start_time} - {details.end_time}
-            </div>
-            <div>
-                {details.description}
+            <div className="event-detail">
+                <button className="btn btn--secondary btn--sm event-detail__back" onClick={() => navigate("/")}>
+                    ← Back
+                </button>
+                <div className="event-detail__card">
+                    <span className="event-detail__type-badge">{config.label}</span>
+                    <h1 className="event-detail__title">{details.event_title}</h1>
+                    <div className="event-detail__meta">
+                        {details.date && (
+                            <div className="event-detail__meta-item">
+                                <i className="fas fa-calendar-alt"></i>
+                                <span>{formatDate(details.date)}</span>
+                            </div>
+                        )}
+                        <div className="event-detail__meta-item">
+                            <i className="fas fa-clock"></i>
+                            <span>{formatTime(details.start_time)} – {formatTime(details.end_time)}</span>
+                        </div>
+                    </div>
+                    {details.description && (
+                        <p className="event-detail__description">{details.description}</p>
+                    )}
+                </div>
             </div>
         </div>
     )
