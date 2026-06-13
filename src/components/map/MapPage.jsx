@@ -43,6 +43,12 @@ const EDIT_PATH = {
     writersRound: (id) => `/edit/writers-round/${id}`,
 }
 
+const DETAIL_PATH = {
+    show: (id) => `/details/show/${id}`,
+    openMic: (id) => `/details/open-mic/${id}`,
+    writersRound: (id) => `/details/writers-round/${id}`
+}
+
 export const MapPage = () => {
     const navigate = useNavigate()
     const currentUserId = JSON.parse(sessionStorage.getItem("user"))?.id
@@ -317,6 +323,12 @@ export const MapPage = () => {
                                                     <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
                                                 </>
                                             )}
+                                            <div>
+                                                <button
+                                                    className="btn btn--secondary btn--sm"
+                                                    onClick={() => navigate(DETAIL_PATH[event._type](event.id))}
+                                                >Event Details</button>
+                                            </div>
                                             {event._type === 'show' && event.ticket_link && (
                                                 <button
                                                     className="btn btn--secondary btn--sm"

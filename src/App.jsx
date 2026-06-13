@@ -9,6 +9,7 @@ import { EditVenuePage } from './components/venue/EditVenuePage'
 import { Login } from './components/auth/Login'
 import { Register } from './components/auth/Register'
 import { RequireAuth } from './components/auth/RequireAuth'
+import { EventDetails } from './components/details/EventDetails'
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
         <Route index element={<MapPage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="details/show/:id" element={<EventDetails eventType="show"/>} />
+        <Route path="details/open-mic/:id" element={<EventDetails eventType="openMic"/>} />
+        <Route path="details/writers-round/:id" element={<EventDetails eventType="writersRound" />} />
         <Route path="submit" element={
           <RequireAuth>
             <SubmitEventPage />
