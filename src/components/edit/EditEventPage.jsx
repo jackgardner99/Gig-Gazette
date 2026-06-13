@@ -48,6 +48,7 @@ export const EditEventPage = ({ eventType }) => {
                 ticket_link: data.ticket_link ?? '',
                 start_time: data.start_time ?? '',
                 end_time: data.end_time ?? '',
+                description: data.description ?? '',
             })
         })
     }, [id])
@@ -163,6 +164,18 @@ export const EditEventPage = ({ eventType }) => {
                         />
                     </div>
                 )}
+
+                <div className="form__field">
+                    <label className="form__label">Description</label>
+                    <textarea
+                        className="form__textarea"
+                        name="description"
+                        value={form.description}
+                        onChange={handleChange}
+                        placeholder="Tell people what to expect..."
+                        rows={3}
+                    />
+                </div>
 
                 <div className="form__row">
                     <div className="form__field">

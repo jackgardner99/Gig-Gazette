@@ -1,3 +1,5 @@
+import { API_URL } from "./config"
+
 export const getGenres = () => {
-    return fetch("https://gig-gazette-api-production.up.railway.app/genres").then(res => res.json())
+    return fetch(`${API_URL}/genres`).then(res => res.json())
 }
