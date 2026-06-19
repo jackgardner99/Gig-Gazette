@@ -572,6 +572,16 @@ p { color: var(--text-secondary); line-height: 1.7; }
   filter: saturate(0.75) brightness(0.85) contrast(1.05);
 }
 
+.leaflet-marker-icon > div {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.leaflet-marker-icon:hover > div {
+  transform: scale(1.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.55);
+  cursor: pointer;
+}
+
 .map-blocker {
   position: absolute;
   inset: 0;
