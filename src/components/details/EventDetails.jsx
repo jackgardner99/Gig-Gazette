@@ -30,6 +30,13 @@ const CONFIG = {
     },
 }
 
+const getPhotoUrl = (photo) => {
+    const path = photo.photo ?? photo.image ?? photo.url ?? photo.photo_url ?? ''
+    if (!path) return null
+    if (path.startsWith('http')) return path
+    return `${API_URL}${path}`
+}
+
 const formatDate = (dateStr) => {
     if (!dateStr) return ""
     const [year, month, day] = dateStr.split('-').map(Number)
@@ -72,7 +79,9 @@ export const EventDetails = ({ eventType }) => {
     useEffect(() => {
         if (!config.photoEndpoint) return
         getEventPhotos(config.photoEndpoint, config.photoIdParam, id).then(data => {
-            setPhotos(Array.isArray(data) ? data : (data?.results ?? []))
+            const results = Array.isArray(data) ? data : (data?.results ?? [])
+            if (results.length > 0) console.log('Photo object fields:', Object.keys(results[0]), results[0])
+            setPhotos(results)
         })
     }, [id, config])
 
@@ -151,11 +160,15 @@ export const EventDetails = ({ eventType }) => {
                             <p className="event-photos__empty">No photos yet. Be the first to share one!</p>
                         ) : (
                             <div className="event-photos__grid">
-                                {photos.map((photo, index) => (
-                                    <div key={photo.id} className="event-photos__item" onClick={() => setLightboxIndex(index)}>
-                                        <img src={`${API_URL}${photo.photo}`} alt="" />
-                                    </div>
-                                ))}
+                                {photos.map((photo, index) => {
+                                    const url = getPhotoUrl(photo)
+                                    if (!url) return null
+                                    return (
+                                        <div key={photo.id} className="event-photos__item" onClick={() => setLightboxIndex(index)}>
+                                            <img src={url} alt="" />
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )}
                     </div>
@@ -171,7 +184,7 @@ export const EventDetails = ({ eventType }) => {
                         </button>
                     )}
                     <div className="lightbox__content" onClick={e => e.stopPropagation()}>
-                        <img src={`${API_URL}${photos[lightboxIndex].photo}`} alt="" />
+                        <img src={getPhotoUrl(photos[lightboxIndex])} alt="" />
                         {isLoggedIn && (
                             <button
                                 className="btn btn--danger btn--sm lightbox__delete"
