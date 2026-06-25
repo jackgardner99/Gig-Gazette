@@ -25,6 +25,7 @@ export const CreateVenuePage = () => {
         requires_reservation: false,
         outdoor: false,
         cover_charge: false,
+        ical_feed_url: '',
     })
 
     const handleChange = (e) => {
@@ -179,6 +180,19 @@ export const CreateVenuePage = () => {
                             <span className="form__check-label">{label}</span>
                         </label>
                     ))}
+                </div>
+
+                <div className="form__field">
+                    <label className="form__label">iCal Feed URL</label>
+                    <input
+                        className="form__input"
+                        type="url"
+                        name="ical_feed_url"
+                        value={form.ical_feed_url}
+                        onChange={handleChange}
+                        placeholder="https://..."
+                    />
+                    <span className="form__hint">Paste your venue's calendar feed URL to automatically sync events.</span>
                 </div>
 
                 <div className="form__field">
