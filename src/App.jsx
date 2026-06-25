@@ -1,4 +1,5 @@
 
+import { useState } from 'react'
 import { Outlet, Route, Routes } from 'react-router-dom'
 import { CustomerNavbar } from './components/nav/CustomerNavbar'
 import { MapPage } from './components/map/MapPage'
@@ -10,15 +11,18 @@ import { Login } from './components/auth/Login'
 import { Register } from './components/auth/Register'
 import { RequireAuth } from './components/auth/RequireAuth'
 import { EventDetails } from './components/details/EventDetails'
+import { Tutorial } from './components/tutorial/Tutorial'
 
 
 function App() {
+  const [showTutorial, setShowTutorial] = useState(false)
 
   return (
     <Routes>
       <Route path="/"
             element={<>
-                <CustomerNavbar />
+                <CustomerNavbar onStartTour={() => setShowTutorial(true)} />
+                <Tutorial open={showTutorial} onClose={() => setShowTutorial(false)} />
                 <Outlet />
               </>}
             >
