@@ -11,21 +11,29 @@ import { getOpenMics, getWritersRounds, deleteWritersRound } from '../../service
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
 
-const makeFaIcon = (faClass, color) => L.divIcon({
-    html: `<div style="background:${color};width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.45);">
-               <i class="${faClass}" style="color:#fff;font-size:15px;"></i>
-           </div>`,
+const makePillIcon = (color, iconClass) => L.divIcon({
+    html: `<div style="background:${color};height:28px;padding:0 10px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.85);"><i class="${iconClass}" style="color:#fff;font-size:11px;pointer-events:none;"></i></div>`,
     className: '',
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-    popupAnchor: [0, -18],
+    iconSize: [32, 28],
+    iconAnchor: [16, 14],
+    popupAnchor: [0, -16],
 })
 
-const showIcon = makeFaIcon('fas fa-star', '#e8a020')
-const recurringShowIcon = makeFaIcon('fas fa-star', '#16a34a')
-const openMicIcon = makeFaIcon('fas fa-microphone', '#7c3aed')
-const writersRoundIcon = makeFaIcon('fas fa-pen', '#db2777')
-const restaurantIcon = makeFaIcon('fas fa-utensils', '#16a34a')
+const ICONS = {
+    show:          makePillIcon('#e8a020', 'fas fa-star'),
+    recurringShow: makePillIcon('#16a34a', 'fas fa-sync'),
+    openMic:       makePillIcon('#7c3aed', 'fas fa-microphone'),
+    writersRound:  makePillIcon('#db2777', 'fas fa-pen'),
+    multi:         makePillIcon('#2dd4bf', 'fas fa-music'),
+    restaurant:    makePillIcon('#64748b', 'fas fa-utensils'),
+}
+
+const EVENT_CHECKBOXES = [
+    { key: 'show',          label: 'Shows',           color: '#e8a020', icon: 'fas fa-star' },
+    { key: 'openMic',       label: 'Open Mics',       color: '#7c3aed', icon: 'fas fa-microphone' },
+    { key: 'writersRound',  label: 'Writers Rounds',  color: '#db2777', icon: 'fas fa-pen' },
+    { key: 'recurringShow', label: 'Recurring Shows', color: '#16a34a', icon: 'fas fa-sync' },
+]
 
 const MapFlyTo = ({ venue }) => {
     const map = useMap()
@@ -57,7 +65,7 @@ export const MapPage = () => {
     const [openMics, setOpenMics] = useState([])
     const [writersRounds, setWritersRounds] = useState([])
     const [search, setSearch] = useState("")
-    const [eventFilter, setEventFilter] = useState("")
+    const [eventTypes, setEventTypes] = useState({ show: true, openMic: true, writersRound: true, recurringShow: true })
     const [selectedVenue, setSelectedVenue] = useState(null)
     const [overlayVisible, setOverlayVisible] = useState(false)
 
@@ -74,9 +82,9 @@ export const MapPage = () => {
     const restaurantClickedRef = useRef(false)
     const [filterOpen, setFilterOpen] = useState(false)
 
-    const today = new Date().toISOString().split('T')[0]
-
     useEffect(() => {
+        const today = new Date().toISOString().split('T')[0]
+
         getVenues().then(data => setVenues(Array.isArray(data) ? data : (data?.results ?? [])))
 
         getShows().then(data => {
@@ -131,6 +139,16 @@ export const MapPage = () => {
         setAddress("")
     }
 
+    const toggleEventType = (key) => setEventTypes(prev => ({ ...prev, [key]: !prev[key] }))
+
+    const venueMatchesEventTypes = (venue) => {
+        if (eventTypes.show && artistShows.some(s => !s.recurrence && (s.venue?.id ?? s.venue) == venue.id)) return true
+        if (eventTypes.recurringShow && artistShows.some(s => s.recurrence && (s.venue?.id ?? s.venue) == venue.id)) return true
+        if (eventTypes.openMic && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return true
+        if (eventTypes.writersRound && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)) return true
+        return false
+    }
+
     const filteredVenues = venues.filter((venue) => {
         if (search && !venue.name.toLowerCase().includes(search.toLowerCase())) return false
         if (noiseFilter && venue.noise_level !== noiseFilter) return false
@@ -143,25 +161,30 @@ export const MapPage = () => {
         if (barTypeFilter === 'full_bar' && !(venue.bar && !venue.beer_only)) return false
         if (barTypeFilter === 'beer_only' && !venue.beer_only) return false
         if (filterFreeEntry && venue.cover_charge) return false
-        if (eventFilter === 'openMic' && !openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return false
-        if (eventFilter === 'writersRound' && !writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)) return false
-        if (eventFilter === 'recurringShows' && !artistShows.some(s => (s.venue?.id ?? s.venue) == venue.id && s.recurrence)) return false
+        if (!venueMatchesEventTypes(venue)) return false
         return true
     })
 
-    const getVenueIcon = () => {
-        if (eventFilter === 'openMic') return openMicIcon
-        if (eventFilter === 'writersRound') return writersRoundIcon
-        if (eventFilter === 'recurringShows') return recurringShowIcon
-        return showIcon
+    const getVenueIcon = (venue) => {
+        const hasShow = eventTypes.show && artistShows.some(s => !s.recurrence && (s.venue?.id ?? s.venue) == venue.id)
+        const hasRecurring = eventTypes.recurringShow && artistShows.some(s => s.recurrence && (s.venue?.id ?? s.venue) == venue.id)
+        const hasOpenMic = eventTypes.openMic && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)
+        const hasWritersRound = eventTypes.writersRound && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)
+        const count = [hasShow, hasRecurring, hasOpenMic, hasWritersRound].filter(Boolean).length
+        if (count > 1) return ICONS.multi
+        if (hasShow) return ICONS.show
+        if (hasRecurring) return ICONS.recurringShow
+        if (hasOpenMic) return ICONS.openMic
+        if (hasWritersRound) return ICONS.writersRound
+        return ICONS.show
     }
 
     const venueEvents = selectedVenue
         ? [
-            ...(eventFilter === '' ? artistShows.map(e => ({ ...e, _type: 'show' })) : []),
-            ...(eventFilter === 'recurringShows' ? artistShows.filter(s => s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
-            ...(eventFilter === 'openMic' ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
-            ...(eventFilter === 'writersRound' ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
+            ...(eventTypes.show ? artistShows.filter(s => !s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
+            ...(eventTypes.recurringShow ? artistShows.filter(s => s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
+            ...(eventTypes.openMic ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
+            ...(eventTypes.writersRound ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
           ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
         : []
 
@@ -188,12 +211,17 @@ export const MapPage = () => {
 
                     <div className='search-field'>
                         <p>Events</p>
-                        <select onChange={(e) => setEventFilter(e.target.value)} value={eventFilter}>
-                            <option value="">⭐ Shows</option>
-                            <option value="openMic">🎤 Open Mics</option>
-                            <option value="writersRound">✍️ Writers Rounds</option>
-                            <option value="recurringShows">🟢 Recurring Shows</option>
-                        </select>
+                        {EVENT_CHECKBOXES.map(({ key, label, color, icon }) => (
+                            <label key={key} className="form__check event-type-check">
+                                <input
+                                    type='checkbox'
+                                    checked={eventTypes[key]}
+                                    onChange={() => toggleEventType(key)}
+                                />
+                                <i className={icon} style={{ color }}></i>
+                                <span className="form__check-label">{label}</span>
+                            </label>
+                        ))}
                     </div>
 
                     <div className='search-field'>
@@ -250,10 +278,7 @@ export const MapPage = () => {
 
                             {selectedVenue.venue_image && (
                                 <div className="popup-hero">
-                                    <img
-                                        src={selectedVenue.venue_image}
-                                        alt={selectedVenue.name}
-                                    />
+                                    <img src={selectedVenue.venue_image} alt={selectedVenue.name} />
                                 </div>
                             )}
 
@@ -269,39 +294,19 @@ export const MapPage = () => {
                                     </button>
                                 )}
                                 {address && (
-                                    <div>
-                                        {[selectedVenue.address_number, address].filter(Boolean).join(' ')}
-                                    </div>
+                                    <div>{[selectedVenue.address_number, address].filter(Boolean).join(' ')}</div>
                                 )}
                                 <div>Noise Level: {selectedVenue.noise_level}</div>
                                 <div>
-                                    <div>
-                                        {selectedVenue.bar && <span>Bar </span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.food && <span>Food </span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.parking && <span>Parking</span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.beer_only && <span>Beer Only</span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.requires_reservation && <span>Reservation Required</span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.seating && <span>Seating</span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.cover_charge && <span>Cover Charge</span>}
-                                    </div>
-                                    <div>
-                                        {selectedVenue.outdoor && <span>Outdoor</span>}
-                                    </div>
+                                    {selectedVenue.bar && <span>Bar </span>}
+                                    {selectedVenue.food && <span>Food </span>}
+                                    {selectedVenue.kid_friendly && <span>Kid Friendly </span>}
+                                    {selectedVenue.parking && <span>Parking </span>}
+                                    {selectedVenue.beer_only && <span>Beer Only </span>}
+                                    {selectedVenue.requires_reservation && <span>Reservation Required </span>}
+                                    {selectedVenue.seating && <span>Seating </span>}
+                                    {selectedVenue.cover_charge && <span>Cover Charge </span>}
+                                    {selectedVenue.outdoor && <span>Outdoor</span>}
                                 </div>
 
                                 <hr />
@@ -377,7 +382,7 @@ export const MapPage = () => {
                         <Marker
                             key={venue.id}
                             position={[parseFloat(venue.lat), parseFloat(venue.lng)]}
-                            icon={getVenueIcon()}
+                            icon={getVenueIcon(venue)}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
                                 popupclose: () => {
@@ -387,9 +392,7 @@ export const MapPage = () => {
                         >
                             <Popup>
                                 <div><strong>{venue.name}</strong></div>
-                                <button onClick={() => handleViewEvents(venue)}>
-                                    View {eventFilter === 'openMic' ? 'Open Mics' : eventFilter === 'writersRound' ? 'Writers Rounds' : 'Shows'}
-                                </button>
+                                <button onClick={() => handleViewEvents(venue)}>View Events</button>
                             </Popup>
                         </Marker>
                     ))}
@@ -397,7 +400,7 @@ export const MapPage = () => {
                         <Marker
                             key={r.id}
                             position={[parseFloat(r.lat), parseFloat(r.lng)]}
-                            icon={restaurantIcon}
+                            icon={ICONS.restaurant}
                             eventHandlers={{
                                 mousedown: () => {
                                     restaurantClickedRef.current = true

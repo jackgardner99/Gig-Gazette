@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 
-export const CustomerNavbar = () => {
+export const CustomerNavbar = ({ onStartTour }) => {
     return (
         <header className="nav">
             <div className="nav__brand-name">
@@ -10,20 +10,20 @@ export const CustomerNavbar = () => {
             <nav>
                 <ul className="nav__links">
                     <Link to={"/"}>
-                        <li className="nav__link">
-                            Map
-                        </li>
+                        <li className="nav__link">Map</li>
                     </Link>
                     <Link to={"/submit"}>
-                        <li className="nav__link">
-                            Submit Event
-                        </li>
+                        <li className="nav__link">Submit Event</li>
                     </Link>
                     <Link to={"/venues/new"}>
-                        <li className="nav__link">
-                            Add Venue
-                        </li>
+                        <li className="nav__link">Add Venue</li>
                     </Link>
+                    <li>
+                        <button className="nav__tour-btn" onClick={onStartTour}>
+                            <i className="fas fa-circle-question"></i>
+                            Tour
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </header>
