@@ -66,6 +66,8 @@ export const MapPage = () => {
     const [writersRounds, setWritersRounds] = useState([])
     const [search, setSearch] = useState("")
     const [eventTypes, setEventTypes] = useState({ show: true, openMic: true, writersRound: true, recurringShow: true })
+    const [dateFilter, setDateFilter] = useState("")
+    const [dayFilter, setDayFilter] = useState("")
     const [selectedVenue, setSelectedVenue] = useState(null)
     const [overlayVisible, setOverlayVisible] = useState(false)
 
@@ -139,13 +141,30 @@ export const MapPage = () => {
         setAddress("")
     }
 
-    const toggleEventType = (key) => setEventTypes(prev => ({ ...prev, [key]: !prev[key] }))
+    const toggleEventType = (key) => {
+        if (key !== 'openMic') setDayFilter("")
+        setEventTypes(prev => ({ ...prev, [key]: !prev[key] }))
+    }
+
+    const weekRange = dateFilter ? (() => {
+        const date = new Date(dateFilter + 'T00:00:00')
+        const day = date.getDay()
+        const monday = new Date(date)
+        monday.setDate(date.getDate() - (day === 0 ? 6 : day - 1))
+        const sunday = new Date(monday)
+        sunday.setDate(monday.getDate() + 6)
+        const fmt = d => d.toISOString().split('T')[0]
+        return { start: fmt(monday), end: fmt(sunday) }
+    })() : null
+
+    const inWeek = (date) => weekRange ? date >= weekRange.start && date <= weekRange.end : true
 
     const venueMatchesEventTypes = (venue) => {
-        if (eventTypes.show && artistShows.some(s => !s.recurrence && (s.venue?.id ?? s.venue) == venue.id)) return true
-        if (eventTypes.recurringShow && artistShows.some(s => s.recurrence && (s.venue?.id ?? s.venue) == venue.id)) return true
-        if (eventTypes.openMic && openMics.some(m => (m.venue?.id ?? m.venue) == venue.id)) return true
-        if (eventTypes.writersRound && writersRounds.some(w => (w.venue?.id ?? w.venue) == venue.id)) return true
+        const id = venue.id
+        if (eventTypes.show && artistShows.some(s => !s.recurrence && (s.venue?.id ?? s.venue) == id && inWeek(s.date))) return true
+        if (eventTypes.recurringShow && artistShows.some(s => s.recurrence && (s.venue?.id ?? s.venue) == id)) return true
+        if (eventTypes.openMic && openMics.some(m => (m.venue?.id ?? m.venue) == id && (!dayFilter || m.recurrence?.toLowerCase().includes(dayFilter.toLowerCase())))) return true
+        if (eventTypes.writersRound && writersRounds.some(w => (w.venue?.id ?? w.venue) == id && inWeek(w.date))) return true
         return false
     }
 
@@ -181,10 +200,10 @@ export const MapPage = () => {
 
     const venueEvents = selectedVenue
         ? [
-            ...(eventTypes.show ? artistShows.filter(s => !s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
+            ...(eventTypes.show ? artistShows.filter(s => !s.recurrence && inWeek(s.date)).map(e => ({ ...e, _type: 'show' })) : []),
             ...(eventTypes.recurringShow ? artistShows.filter(s => s.recurrence).map(e => ({ ...e, _type: 'show' })) : []),
-            ...(eventTypes.openMic ? openMics.map(e => ({ ...e, _type: 'openMic' })) : []),
-            ...(eventTypes.writersRound ? writersRounds.map(e => ({ ...e, _type: 'writersRound' })) : []),
+            ...(eventTypes.openMic ? openMics.filter(m => !dayFilter || m.recurrence?.toLowerCase().includes(dayFilter.toLowerCase())).map(e => ({ ...e, _type: 'openMic' })) : []),
+            ...(eventTypes.writersRound ? writersRounds.filter(w => inWeek(w.date)).map(e => ({ ...e, _type: 'writersRound' })) : []),
           ].filter(e => (e.venue?.id ?? e.venue) == selectedVenue.id)
         : []
 
@@ -210,6 +229,23 @@ export const MapPage = () => {
                     </div>
 
                     <div className='search-field'>
+                        <p>Date</p>
+                        <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+                            <input
+                                type="date"
+                                className="form__input"
+                                value={dateFilter}
+                                onChange={(e) => setDateFilter(e.target.value)}
+                            />
+                            {dateFilter && (
+                                <button className="btn btn--secondary btn--sm" onClick={() => setDateFilter("")}>
+                                    Clear
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className='search-field'>
                         <p>Events</p>
                         {EVENT_CHECKBOXES.map(({ key, label, color, icon }) => (
                             <label key={key} className="form__check event-type-check">
@@ -223,6 +259,26 @@ export const MapPage = () => {
                             </label>
                         ))}
                     </div>
+
+                    {eventTypes.openMic && !eventTypes.show && !eventTypes.writersRound && !eventTypes.recurringShow && (
+                        <div className='search-field'>
+                            <p>Open Mic Day</p>
+                            <select
+                                className="form__select"
+                                value={dayFilter}
+                                onChange={(e) => setDayFilter(e.target.value)}
+                            >
+                                <option value="">Any day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                    )}
 
                     <div className='search-field'>
                         <p>Noise Level</p>
