@@ -4,7 +4,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import 'leaflet/dist/leaflet.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import L from 'leaflet'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getShows, deleteArtistShow } from '../../services/artistShowsService'
 import { getOpenMics, getWritersRounds, deleteWritersRound } from '../../services/eventService'
@@ -25,7 +25,6 @@ const ICONS = {
     openMic:       makePillIcon('#7c3aed', 'fas fa-microphone'),
     writersRound:  makePillIcon('#db2777', 'fas fa-pen'),
     multi:         makePillIcon('#2dd4bf', 'fas fa-music'),
-    restaurant:    makePillIcon('#64748b', 'fas fa-utensils'),
 }
 
 const EVENT_CHECKBOXES = [
@@ -81,7 +80,6 @@ export const MapPage = () => {
     const [barTypeFilter, setBarTypeFilter] = useState("")
     const [filterFreeEntry, setFilterFreeEntry] = useState(false)
     const [popupVenue, setPopupVenue] = useState(null)
-    const restaurantClickedRef = useRef(false)
     const [filterOpen, setFilterOpen] = useState(false)
 
     useEffect(() => {
@@ -410,19 +408,6 @@ export const MapPage = () => {
                                     ))
                                 )}
 
-                                {(() => {
-                                    const visibleRestaurants = (selectedVenue.restaurants ?? []).filter(r => r.is_visible)
-                                    if (visibleRestaurants.length === 0) return null
-                                    return (
-                                        <>
-                                            <hr />
-                                            <div><strong>Nearby Restaurants</strong></div>
-                                            {visibleRestaurants.map((r) => (
-                                                <div key={r.id}>{r.name}</div>
-                                            ))}
-                                        </>
-                                    )
-                                })()}
                             </div>
                         </div>
                     )}
@@ -441,30 +426,13 @@ export const MapPage = () => {
                             icon={getVenueIcon(venue)}
                             eventHandlers={{
                                 click: () => setPopupVenue(venue),
-                                popupclose: () => {
-                                    if (!restaurantClickedRef.current) setPopupVenue(null)
-                                }
+                                popupclose: () => setPopupVenue(null)
                             }}
                         >
                             <Popup>
                                 <div><strong>{venue.name}</strong></div>
                                 <button onClick={() => handleViewEvents(venue)}>View Events</button>
                             </Popup>
-                        </Marker>
-                    ))}
-                    {(popupVenue?.restaurants ?? []).filter(r => r.is_visible).map((r) => (
-                        <Marker
-                            key={r.id}
-                            position={[parseFloat(r.lat), parseFloat(r.lng)]}
-                            icon={ICONS.restaurant}
-                            eventHandlers={{
-                                mousedown: () => {
-                                    restaurantClickedRef.current = true
-                                    setTimeout(() => { restaurantClickedRef.current = false }, 200)
-                                }
-                            }}
-                        >
-                            <Popup><div><strong>{r.name}</strong></div><div>{r.food_type}</div></Popup>
                         </Marker>
                     ))}
                 </MapContainer>
