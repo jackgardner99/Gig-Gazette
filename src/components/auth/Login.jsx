@@ -53,6 +53,9 @@ export const Login = () => {
                     <button className="btn btn--primary btn--full" type="submit">Sign In</button>
                 </div>
                 <div className="form__hint">
+                    <Link to="/forgot-password">Forgot password?</Link>
+                </div>
+                <div className="form__hint">
                     Don't have an account?{" "}
                     <Link to="/register" state={{ from }}>Register</Link>
                 </div>
