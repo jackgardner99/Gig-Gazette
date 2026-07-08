@@ -9,6 +9,8 @@ import { CreateVenuePage } from './components/venue/CreateVenuePage'
 import { EditVenuePage } from './components/venue/EditVenuePage'
 import { Login } from './components/auth/Login'
 import { Register } from './components/auth/Register'
+import { ForgotPassword } from './components/auth/ForgotPassword'
+import { ResetPassword } from './components/auth/ResetPassword'
 import { RequireAuth } from './components/auth/RequireAuth'
 import { EventDetails } from './components/details/EventDetails'
 import { Tutorial } from './components/tutorial/Tutorial'
@@ -29,6 +31,8 @@ function App() {
         <Route index element={<MapPage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
         <Route path="details/show/:id" element={<EventDetails eventType="show"/>} />
         <Route path="details/open-mic/:id" element={<EventDetails eventType="openMic"/>} />
         <Route path="details/writers-round/:id" element={<EventDetails eventType="writersRound" />} />
