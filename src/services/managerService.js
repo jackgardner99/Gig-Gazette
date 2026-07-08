@@ -22,3 +22,19 @@ export const createManager = (manager) => {
         body: JSON.stringify(manager)
     })
 }
+
+export const requestPasswordReset = (email) => {
+    return fetch(`${API_URL}/password-reset-request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    })
+}
+
+export const confirmPasswordReset = (uid, token, new_password) => {
+    return fetch(`${API_URL}/password-reset-confirm`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid, token, new_password })
+    })
+}
