@@ -31,7 +31,7 @@ const CONFIG = {
 }
 
 const getPhotoUrl = (photo) => {
-    const path = photo.photo ?? photo.image ?? photo.url ?? photo.photo_url ?? ''
+    const path = photo.user_image ?? photo.photo ?? photo.image ?? photo.url ?? photo.photo_url ?? ''
     if (!path) return null
     if (path.startsWith('http')) return path
     return `${API_URL}${path}`
@@ -91,7 +91,7 @@ export const EventDetails = ({ eventType }) => {
         if (!isLoggedIn) { navigate('/login', { state: { from: location.pathname } }); return }
         setUploading(true)
         const formData = new FormData()
-        formData.append('photo', file)
+        formData.append('user_image', file)
         formData.append(config.photoIdParam.replace('_id', ''), id)
         try {
             const newPhoto = await uploadEventPhoto(config.photoEndpoint, formData)

@@ -193,6 +193,17 @@ export const CreateVenuePage = () => {
                         placeholder="https://..."
                     />
                     <span className="form__hint">Paste your venue's calendar feed URL to automatically sync events.</span>
+                    <div className="form__caution" style={{ marginTop: 'var(--space-3)' }}>
+                        <i className="fas fa-triangle-exclamation" />
+                        <div>
+                            <strong>Important:</strong> Make sure every event in your calendar has the right keyword in the title so it's categorized correctly.
+                            <ul className="form__caution-list">
+                                <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
+                                <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
+                                <li>Anything else → imported as an Artist Show</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="form__field">
