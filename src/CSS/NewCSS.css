@@ -1875,7 +1875,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
   .popup-overlay { padding: 0; align-items: flex-end; }
   .popup-overlay > div {
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    max-height: 60dvh;
+    max-height: 75dvh;
   }
 
   .close-btn {
