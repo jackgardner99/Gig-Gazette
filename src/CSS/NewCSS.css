@@ -817,6 +817,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
   min-height: 0;
   padding: var(--space-5) var(--space-8) var(--space-8);
   background: #0e1219;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .popup-overlay h2 {
@@ -1873,7 +1875,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
   .popup-overlay { padding: 0; align-items: flex-end; }
   .popup-overlay > div {
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    max-height: 88vh;
+    /* dvh excludes browser chrome — keeps close button below the navbar */
+    max-height: calc(100dvh - 64px);
   }
 }
 
