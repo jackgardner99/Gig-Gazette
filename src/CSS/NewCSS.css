@@ -1896,6 +1896,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
 .form__mode-tab {
   flex: 1;
   padding: var(--space-3) var(--space-4);
+  min-height: 44px;
   background: transparent;
   border: none;
   color: var(--text-secondary);
@@ -1966,4 +1967,25 @@ p { color: var(--text-secondary); line-height: 1.7; }
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .form__mode-tabs {
+    max-width: 100%;
+  }
+
+  .form__mode-tab {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-2);
+    gap: var(--space-1);
+  }
+
+  .form__caution-list {
+    margin-left: var(--space-2);
+  }
+
+  .form__venue-list {
+    max-height: 180px;
+  }
 }
