@@ -78,3 +78,14 @@ export const deleteWritersRound = (id) => {
         headers: { ...getAuthHeader() }
     })
 }
+
+export const importCalendar = (icsFile, venueIds) => {
+    const formData = new FormData()
+    formData.append('calendar_file', icsFile)
+    venueIds.forEach(id => formData.append('venue_ids', id))
+    return fetch(`${API_URL}/calendar-import`, {
+        method: 'POST',
+        headers: { ...getAuthHeader() },
+        body: formData
+    }).then(res => res.json())
+}

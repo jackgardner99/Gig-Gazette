@@ -1876,3 +1876,116 @@ p { color: var(--text-secondary); line-height: 1.7; }
     max-height: 88vh;
   }
 }
+
+/* ============================================================
+   CALENDAR IMPORT
+   ============================================================ */
+
+.form__mode-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form__mode-tab {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: background 0.15s, color 0.15s;
+}
+
+.form__mode-tab + .form__mode-tab {
+  border-left: 1px solid var(--border-mid);
+}
+
+.form__mode-tab:hover {
+  background: var(--bg-glass-light);
+  color: var(--text-primary);
+}
+
+.form__mode-tab--active {
+  background: var(--amber-glow);
+  color: var(--amber);
+}
+
+.form__caution {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  margin-bottom: var(--space-4);
+}
+
+.form__caution > i {
+  color: var(--amber);
+  font-size: 1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.form__caution strong {
+  color: var(--amber-light);
+}
+
+.form__caution-list {
+  margin: var(--space-2) 0 0 var(--space-4);
+  padding: 0;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form__venue-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .form__mode-tabs {
+    max-width: 100%;
+  }
+
+  .form__mode-tab {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-2);
+    gap: var(--space-1);
+  }
+
+  .form__caution-list {
+    margin-left: var(--space-2);
+  }
+
+  .form__venue-list {
+    max-height: 180px;
+  }
+}
