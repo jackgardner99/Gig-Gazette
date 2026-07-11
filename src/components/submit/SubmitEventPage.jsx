@@ -25,6 +25,7 @@ export const SubmitEventPage = () => {
         end_time: '',
         ticket_link: '',
         description: '',
+        website_url: '',
     })
 
     // import state
@@ -56,11 +57,11 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description })
+                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description, website_url: form.website_url })
             } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description })
+                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description, website_url: form.website_url })
             } else {
-                await createWritersRound({ ...payload, date: form.date, description: form.description })
+                await createWritersRound({ ...payload, date: form.date, description: form.description, website_url: form.website_url })
             }
             setStatus('success')
             setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '', description: '' })
@@ -235,6 +236,18 @@ export const SubmitEventPage = () => {
                             onChange={handleChange}
                             placeholder="Details please..."
                             rows={3}
+                        />
+                    </div>
+
+                    <div className="form__field">
+                        <label className="form__label">Website URL</label>
+                        <input
+                            className="form__input"
+                            type="url"
+                            name="website_url"
+                            value={form.website_url}
+                            onChange={handleChange}
+                            placeholder="https://..."
                         />
                     </div>
 

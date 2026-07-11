@@ -49,6 +49,7 @@ export const EditEventPage = ({ eventType }) => {
                 start_time: data.start_time ?? '',
                 end_time: data.end_time ?? '',
                 description: data.description ?? '',
+                website_url: data.website_url ?? '',
             })
         })
     }, [id])
@@ -174,6 +175,18 @@ export const EditEventPage = ({ eventType }) => {
                         onChange={handleChange}
                         placeholder="Tell people what to expect..."
                         rows={3}
+                    />
+                </div>
+
+                <div className="form__field">
+                    <label className="form__label">Website URL</label>
+                    <input
+                        className="form__input"
+                        type="url"
+                        name="website_url"
+                        value={form.website_url}
+                        onChange={handleChange}
+                        placeholder="https://..."
                     />
                 </div>
 
