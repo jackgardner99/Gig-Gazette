@@ -71,7 +71,8 @@ export const EventDetails = ({ eventType }) => {
                 date: data.date ?? '',
                 start_time: data.start_time ?? '',
                 end_time: data.end_time ?? '',
-                description: data.description ?? ''
+                description: data.description ?? '',
+                website_url: data.website_url ?? '',
             })
         })
     }, [id, config])
@@ -130,6 +131,12 @@ export const EventDetails = ({ eventType }) => {
                             <i className="fas fa-clock"></i>
                             <span>{formatTime(details.start_time)} – {formatTime(details.end_time)}</span>
                         </div>
+                        {details.website_url && (
+                            <div className="event-detail__meta-item">
+                                <i className="fas fa-globe"></i>
+                                <a href={details.website_url} target="_blank" rel="noreferrer">{details.website_url}</a>
+                            </div>
+                        )}
                     </div>
                     {details.description && (
                         <p className="event-detail__description">{details.description}</p>
