@@ -347,6 +347,14 @@ export const MapPage = () => {
                                         Edit Venue
                                     </button>
                                 )}
+                                {selectedVenue.website_url && (
+                                    <button
+                                        className="btn btn--secondary btn--sm"
+                                        onClick={() => window.open(selectedVenue.website_url, '_blank', 'noreferrer')}
+                                    >
+                                        <i className="fas fa-globe" /> Visit Website
+                                    </button>
+                                )}
                                 {address && (
                                     <div>{[selectedVenue.address_number, address].filter(Boolean).join(' ')}</div>
                                 )}

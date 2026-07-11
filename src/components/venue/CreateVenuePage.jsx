@@ -26,6 +26,7 @@ export const CreateVenuePage = () => {
         outdoor: false,
         cover_charge: false,
         ical_feed_url: '',
+        website_url: '',
     })
 
     const handleChange = (e) => {
@@ -180,6 +181,18 @@ export const CreateVenuePage = () => {
                             <span className="form__check-label">{label}</span>
                         </label>
                     ))}
+                </div>
+
+                <div className="form__field">
+                    <label className="form__label">Website URL</label>
+                    <input
+                        className="form__input"
+                        type="url"
+                        name="website_url"
+                        value={form.website_url}
+                        onChange={handleChange}
+                        placeholder="https://..."
+                    />
                 </div>
 
                 <div className="form__field">
