@@ -18,6 +18,9 @@ export const CustomerNavbar = ({ onStartTour }) => {
                     <Link to={"/venues/new"}>
                         <li className="nav__link">Add Venue</li>
                     </Link>
+                    <Link to={"/contact"}>
+                        <li className="nav__link">Contact</li>
+                    </Link>
                     <li>
                         <button className="nav__tour-btn" onClick={onStartTour}>
                             <i className="fas fa-circle-question"></i>
