@@ -14,6 +14,7 @@ import { ResetPassword } from './components/auth/ResetPassword'
 import { RequireAuth } from './components/auth/RequireAuth'
 import { EventDetails } from './components/details/EventDetails'
 import { Tutorial } from './components/tutorial/Tutorial'
+import { ContactPage } from './components/contact/ContactPage'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="contact" element={<ContactPage />} />
         <Route path="details/show/:id" element={<EventDetails eventType="show"/>} />
         <Route path="details/open-mic/:id" element={<EventDetails eventType="openMic"/>} />
         <Route path="details/writers-round/:id" element={<EventDetails eventType="writersRound" />} />
