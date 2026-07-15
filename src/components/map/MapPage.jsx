@@ -279,7 +279,7 @@ export const MapPage = () => {
                     )}
 
                     <div className='search-field'>
-                        <p>Noise Level</p>
+                        <p>Venue Noise Level</p>
                         <select onChange={(e) => setNoiseFilter(e.target.value)} value={noiseFilter}>
                             <option value="">Any</option>
                             <option value="low">Low</option>

@@ -535,7 +535,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .search-field input[type="text"],
