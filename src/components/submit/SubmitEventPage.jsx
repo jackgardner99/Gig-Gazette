@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getVenues } from '../../services/venuesService'
 import { createArtistShow } from '../../services/artistShowsService'
-import { createOpenMic, createWritersRound, importCalendar } from '../../services/eventService'
+import { createOpenMic, createWritersRound, importCalendar, importCalendarFromUrl } from '../../services/eventService'
 
 const EVENT_TYPES = [
     { value: 'show', label: 'Artist Show' },
@@ -26,10 +26,13 @@ export const SubmitEventPage = () => {
         ticket_link: '',
         description: '',
         website_url: '',
+        scrape_url: '',
     })
 
     // import state
+    const [importSource, setImportSource] = useState('file')
     const [icsFile, setIcsFile] = useState(null)
+    const [importUrl, setImportUrl] = useState('')
     const [selectedVenues, setSelectedVenues] = useState([])
     const [venueSearch, setVenueSearch] = useState('')
     const [importStatus, setImportStatus] = useState(null)
@@ -57,11 +60,11 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description, website_url: form.website_url })
+                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
             } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description, website_url: form.website_url })
+                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
             } else {
-                await createWritersRound({ ...payload, date: form.date, description: form.description, website_url: form.website_url })
+                await createWritersRound({ ...payload, date: form.date, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
             }
             setStatus('success')
             setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '', description: '' })
@@ -76,6 +79,14 @@ export const SubmitEventPage = () => {
         )
     }
 
+    const resetImport = (formEl) => {
+        setSelectedVenues([])
+        setVenueSearch('')
+        setImportUrl('')
+        setIcsFile(null)
+        if (formEl) formEl.reset()
+    }
+
     const handleImport = async (e) => {
         e.preventDefault()
         if (!icsFile) return
@@ -86,10 +97,25 @@ export const SubmitEventPage = () => {
             const result = await importCalendar(icsFile, selectedVenues)
             setImportResult(result)
             setImportStatus('success')
-            setIcsFile(null)
-            setSelectedVenues([])
-            setVenueSearch('')
-            e.target.reset()
+            resetImport(e.target)
+        } catch {
+            setImportStatus('error')
+        } finally {
+            setImporting(false)
+        }
+    }
+
+    const handleImportFromUrl = async (e) => {
+        e.preventDefault()
+        if (!importUrl) return
+        setImporting(true)
+        setImportStatus(null)
+        setImportResult(null)
+        try {
+            const result = await importCalendarFromUrl(importUrl, selectedVenues)
+            setImportResult(result)
+            setImportStatus('success')
+            resetImport(e.target)
         } catch {
             setImportStatus('error')
         } finally {
@@ -251,6 +277,19 @@ export const SubmitEventPage = () => {
                         />
                     </div>
 
+                    <div className="form__field">
+                        <label className="form__label">Booker / Listing URL</label>
+                        <input
+                            className="form__input"
+                            type="url"
+                            name="scrape_url"
+                            value={form.scrape_url}
+                            onChange={handleChange}
+                            placeholder="https://..."
+                        />
+                        <span className="form__hint">Link to a booking site or listings page to automatically pull in your events.</span>
+                    </div>
+
                     <div className="form__row">
                         <div className="form__field">
                             <label className="form__label form__label--required">Start Time</label>
@@ -294,16 +333,30 @@ export const SubmitEventPage = () => {
                     </div>
                 </form>
             ) : (
-                <form className="form" onSubmit={handleImport}>
+                <form className="form" onSubmit={importSource === 'file' ? handleImport : handleImportFromUrl}>
                     <h2 className="form__section-title">Import from Calendar</h2>
-                    <p className="form__hint">
-                        Export a <strong>.ics</strong> or <strong>.zip</strong> file from Google Calendar, Apple Calendar, or any calendar app and upload it here. All events in the file will be imported as shows.
-                    </p>
+
+                    <div className="form__mode-tabs" style={{ maxWidth: '100%', marginBottom: 'var(--space-4)' }}>
+                        <button
+                            type="button"
+                            className={`form__mode-tab ${importSource === 'file' ? 'form__mode-tab--active' : ''}`}
+                            onClick={() => { setImportSource('file'); setImportStatus(null) }}
+                        >
+                            <i className="fas fa-file-arrow-up" /> Upload File
+                        </button>
+                        <button
+                            type="button"
+                            className={`form__mode-tab ${importSource === 'url' ? 'form__mode-tab--active' : ''}`}
+                            onClick={() => { setImportSource('url'); setImportStatus(null) }}
+                        >
+                            <i className="fas fa-link" /> From URL
+                        </button>
+                    </div>
 
                     <div className="form__caution">
                         <i className="fas fa-triangle-exclamation" />
                         <div>
-                            <strong>Important:</strong> Make sure every event in your calendar file has the right keyword in the title so it's categorized correctly.
+                            <strong>Important:</strong> Make sure every event has the right keyword in the title so it's categorized correctly.
                             <ul className="form__caution-list">
                                 <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
                                 <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
@@ -312,16 +365,44 @@ export const SubmitEventPage = () => {
                         </div>
                     </div>
 
-                    <div className="form__field">
-                        <label className="form__label form__label--required">Calendar File (.ics or .zip)</label>
-                        <input
-                            className="form__input"
-                            type="file"
-                            accept=".ics,.zip,text/calendar,application/zip"
-                            required
-                            onChange={(e) => setIcsFile(e.target.files[0] ?? null)}
-                        />
-                    </div>
+                    {importSource === 'file' ? (
+                        <div className="form__field">
+                            <label className="form__label form__label--required">Calendar File (.ics or .zip)</label>
+                            <p className="form__hint">Export from Google Calendar, Apple Calendar, or any calendar app.</p>
+                            <input
+                                className="form__input"
+                                type="file"
+                                accept=".ics,.zip,text/calendar,application/zip"
+                                required
+                                onChange={(e) => setIcsFile(e.target.files[0] ?? null)}
+                            />
+                        </div>
+                    ) : (
+                        <>
+                            <div className="form__field">
+                                <label className="form__label form__label--required">Events Page URL</label>
+                                <p className="form__hint">Paste the URL of a venue's events page or booker's listing to automatically pull in shows.</p>
+                                <input
+                                    className="form__input"
+                                    type="url"
+                                    value={importUrl}
+                                    onChange={(e) => setImportUrl(e.target.value)}
+                                    placeholder="https://somevenue.com/events"
+                                    required
+                                />
+                            </div>
+
+                            <div className="form__caution" style={{ marginTop: 'var(--space-2)' }}>
+                                <i className="fas fa-triangle-exclamation" />
+                                <div>
+                                    <strong>Before importing:</strong> make sure every venue on your page is already added to Gig Gazette. Then select them below so they can be matched to your imported events.{' '}
+                                    <a href="/venues/new" target="_blank" rel="noreferrer" style={{ color: 'var(--amber-light)' }}>
+                                        Add a venue →
+                                    </a>
+                                </div>
+                            </div>
+                        </>
+                    )}
 
                     <div className="form__field">
                         <label className="form__label">Venues</label>
@@ -356,24 +437,23 @@ export const SubmitEventPage = () => {
                         )}
                     </div>
 
-                    {importStatus === 'success' && importResult && (
+                    {importStatus === 'success' && (
                         <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                            Import complete! {importResult.created ?? importResult.count ?? ''} event{(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.
-                        </div>
-                    )}
-                    {importStatus === 'success' && !importResult && (
-                        <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                            Import complete!
+                            Import complete!{importResult ? ` ${importResult.created ?? importResult.count ?? ''} event${(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.` : ''}
                         </div>
                     )}
                     {importStatus === 'error' && (
                         <div className="form__error">
-                            Something went wrong. Make sure the file is a valid .ics calendar export.
+                            Something went wrong. {importSource === 'file' ? 'Make sure the file is a valid .ics calendar export.' : 'Make sure the URL is reachable and contains event listings.'}
                         </div>
                     )}
 
                     <div className="form__actions">
-                        <button type="submit" className="btn btn--primary btn--full" disabled={importing || !icsFile}>
+                        <button
+                            type="submit"
+                            className="btn btn--primary btn--full"
+                            disabled={importing || (importSource === 'file' ? !icsFile : !importUrl)}
+                        >
                             {importing ? 'Importing…' : 'Import Events'}
                         </button>
                     </div>
