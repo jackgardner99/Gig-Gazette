@@ -1,50 +1,96 @@
-Table Managers {
+Table Users {
 	id int [pk]
-	name varchar
+	username varchar
 	email varchar
-}
-
-Table Artists {
-    id int [pk]
-    name varchar
-    genreId int [ref: > Genre.id]
-	managerId int [ref: > Managers.id]
-	isBand boolean
-}
-
-Table Genre {
-	id int [pk]
-	genreName varchar
+	password varchar
 }
 
 Table Venues {
 	id int [pk]
 	name varchar
-	latitude varchar
-	longitude varchar
-}
-
-Table ArtistShows {
-	id int [pk]
-	artistId int [ref: > Artists.id]
-	venueId int [ref: > Venues.id]
-	eventTitle varchar
-	link url
-	date date
-	startTime time
-	endTime time
-	intimate boolean
+	lat varchar
+	long varchar
+	address_number int
+	address int
+	city int
+	state int
+	country int
+	noise_level varchar
+	parking boolean
+	bar boolean
+	food boolean
+	kid_friendly boolean
+	seating boolean
+	requires_reservation boolean
+	outdoor boolean
+	beer_only boolean
+	cover_charge boolean
+	venue_image image
+	ical_feed_url url
+	website_url url
+	scrape_url url
 }
 
 Table OpenMics {
 	id int [pk]
-	eventTitle varchar
-	venueId int [ref: > Venues.id]
-	managerId int [ref: > Managers.id]
-	isRecurring boolean
-	dateTime datetime
+	event_title varchar
+	venue int [ref: > Venues.id]
+	user int [ref: > Users.id]
+	start_time time
+	end_time time
 	recurrence varchar
-	time time
-	dayOfWeek varchar
-	dayOfMonth varchar
+	event_image image
+	description varchar
+	website_url url
+	is_flagged boolean
+}
+
+Table WritersRounds {
+	id int [pk]
+	event_title varchar
+	date date
+	start_time time
+	end_time time
+	venue int [ref: > Venues.id]
+	user int [ref: > Users.id]
+	description varchar
+	website_url url
+	is_flagged boolean
+}
+
+Table Shows {
+	id int [pk]
+	user int [ref: > Users.id]
+	event_title varchar
+	poster_img image
+	ticket_link url
+	recurrence varchar
+	date date
+	start_time time
+	end_time time
+	venue int [ref: > Venues.id]
+	description varchar
+	website_url url
+	is_flagged boolean
+}
+
+Table UserPhotoForOpenMic {
+	id int [pk]
+	user int [ref: > Users.id]
+	open_mic int [ref: > OpenMics.id]
+	user_image image
+}
+
+Table UserPhotoForWritersRound {
+	id int [pk]
+	user int [ref: > Users.id]
+	writers_round int [ref: > WritersRounds.id]
+	user_image image
+}
+
+Table UserPhotoForShow {
+	id int [pk]
+	user int [ref: > Users.id]
+	show int [ref: > Shows.id]
+	user_image image
 }

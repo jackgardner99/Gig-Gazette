@@ -89,3 +89,11 @@ export const importCalendar = (icsFile, venueIds) => {
         body: formData
     }).then(res => res.json())
 }
+
+export const importCalendarFromUrl = (url, venueIds) => {
+    return fetch(`${API_URL}/calendar-import/from-url`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+        body: JSON.stringify({ url, venue_ids: venueIds })
+    }).then(res => res.json())
+}
