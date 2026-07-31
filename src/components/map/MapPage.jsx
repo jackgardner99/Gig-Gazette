@@ -217,17 +217,9 @@ export const MapPage = () => {
                 </div>
 
                 <div className='filter-panel__content'>
-                    <div className='search-field'>
-                        <p>Search</p>
-                        <input
-                            type="text"
-                            placeholder="Search Venue"
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </div>
 
                     <div className='search-field'>
-                        <p>Date</p>
+                        <p>Search by Date</p>
                         <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
                             <input
                                 type="date"
@@ -244,7 +236,7 @@ export const MapPage = () => {
                     </div>
 
                     <div className='search-field'>
-                        <p>Events</p>
+                        <p>Search by Event</p>
                         {EVENT_CHECKBOXES.map(({ key, label, color, icon }) => (
                             <label key={key} className="form__check event-type-check">
                                 <input
@@ -382,7 +374,7 @@ export const MapPage = () => {
                                             {event.date ? (
                                                 <>
                                                     <div>{formatDate(event.date)}</div>
-                                                    <div>{formatTime(event.start_time)} – {formatTime(event.end_time)}</div>
+                                                    <div>{formatTime(event.start_time)}</div>
                                                 </>
                                             ) : (
                                                 <>
