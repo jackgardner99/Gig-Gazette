@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
 import { getVenues } from '../../services/venuesService'
 import { createArtistShow } from '../../services/artistShowsService'
-import { createOpenMic, createWritersRound, importCalendar } from '../../services/eventService'
+import { createOpenMic, createWritersRound, importCalendar, importCalendarFromBandsintown } from '../../services/eventService'
 
 const EVENT_TYPES = [
     { value: 'show', label: 'Artist Show' },
     { value: 'openMic', label: 'Open Mic' },
     { value: 'writersRound', label: "Writers Round" },
 ]
+
+const IMPORT_TITLES = {
+    file: 'Import from Calendar File',
+    bandsintown: 'Sync from Bandsintown',
+}
 
 export const SubmitEventPage = () => {
     const [venues, setVenues] = useState([])
@@ -29,7 +34,10 @@ export const SubmitEventPage = () => {
     })
 
     // import state
+    const [importSource, setImportSource] = useState('file')
     const [icsFile, setIcsFile] = useState(null)
+    const [bandsintownApiKey, setBandsintownApiKey] = useState('')
+    const [bandsintownArtist, setBandsintownArtist] = useState('')
     const [selectedVenues, setSelectedVenues] = useState([])
     const [venueSearch, setVenueSearch] = useState('')
     const [importStatus, setImportStatus] = useState(null)
@@ -76,6 +84,15 @@ export const SubmitEventPage = () => {
         )
     }
 
+    const resetImport = (formEl) => {
+        setSelectedVenues([])
+        setVenueSearch('')
+        setIcsFile(null)
+        setBandsintownApiKey('')
+        setBandsintownArtist('')
+        if (formEl) formEl.reset()
+    }
+
     const handleImport = async (e) => {
         e.preventDefault()
         if (!icsFile) return
@@ -86,10 +103,25 @@ export const SubmitEventPage = () => {
             const result = await importCalendar(icsFile, selectedVenues)
             setImportResult(result)
             setImportStatus('success')
-            setIcsFile(null)
-            setSelectedVenues([])
-            setVenueSearch('')
-            e.target.reset()
+            resetImport(e.target)
+        } catch {
+            setImportStatus('error')
+        } finally {
+            setImporting(false)
+        }
+    }
+
+    const handleBandsintownSync = async (e) => {
+        e.preventDefault()
+        if (!bandsintownApiKey || !bandsintownArtist) return
+        setImporting(true)
+        setImportStatus(null)
+        setImportResult(null)
+        try {
+            const result = await importCalendarFromBandsintown(bandsintownApiKey, bandsintownArtist, selectedVenues)
+            setImportResult(result)
+            setImportStatus('success')
+            resetImport(e.target)
         } catch {
             setImportStatus('error')
         } finally {
@@ -117,7 +149,7 @@ export const SubmitEventPage = () => {
                     className={`form__mode-tab ${mode === 'import' ? 'form__mode-tab--active' : ''}`}
                     onClick={() => setMode('import')}
                 >
-                    <i className="fas fa-calendar-import" /> Import from Calendar
+                    <i className="fas fa-calendar-import" /> Import Events
                 </button>
             </div>
 
@@ -294,34 +326,95 @@ export const SubmitEventPage = () => {
                     </div>
                 </form>
             ) : (
-                <form className="form" onSubmit={handleImport}>
-                    <h2 className="form__section-title">Import from Calendar</h2>
-                    <p className="form__hint">
-                        Export a <strong>.ics</strong> or <strong>.zip</strong> file from Google Calendar, Apple Calendar, or any calendar app and upload it here. All events in the file will be imported as shows.
-                    </p>
+                <form
+                    className="form"
+                    onSubmit={importSource === 'file' ? handleImport : handleBandsintownSync}
+                >
+                    <h2 className="form__section-title">{IMPORT_TITLES[importSource]}</h2>
 
-                    <div className="form__caution">
-                        <i className="fas fa-triangle-exclamation" />
-                        <div>
-                            <strong>Important:</strong> Make sure every event in your calendar file has the right keyword in the title so it's categorized correctly.
-                            <ul className="form__caution-list">
-                                <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
-                                <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
-                                <li>Anything else → imported as an Artist Show</li>
-                            </ul>
+                    <div className="form__mode-tabs" style={{ maxWidth: '100%', marginBottom: 'var(--space-4)' }}>
+                        <button
+                            type="button"
+                            className={`form__mode-tab ${importSource === 'file' ? 'form__mode-tab--active' : ''}`}
+                            onClick={() => { setImportSource('file'); setImportStatus(null) }}
+                        >
+                            <i className="fas fa-file-arrow-up" /> Upload File
+                        </button>
+                        <button
+                            type="button"
+                            className={`form__mode-tab ${importSource === 'bandsintown' ? 'form__mode-tab--active' : ''}`}
+                            onClick={() => { setImportSource('bandsintown'); setImportStatus(null) }}
+                        >
+                            <i className="fas fa-music" /> Bandsintown
+                        </button>
+                    </div>
+
+                    {importSource !== 'bandsintown' && (
+                        <div className="form__caution">
+                            <i className="fas fa-triangle-exclamation" />
+                            <div>
+                                <strong>Important:</strong> Make sure every event has the right keyword in the title so it's categorized correctly.
+                                <ul className="form__caution-list">
+                                    <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
+                                    <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
+                                    <li>Anything else → imported as an Artist Show</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
-                    <div className="form__field">
-                        <label className="form__label form__label--required">Calendar File (.ics or .zip)</label>
-                        <input
-                            className="form__input"
-                            type="file"
-                            accept=".ics,.zip,text/calendar,application/zip"
-                            required
-                            onChange={(e) => setIcsFile(e.target.files[0] ?? null)}
-                        />
-                    </div>
+                    {importSource === 'file' && (
+                        <div className="form__field">
+                            <label className="form__label form__label--required">Calendar File (.ics or .zip)</label>
+                            <p className="form__hint">Export from Google Calendar, Apple Calendar, or any calendar app.</p>
+                            <input
+                                className="form__input"
+                                type="file"
+                                accept=".ics,.zip,text/calendar,application/zip"
+                                required
+                                onChange={(e) => setIcsFile(e.target.files[0] ?? null)}
+                            />
+                        </div>
+                    )}
+
+                    {importSource === 'bandsintown' && (
+                        <>
+                            <div className="form__field">
+                                <label className="form__label form__label--required">Bandsintown API Key</label>
+                                <input
+                                    className="form__input"
+                                    type="text"
+                                    value={bandsintownApiKey}
+                                    onChange={(e) => setBandsintownApiKey(e.target.value)}
+                                    placeholder="abc123..."
+                                    required
+                                />
+                            </div>
+
+                            <div className="form__field">
+                                <label className="form__label form__label--required">Artist / Tour Name</label>
+                                <input
+                                    className="form__input"
+                                    type="text"
+                                    value={bandsintownArtist}
+                                    onChange={(e) => setBandsintownArtist(e.target.value)}
+                                    placeholder="e.g. Nashville Tour Stop"
+                                    required
+                                />
+                                <p className="form__hint">The artist or tour name to search for on Bandsintown.</p>
+                            </div>
+
+                            <div className="form__caution" style={{ marginTop: 'var(--space-2)' }}>
+                                <i className="fas fa-triangle-exclamation" />
+                                <div>
+                                    <strong>Before syncing:</strong> make sure every venue playing this tour is already added to Gig Gazette. Then select them below so matching shows can be imported.{' '}
+                                    <a href="/venues/new" target="_blank" rel="noreferrer" style={{ color: 'var(--amber-light)' }}>
+                                        Add a venue →
+                                    </a>
+                                </div>
+                            </div>
+                        </>
+                    )}
 
                     <div className="form__field">
                         <label className="form__label">Venues</label>
@@ -356,25 +449,42 @@ export const SubmitEventPage = () => {
                         )}
                     </div>
 
-                    {importStatus === 'success' && importResult && (
+                    {importStatus === 'success' && (
                         <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                            Import complete! {importResult.created ?? importResult.count ?? ''} event{(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.
-                        </div>
-                    )}
-                    {importStatus === 'success' && !importResult && (
-                        <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                            Import complete!
+                            {importSource === 'bandsintown' && importResult ? (
+                                <>
+                                    Sync complete — created {Array.isArray(importResult.created) ? importResult.created.length : importResult.created ?? 0},
+                                    {' '}skipped {Array.isArray(importResult.skipped) ? importResult.skipped.length : importResult.skipped ?? 0},
+                                    {' '}unmatched {Array.isArray(importResult.unmatched) ? importResult.unmatched.length : importResult.unmatched ?? 0}.
+                                </>
+                            ) : (
+                                <>Import complete!{importResult ? ` ${importResult.created ?? importResult.count ?? ''} event${(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.` : ''}</>
+                            )}
                         </div>
                     )}
                     {importStatus === 'error' && (
                         <div className="form__error">
-                            Something went wrong. Make sure the file is a valid .ics calendar export.
+                            Something went wrong. {
+                                importSource === 'file'
+                                    ? 'Make sure the file is a valid .ics calendar export.'
+                                    : 'Make sure the API key and artist name are correct.'
+                            }
                         </div>
                     )}
 
                     <div className="form__actions">
-                        <button type="submit" className="btn btn--primary btn--full" disabled={importing || !icsFile}>
-                            {importing ? 'Importing…' : 'Import Events'}
+                        <button
+                            type="submit"
+                            className="btn btn--primary btn--full"
+                            disabled={
+                                importing || (
+                                    importSource === 'file'
+                                        ? !icsFile
+                                        : !bandsintownApiKey || !bandsintownArtist
+                                )
+                            }
+                        >
+                            {importing ? 'Importing…' : importSource === 'bandsintown' ? 'Sync Shows' : 'Import Events'}
                         </button>
                     </div>
                 </form>
