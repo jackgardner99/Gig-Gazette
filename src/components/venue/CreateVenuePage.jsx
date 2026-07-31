@@ -26,7 +26,6 @@ export const CreateVenuePage = () => {
         outdoor: false,
         cover_charge: false,
         ical_feed_url: '',
-        scrape_url: '',
         website_url: '',
     })
 
@@ -194,19 +193,6 @@ export const CreateVenuePage = () => {
                         onChange={handleChange}
                         placeholder="https://..."
                     />
-                </div>
-
-                <div className="form__field">
-                    <label className="form__label">Scrape URL</label>
-                    <input
-                        className="form__input"
-                        type="url"
-                        name="scrape_url"
-                        value={form.scrape_url}
-                        onChange={handleChange}
-                        placeholder="https://..."
-                    />
-                    <span className="form__hint">URL of your venue's events page to automatically scrape upcoming shows.</span>
                 </div>
 
                 <div className="form__field">

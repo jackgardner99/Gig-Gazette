@@ -90,10 +90,10 @@ export const importCalendar = (icsFile, venueIds) => {
     }).then(res => res.json())
 }
 
-export const importCalendarFromUrl = (url, venueIds) => {
-    return fetch(`${API_URL}/calendar-import/from-url`, {
+export const importCalendarFromBandsintown = (apiKey, artistName, venueIds) => {
+    return fetch(`${API_URL}/calendar-import/from-bandsintown`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-        body: JSON.stringify({ url, venue_ids: venueIds })
+        body: JSON.stringify({ bandsintown_api_key: apiKey, artist_name: artistName, venue_ids: venueIds })
     }).then(res => res.json())
 }

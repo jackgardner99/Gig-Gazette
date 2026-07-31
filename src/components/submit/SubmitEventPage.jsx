@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
 import { getVenues } from '../../services/venuesService'
 import { createArtistShow } from '../../services/artistShowsService'
-import { createOpenMic, createWritersRound, importCalendar, importCalendarFromUrl } from '../../services/eventService'
+import { createOpenMic, createWritersRound, importCalendar, importCalendarFromBandsintown } from '../../services/eventService'
 
 const EVENT_TYPES = [
     { value: 'show', label: 'Artist Show' },
     { value: 'openMic', label: 'Open Mic' },
     { value: 'writersRound', label: "Writers Round" },
 ]
+
+const IMPORT_TITLES = {
+    file: 'Import from Calendar File',
+    bandsintown: 'Sync from Bandsintown',
+}
 
 export const SubmitEventPage = () => {
     const [venues, setVenues] = useState([])
@@ -26,13 +31,13 @@ export const SubmitEventPage = () => {
         ticket_link: '',
         description: '',
         website_url: '',
-        scrape_url: '',
     })
 
     // import state
     const [importSource, setImportSource] = useState('file')
     const [icsFile, setIcsFile] = useState(null)
-    const [importUrl, setImportUrl] = useState('')
+    const [bandsintownApiKey, setBandsintownApiKey] = useState('')
+    const [bandsintownArtist, setBandsintownArtist] = useState('')
     const [selectedVenues, setSelectedVenues] = useState([])
     const [venueSearch, setVenueSearch] = useState('')
     const [importStatus, setImportStatus] = useState(null)
@@ -60,11 +65,11 @@ export const SubmitEventPage = () => {
                 user: userId,
             }
             if (eventType === 'show') {
-                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
+                await createArtistShow({ ...payload, date: form.date, recurrence: form.recurrence, ticket_link: form.ticket_link, description: form.description, website_url: form.website_url })
             } else if (eventType === 'openMic') {
-                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
+                await createOpenMic({ ...payload, recurrence: form.recurrence, description: form.description, website_url: form.website_url })
             } else {
-                await createWritersRound({ ...payload, date: form.date, description: form.description, website_url: form.website_url, scrape_url: form.scrape_url })
+                await createWritersRound({ ...payload, date: form.date, description: form.description, website_url: form.website_url })
             }
             setStatus('success')
             setForm({ event_title: '', venue: '', date: '', recurrence: '', start_time: '', end_time: '', description: '' })
@@ -82,8 +87,9 @@ export const SubmitEventPage = () => {
     const resetImport = (formEl) => {
         setSelectedVenues([])
         setVenueSearch('')
-        setImportUrl('')
         setIcsFile(null)
+        setBandsintownApiKey('')
+        setBandsintownArtist('')
         if (formEl) formEl.reset()
     }
 
@@ -105,14 +111,14 @@ export const SubmitEventPage = () => {
         }
     }
 
-    const handleImportFromUrl = async (e) => {
+    const handleBandsintownSync = async (e) => {
         e.preventDefault()
-        if (!importUrl) return
+        if (!bandsintownApiKey || !bandsintownArtist) return
         setImporting(true)
         setImportStatus(null)
         setImportResult(null)
         try {
-            const result = await importCalendarFromUrl(importUrl, selectedVenues)
+            const result = await importCalendarFromBandsintown(bandsintownApiKey, bandsintownArtist, selectedVenues)
             setImportResult(result)
             setImportStatus('success')
             resetImport(e.target)
@@ -143,7 +149,7 @@ export const SubmitEventPage = () => {
                     className={`form__mode-tab ${mode === 'import' ? 'form__mode-tab--active' : ''}`}
                     onClick={() => setMode('import')}
                 >
-                    <i className="fas fa-calendar-import" /> Import from Calendar
+                    <i className="fas fa-calendar-import" /> Import Events
                 </button>
             </div>
 
@@ -277,19 +283,6 @@ export const SubmitEventPage = () => {
                         />
                     </div>
 
-                    <div className="form__field">
-                        <label className="form__label">Booker / Listing URL</label>
-                        <input
-                            className="form__input"
-                            type="url"
-                            name="scrape_url"
-                            value={form.scrape_url}
-                            onChange={handleChange}
-                            placeholder="https://..."
-                        />
-                        <span className="form__hint">Link to a booking site or listings page to automatically pull in your events.</span>
-                    </div>
-
                     <div className="form__row">
                         <div className="form__field">
                             <label className="form__label form__label--required">Start Time</label>
@@ -333,8 +326,11 @@ export const SubmitEventPage = () => {
                     </div>
                 </form>
             ) : (
-                <form className="form" onSubmit={importSource === 'file' ? handleImport : handleImportFromUrl}>
-                    <h2 className="form__section-title">Import from Calendar</h2>
+                <form
+                    className="form"
+                    onSubmit={importSource === 'file' ? handleImport : handleBandsintownSync}
+                >
+                    <h2 className="form__section-title">{IMPORT_TITLES[importSource]}</h2>
 
                     <div className="form__mode-tabs" style={{ maxWidth: '100%', marginBottom: 'var(--space-4)' }}>
                         <button
@@ -346,26 +342,28 @@ export const SubmitEventPage = () => {
                         </button>
                         <button
                             type="button"
-                            className={`form__mode-tab ${importSource === 'url' ? 'form__mode-tab--active' : ''}`}
-                            onClick={() => { setImportSource('url'); setImportStatus(null) }}
+                            className={`form__mode-tab ${importSource === 'bandsintown' ? 'form__mode-tab--active' : ''}`}
+                            onClick={() => { setImportSource('bandsintown'); setImportStatus(null) }}
                         >
-                            <i className="fas fa-link" /> From URL
+                            <i className="fas fa-music" /> Bandsintown
                         </button>
                     </div>
 
-                    <div className="form__caution">
-                        <i className="fas fa-triangle-exclamation" />
-                        <div>
-                            <strong>Important:</strong> Make sure every event has the right keyword in the title so it's categorized correctly.
-                            <ul className="form__caution-list">
-                                <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
-                                <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
-                                <li>Anything else → imported as an Artist Show</li>
-                            </ul>
+                    {importSource !== 'bandsintown' && (
+                        <div className="form__caution">
+                            <i className="fas fa-triangle-exclamation" />
+                            <div>
+                                <strong>Important:</strong> Make sure every event has the right keyword in the title so it's categorized correctly.
+                                <ul className="form__caution-list">
+                                    <li><strong>"Open Mic"</strong> in the title → imported as an Open Mic</li>
+                                    <li><strong>"Writers Round"</strong> in the title → imported as a Writers Round</li>
+                                    <li>Anything else → imported as an Artist Show</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
-                    {importSource === 'file' ? (
+                    {importSource === 'file' && (
                         <div className="form__field">
                             <label className="form__label form__label--required">Calendar File (.ics or .zip)</label>
                             <p className="form__hint">Export from Google Calendar, Apple Calendar, or any calendar app.</p>
@@ -377,25 +375,39 @@ export const SubmitEventPage = () => {
                                 onChange={(e) => setIcsFile(e.target.files[0] ?? null)}
                             />
                         </div>
-                    ) : (
+                    )}
+
+                    {importSource === 'bandsintown' && (
                         <>
                             <div className="form__field">
-                                <label className="form__label form__label--required">Events Page URL</label>
-                                <p className="form__hint">Paste the URL of a venue's events page or booker's listing to automatically pull in shows.</p>
+                                <label className="form__label form__label--required">Bandsintown API Key</label>
                                 <input
                                     className="form__input"
-                                    type="url"
-                                    value={importUrl}
-                                    onChange={(e) => setImportUrl(e.target.value)}
-                                    placeholder="https://somevenue.com/events"
+                                    type="text"
+                                    value={bandsintownApiKey}
+                                    onChange={(e) => setBandsintownApiKey(e.target.value)}
+                                    placeholder="abc123..."
                                     required
                                 />
+                            </div>
+
+                            <div className="form__field">
+                                <label className="form__label form__label--required">Artist / Tour Name</label>
+                                <input
+                                    className="form__input"
+                                    type="text"
+                                    value={bandsintownArtist}
+                                    onChange={(e) => setBandsintownArtist(e.target.value)}
+                                    placeholder="e.g. Nashville Tour Stop"
+                                    required
+                                />
+                                <p className="form__hint">The artist or tour name to search for on Bandsintown.</p>
                             </div>
 
                             <div className="form__caution" style={{ marginTop: 'var(--space-2)' }}>
                                 <i className="fas fa-triangle-exclamation" />
                                 <div>
-                                    <strong>Before importing:</strong> make sure every venue on your page is already added to Gig Gazette. Then select them below so they can be matched to your imported events.{' '}
+                                    <strong>Before syncing:</strong> make sure every venue playing this tour is already added to Gig Gazette. Then select them below so matching shows can be imported.{' '}
                                     <a href="/venues/new" target="_blank" rel="noreferrer" style={{ color: 'var(--amber-light)' }}>
                                         Add a venue →
                                     </a>
@@ -439,12 +451,24 @@ export const SubmitEventPage = () => {
 
                     {importStatus === 'success' && (
                         <div className="form__hint" style={{ color: 'var(--teal)' }}>
-                            Import complete!{importResult ? ` ${importResult.created ?? importResult.count ?? ''} event${(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.` : ''}
+                            {importSource === 'bandsintown' && importResult ? (
+                                <>
+                                    Sync complete — created {Array.isArray(importResult.created) ? importResult.created.length : importResult.created ?? 0},
+                                    {' '}skipped {Array.isArray(importResult.skipped) ? importResult.skipped.length : importResult.skipped ?? 0},
+                                    {' '}unmatched {Array.isArray(importResult.unmatched) ? importResult.unmatched.length : importResult.unmatched ?? 0}.
+                                </>
+                            ) : (
+                                <>Import complete!{importResult ? ` ${importResult.created ?? importResult.count ?? ''} event${(importResult.created ?? importResult.count) !== 1 ? 's' : ''} added.` : ''}</>
+                            )}
                         </div>
                     )}
                     {importStatus === 'error' && (
                         <div className="form__error">
-                            Something went wrong. {importSource === 'file' ? 'Make sure the file is a valid .ics calendar export.' : 'Make sure the URL is reachable and contains event listings.'}
+                            Something went wrong. {
+                                importSource === 'file'
+                                    ? 'Make sure the file is a valid .ics calendar export.'
+                                    : 'Make sure the API key and artist name are correct.'
+                            }
                         </div>
                     )}
 
@@ -452,9 +476,15 @@ export const SubmitEventPage = () => {
                         <button
                             type="submit"
                             className="btn btn--primary btn--full"
-                            disabled={importing || (importSource === 'file' ? !icsFile : !importUrl)}
+                            disabled={
+                                importing || (
+                                    importSource === 'file'
+                                        ? !icsFile
+                                        : !bandsintownApiKey || !bandsintownArtist
+                                )
+                            }
                         >
-                            {importing ? 'Importing…' : 'Import Events'}
+                            {importing ? 'Importing…' : importSource === 'bandsintown' ? 'Sync Shows' : 'Import Events'}
                         </button>
                     </div>
                 </form>

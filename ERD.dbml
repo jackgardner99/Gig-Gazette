@@ -28,7 +28,6 @@ Table Venues {
 	venue_image image
 	ical_feed_url url
 	website_url url
-	scrape_url url
 }
 
 Table OpenMics {
