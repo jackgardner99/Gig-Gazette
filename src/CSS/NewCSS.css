@@ -804,12 +804,12 @@ p { color: var(--text-secondary); line-height: 1.7; }
   pointer-events: none;
 }
 
-/* Hero image — fixed header, content scrolls below */
+/* Hero image — scrolls with the rest of the content */
 .popup-hero {
-  flex-shrink: 0;
   height: 200px;
   position: relative;
   overflow: hidden;
+  margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-8)) var(--space-5);
 }
 
 .popup-hero img {

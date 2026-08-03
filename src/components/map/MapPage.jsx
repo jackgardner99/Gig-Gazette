@@ -322,13 +322,13 @@ export const MapPage = () => {
                         <div>
                             <button className='close-btn' onClick={handleCloseOverlay}>✕</button>
 
-                            {selectedVenue.venue_image && (
-                                <div className="popup-hero">
-                                    <img src={selectedVenue.venue_image} alt={selectedVenue.name} />
-                                </div>
-                            )}
-
                             <div className="popup-body">
+                                {selectedVenue.venue_image && (
+                                    <div className="popup-hero">
+                                        <img src={selectedVenue.venue_image} alt={selectedVenue.name} />
+                                    </div>
+                                )}
+
                                 <h2>{selectedVenue.name}</h2>
 
                                 {currentUserId && selectedVenue.user === currentUserId && (
