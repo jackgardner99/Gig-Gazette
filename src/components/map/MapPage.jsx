@@ -10,6 +10,8 @@ import { getShows, deleteArtistShow } from '../../services/artistShowsService'
 import { getOpenMics, getWritersRounds, deleteWritersRound } from '../../services/eventService'
 import { getVenues } from '../../services/venuesService'
 import { reverseGeocode } from '../../services/geocodeService'
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, SITE_NAME } from '../../seo/eventSeo'
+import { useSeo } from '../../seo/useSeo'
 
 const makePillIcon = (color, iconClass) => L.divIcon({
     html: `<div style="background:${color};height:28px;padding:0 10px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.85);"><i class="${iconClass}" style="color:#fff;font-size:11px;pointer-events:none;"></i></div>`,
@@ -57,6 +59,18 @@ const DETAIL_PATH = {
 }
 
 export const MapPage = () => {
+    useSeo({
+        title: DEFAULT_TITLE,
+        description: DEFAULT_DESCRIPTION,
+        path: '/',
+        jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: SITE_NAME,
+            url: `${window.location.origin}/`,
+            description: DEFAULT_DESCRIPTION,
+        },
+    })
     const navigate = useNavigate()
     const currentUserId = JSON.parse(sessionStorage.getItem("user"))?.id
     const [venues, setVenues] = useState([])

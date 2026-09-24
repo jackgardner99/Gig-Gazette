@@ -26,4 +26,10 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    files: ['netlify/edge-functions/**/*.js'],
+    languageOptions: {
+      globals: { Netlify: 'readonly' },
+    },
+  },
 ])

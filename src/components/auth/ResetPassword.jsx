@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useSeo } from "../../seo/useSeo"
 import { Link, useSearchParams } from 'react-router-dom'
 import { confirmPasswordReset } from '../../services/managerService'
 
 export const ResetPassword = () => {
+    useSeo({ title: 'Reset Password | Gig Gazette', noindex: true })
     const [searchParams] = useSearchParams()
     const uid = searchParams.get('uid')
     const token = searchParams.get('token')

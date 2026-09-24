@@ -4,11 +4,13 @@ import { getOpenMicById, getWritersRoundById } from "../../services/eventService
 import { getEventPhotos, uploadEventPhoto, deleteEventPhoto } from "../../services/eventPhotosService"
 import { API_URL } from "../../services/config"
 import { useEffect, useRef, useState } from "react"
+import { buildEventSeo, normalizeEvent } from "../../seo/eventSeo"
+import { useSeo } from "../../seo/useSeo"
 
 const CONFIG = {
     show: {
         label: 'Artist Show',
-        getFn: (id) => getShowById(id).then(data => Array.isArray(data) ? data[0] : data),
+        getFn: (id) => getShowById(id).then(normalizeEvent),
         hasDate: true,
         hasTicketLink: true,
         photoEndpoint: 'show_photos',
@@ -56,6 +58,7 @@ export const EventDetails = ({ eventType }) => {
     const navigate = useNavigate()
     const location = useLocation()
     const [details, setDetails] = useState(null)
+    const [event, setEvent] = useState(null)
     const [photos, setPhotos] = useState([])
     const [uploading, setUploading] = useState(false)
     const [lightboxIndex, setLightboxIndex] = useState(null)
@@ -66,6 +69,7 @@ export const EventDetails = ({ eventType }) => {
 
     useEffect(() => {
         config.getFn(id).then(data => {
+            setEvent(data)
             setDetails({
                 event_title: data.event_title ?? '',
                 date: data.date ?? '',
@@ -76,6 +80,8 @@ export const EventDetails = ({ eventType }) => {
             })
         })
     }, [id, config])
+
+    useSeo(event?.id ? buildEventSeo(event, eventType) : null)
 
     useEffect(() => {
         if (!config.photoEndpoint) return
@@ -110,6 +116,8 @@ export const EventDetails = ({ eventType }) => {
     }
 
     if (!details) return null
+
+    const photoAlt = (index) => `Photo ${index + 1} from ${details.event_title}${event?.venue?.name ? ` at ${event.venue.name}` : ''}`
 
     return (
         <div className="page-content">
@@ -172,7 +180,7 @@ export const EventDetails = ({ eventType }) => {
                                     if (!url) return null
                                     return (
                                         <div key={photo.id} className="event-photos__item" onClick={() => setLightboxIndex(index)}>
-                                            <img src={url} alt="" />
+                                            <img src={url} alt={photoAlt(index)} loading="lazy" />
                                         </div>
                                     )
                                 })}
@@ -191,7 +199,7 @@ export const EventDetails = ({ eventType }) => {
                         </button>
                     )}
                     <div className="lightbox__content" onClick={e => e.stopPropagation()}>
-                        <img src={getPhotoUrl(photos[lightboxIndex])} alt="" />
+                        <img src={getPhotoUrl(photos[lightboxIndex])} alt={photoAlt(lightboxIndex)} />
                         {isLoggedIn && (
                             <button
                                 className="btn btn--danger btn--sm lightbox__delete"

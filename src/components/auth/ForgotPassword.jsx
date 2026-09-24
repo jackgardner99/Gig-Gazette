@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useSeo } from "../../seo/useSeo"
 import { Link } from 'react-router-dom'
 import { requestPasswordReset } from '../../services/managerService'
 
 export const ForgotPassword = () => {
+    useSeo({ title: 'Forgot Password | Gig Gazette', noindex: true })
     const [email, setEmail] = useState('')
     const [status, setStatus] = useState(null)
     const [submitting, setSubmitting] = useState(false)
