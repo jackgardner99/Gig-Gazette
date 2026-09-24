@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useSeo } from "../../seo/useSeo"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { loginManager } from "../../services/managerService"
 
 export const Login = () => {
+    useSeo({ title: 'Log In | Gig Gazette', noindex: true })
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()

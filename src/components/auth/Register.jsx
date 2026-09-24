@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useSeo } from "../../seo/useSeo"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { createManager } from "../../services/managerService"
 
 export const Register = () => {
+    useSeo({ title: 'Create an Account | Gig Gazette', noindex: true })
     const [manager, setManager] = useState({ username: "", email: "", password: "" })
     const navigate = useNavigate()
     const location = useLocation()

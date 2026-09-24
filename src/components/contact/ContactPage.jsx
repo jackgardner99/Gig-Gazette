@@ -1,8 +1,13 @@
 import { useState } from 'react'
+import { useSeo } from '../../seo/useSeo'
 
 const FORM_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_URL
 
 export const ContactPage = () => {
+    useSeo({
+        title: 'Contact | Gig Gazette',
+        description: 'Get in touch with Gig Gazette to list your venue, submit a Nashville show, or send feedback.',
+    })
     const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
     const [status, setStatus] = useState(null)
     const [submitting, setSubmitting] = useState(false)
