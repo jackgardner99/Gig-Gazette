@@ -15,6 +15,7 @@ import { RequireAuth } from './components/auth/RequireAuth'
 import { EventDetails } from './components/details/EventDetails'
 import { Tutorial } from './components/tutorial/Tutorial'
 import { ContactPage } from './components/contact/ContactPage'
+import { Footer } from './components/footer/Footer'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <CustomerNavbar onStartTour={() => setShowTutorial(true)} />
                 <Tutorial open={showTutorial} onClose={() => setShowTutorial(false)} />
                 <Outlet />
+                <Footer />
               </>}
             >
         <Route index element={<MapPage />} />
