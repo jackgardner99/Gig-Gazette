@@ -11,6 +11,9 @@
    ============================================================ */
 
 :root {
+  /* Layout */
+  --footer-h:       44px;
+
   /* Backgrounds */
   --bg-base:        #080b12;
   --bg-surface:     #0e1219;
@@ -722,7 +725,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
 .map-wrapper {
   position: relative;
   width: 100%;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px - var(--footer-h));
   background: var(--bg-base);
   overflow: hidden;
   display: flex;
@@ -1098,7 +1101,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
    ============================================================ */
 
 .page-content {
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 64px - var(--footer-h));
   overflow-y: auto;
   padding: var(--space-10) var(--space-6);
 }
@@ -1745,8 +1748,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
 
 /* Use dynamic viewport height where supported (fixes iOS browser chrome) */
 @supports (height: 100dvh) {
-  .map-wrapper    { height: calc(100dvh - 64px); }
-  .page-content   { min-height: calc(100dvh - 64px); }
+  .map-wrapper    { height: calc(100dvh - 64px - var(--footer-h)); }
+  .page-content   { min-height: calc(100dvh - 64px - var(--footer-h)); }
 }
 
 /* ── iPad landscape / small desktop (max 1024px) ── */
@@ -1758,7 +1761,7 @@ p { color: var(--text-secondary); line-height: 1.7; }
 @media (max-width: 768px) {
   .map-wrapper {
     flex-direction: column;
-    height: calc(100dvh - 64px);
+    height: calc(100dvh - 64px - var(--footer-h));
   }
 
   /* Filter panel — collapsed by default, expands on toggle */
@@ -1898,8 +1901,8 @@ p { color: var(--text-secondary); line-height: 1.7; }
   .nav__links .nav__tour-btn { width: 100%; justify-content: center; }
 
   /* Nav stays a single 64px row — links only appear as an overlay dropdown */
-  .map-wrapper  { height: calc(100dvh - 64px); }
-  .page-content { min-height: calc(100dvh - 64px); }
+  .map-wrapper  { height: calc(100dvh - 64px - var(--footer-h)); }
+  .page-content { min-height: calc(100dvh - 64px - var(--footer-h)); }
 
   .form         { padding: var(--space-4); }
   .form__row    { grid-template-columns: 1fr; }
@@ -2033,3 +2036,27 @@ p { color: var(--text-secondary); line-height: 1.7; }
     max-height: 180px;
   }
 }
+
+
+/* ============================================================
+   SITE FOOTER
+   ============================================================ */
+
+.site-footer {
+  height: var(--footer-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-4);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  box-sizing: border-box;
+}
+
+.site-footer a {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.site-footer a:hover { color: var(--amber); }
